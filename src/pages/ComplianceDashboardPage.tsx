@@ -150,7 +150,7 @@ export default function ComplianceDashboardPage() {
                         <CardTitle className="text-lg">{result.name}</CardTitle>
                         <CardDescription>Regulatory Framework</CardDescription>
                       </div>
-                      <Badge variant={result.color as any}>
+                      <Badge variant={result.color as "default" | "secondary" | "destructive" | "outline"}>
                         {result.status}
                       </Badge>
                     </div>

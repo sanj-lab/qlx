@@ -11,7 +11,12 @@ export default function ZKProofPage() {
   const [progress, setProgress] = useState(0);
   const [generationStep, setGenerationStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [proofData, setProofData] = useState<any>(null);
+  const [proofData, setProofData] = useState<{
+    hash: string;
+    timestamp: string;
+    verificationKey: string;
+    complianceScore: number;
+  } | null>(null);
 
   const steps = [
     'Compiling compliance analysis',
