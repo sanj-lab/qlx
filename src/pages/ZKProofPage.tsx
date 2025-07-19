@@ -12,10 +12,11 @@ export default function ZKProofPage() {
   const [generationStep, setGenerationStep] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [proofData, setProofData] = useState<{
-    hash: string;
+    proofId: string;
     timestamp: string;
-    verificationKey: string;
+    jurisdictions: string[];
     complianceScore: number;
+    verificationUrl: string;
   } | null>(null);
 
   const steps = [
