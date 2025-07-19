@@ -17,12 +17,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
-import { Shield, FileText, Scale, Database, Cpu, Settings, LogOut, User } from "lucide-react";
+import { Shield, FileText, Scale, Database, Cpu, Settings, LogOut, User, Bell, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 export function Header() {
   const { user, login, logout } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [secureMode, setSecureMode] = useState(false);
   const navigate = useNavigate();
 
@@ -113,6 +114,66 @@ export function Header() {
 
           {/* User Avatar / Login */}
           <div className="flex items-center space-x-4">
+            {/* Notification Bell */}
+            {user && (
+              <div className="relative">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative h-10 w-10 rounded-full"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  <Bell className="h-5 w-5" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                  </span>
+                </Button>
+                
+                {showNotifications && (
+                  <div className="absolute right-0 mt-2 w-80 bg-background border rounded-lg shadow-lg p-4 z-50">
+                    <h4 className="font-semibold mb-3">Legal Alerts</h4>
+                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                      <div className="p-3 bg-destructive/10 rounded-lg">
+                        <div className="flex items-center gap-2 mb-1">
+                          <AlertTriangle className="w-4 h-4 text-destructive" />
+                          <span className="font-medium text-sm">MiCA Compliance Update</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          New requirements effective July 15, 2024 - Review your whitepapers
+                        </p>
+                        <span className="text-xs text-muted-foreground">2 hours ago</span>
+                      </div>
+                      <div className="p-3 bg-warning/10 rounded-lg">
+                        <div className="flex items-center gap-2 mb-1">
+                          <AlertTriangle className="w-4 h-4 text-warning" />
+                          <span className="font-medium text-sm">Contract Review Due</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Series A term sheet requires legal review by EOD
+                        </p>
+                        <span className="text-xs text-muted-foreground">4 hours ago</span>
+                      </div>
+                      <div className="p-3 bg-primary/10 rounded-lg">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Shield className="w-4 h-4 text-primary" />
+                          <span className="font-medium text-sm">TEE Analysis Complete</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Your compliance proof has been generated successfully
+                        </p>
+                        <span className="text-xs text-muted-foreground">1 day ago</span>
+                      </div>
+                    </div>
+                    <div className="mt-3 pt-3 border-t">
+                      <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/alerting')}>
+                        View All Alerts
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+            
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

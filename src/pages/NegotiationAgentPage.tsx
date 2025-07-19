@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
 import { DragDropZone } from "@/components/ui/drag-drop-zone";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { 
   Handshake, 
   Upload, 
@@ -17,7 +20,9 @@ import {
   Target,
   Users,
   Zap,
-  Shield
+  Shield,
+  Copy,
+  Download
 } from "lucide-react";
 
 export default function NegotiationAgentPage() {
@@ -26,6 +31,8 @@ export default function NegotiationAgentPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
+  const [showCounterProposal, setShowCounterProposal] = useState(false);
+  const [counterProposalContent, setCounterProposalContent] = useState("");
 
   const counterpartyTypes = [
     { value: "vc", label: "Venture Capital Fund", risk: "Medium" },
@@ -55,6 +62,52 @@ export default function NegotiationAgentPage() {
     
     setIsAnalyzing(false);
     setIsAnalyzed(true);
+  };
+
+  const generateCounterProposal = () => {
+    const counterProposalText = `COUNTER-PROPOSAL - TERM SHEET REVISION
+
+Based on our analysis of the current term sheet and market standards, we propose the following revisions:
+
+VALUATION & EQUITY:
+• Pre-money valuation: $10.5M (up from $8.5M)
+• Series A preferred shares: 19% (down from 25%)
+• Employee option pool: 15% (maintained)
+
+ANTI-DILUTION PROTECTION:
+• REVISED: Narrow-based weighted average (current: full ratchet)
+• Participation cap: 1x non-participating preferred
+• Pay-to-play provisions: Standard carve-outs for smaller investors
+
+BOARD COMPOSITION:
+• 5-person board: 2 founders, 1 investor, 2 independent
+• Founder maintains board control and decision-making authority
+• Investor gets customary board rights and information access
+
+LIQUIDITY RIGHTS:
+• Tag-along rights: Standard provisions
+• Drag-along threshold: 75% (up from 50%)
+• No forced sale provisions for first 3 years
+
+PROTECTIVE PROVISIONS:
+• Budget approval threshold: >$500K (up from >$100K)
+• Board approval required for: major strategic decisions, hiring C-level
+• Removed: approval for ordinary business decisions under $250K
+
+FOUNDER PROTECTIONS:
+• Single-trigger acceleration: 50% of unvested shares
+• Double-trigger acceleration: 100% for involuntary termination post-acquisition
+• 4-year vesting with 1-year cliff maintained
+
+TIMELINE:
+• 45-day exclusivity period
+• Due diligence completion: 30 days
+• Legal documentation: 15 days post-DD completion
+
+This counter-proposal addresses the key risk factors identified in our analysis while maintaining favorable terms for company growth and founder control.`;
+
+    setCounterProposalContent(counterProposalText);
+    setShowCounterProposal(true);
   };
 
   const selectedCounterparty = counterpartyTypes.find(cp => cp.value === counterpartyType);
@@ -354,7 +407,12 @@ export default function NegotiationAgentPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="justify-start"
+                    onClick={generateCounterProposal}
+                    disabled={!isAnalyzed}
+                  >
                     <Zap className="w-4 h-4 mr-2" />
                     Generate Counter-Proposal
                   </Button>
@@ -376,6 +434,51 @@ export default function NegotiationAgentPage() {
           </div>
         </div>
       </div>
+
+      {/* Counter-Proposal Dialog */}
+      <Dialog open={showCounterProposal} onOpenChange={setShowCounterProposal}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Zap className="w-5 h-5 text-primary" />
+              Generated Counter-Proposal
+            </DialogTitle>
+            <DialogDescription>
+              AI-generated counter-proposal based on risk analysis and market standards
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label>Counter-Proposal Document</Label>
+              <Textarea
+                value={counterProposalContent}
+                onChange={(e) => setCounterProposalContent(e.target.value)}
+                className="min-h-[400px] font-mono text-sm"
+                placeholder="Counter-proposal will be generated here..."
+              />
+            </div>
+            
+            <div className="flex gap-3">
+              <Button 
+                onClick={() => navigator.clipboard.writeText(counterProposalContent)}
+                variant="outline"
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copy to Clipboard
+              </Button>
+              <Button variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Download PDF
+              </Button>
+              <Button variant="outline">
+                <Users className="w-4 h-4 mr-2" />
+                Share with Legal Team
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
