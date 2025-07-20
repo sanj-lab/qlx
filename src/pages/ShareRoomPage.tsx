@@ -32,6 +32,8 @@ export default function ShareRoomPage() {
   const [passwordProtected, setPasswordProtected] = useState(true);
   const [expiryEnabled, setExpiryEnabled] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
+  const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
+  const [showManageModal, setShowManageModal] = useState(false);
 
   const badges = [
     { 
@@ -351,7 +353,7 @@ export default function ShareRoomPage() {
                       </div>
 
                       <div className="flex justify-between items-center pt-3 border-t">
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => setShowAnalyticsModal(true)}>
                           <Eye className="w-3 h-3 mr-1" />
                           View Analytics
                         </Button>
@@ -360,7 +362,7 @@ export default function ShareRoomPage() {
                             <Copy className="w-3 h-3 mr-1" />
                             Copy Link
                           </Button>
-                          <Button size="sm">
+                          <Button size="sm" onClick={() => setShowManageModal(true)}>
                             <Share2 className="w-3 h-3 mr-1" />
                             Manage
                           </Button>

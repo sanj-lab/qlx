@@ -24,6 +24,7 @@ export default function FilingCalendarPage() {
   const [selectedJurisdiction, setSelectedJurisdiction] = useState("");
   const [entityType, setEntityType] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [showCustomDeadlineModal, setShowCustomDeadlineModal] = useState(false);
 
   const jurisdictions = [
     { value: "usa", label: "🇺🇸 United States", filings: 12 },
@@ -216,7 +217,7 @@ export default function FilingCalendarPage() {
                 </div>
 
                 <div className="pt-4 border-t space-y-2">
-                  <Button className="w-full">
+                  <Button className="w-full" onClick={() => setShowCustomDeadlineModal(true)}>
                     <Plus className="w-4 h-4 mr-2" />
                     Add Custom Deadline
                   </Button>

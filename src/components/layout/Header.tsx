@@ -215,7 +215,7 @@ export function Header() {
                     <User className="mr-2 h-4 w-4" />
                     Enterprise Dashboard
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/organization-settings')}>
                     <Settings className="mr-2 h-4 w-4" />
                     Organization Settings
                   </DropdownMenuItem>

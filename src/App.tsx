@@ -22,6 +22,7 @@ const ComplianceJurisdictionPage = lazy(() => import("./pages/ComplianceJurisdic
 const ComplianceAnalysisPage = lazy(() => import("./pages/ComplianceAnalysisPage"));
 const ComplianceDashboardPage = lazy(() => import("./pages/ComplianceDashboardPage"));
 const ZKProofPage = lazy(() => import("./pages/ZKProofPage"));
+const OrganizationSettings = lazy(() => import("./pages/OrganizationSettings"));
 const EnterpriseDashboard = lazy(() => import("./pages/EnterpriseDashboard"));
 const EnterpriseAuth = lazy(() => import("./pages/EnterpriseAuth"));
 const NotFound = lazy(() => import("./pages/NotFound"));

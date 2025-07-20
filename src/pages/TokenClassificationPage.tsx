@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { DragDropZone } from "@/components/ui/drag-drop-zone";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   GitBranch, 
   Upload, 
@@ -16,7 +17,9 @@ import {
   Clock,
   Target,
   Zap,
-  Download
+  Download,
+  FileText,
+  RefreshCw
 } from "lucide-react";
 
 export default function TokenClassificationPage() {
@@ -25,6 +28,8 @@ export default function TokenClassificationPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isAnalyzed, setIsAnalyzed] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   const handleAnalyze = async () => {
     setIsAnalyzing(true);
@@ -314,19 +319,19 @@ export default function TokenClassificationPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed}>
+                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed} onClick={() => window.open('/proof-generator', '_blank')}>
                     <Shield className="w-4 h-4 mr-2" />
                     Generate Proof
                   </Button>
-                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed}>
+                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed} onClick={() => setShowExportModal(true)}>
                     <Download className="w-4 h-4 mr-2" />
                     Export Report
                   </Button>
-                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed}>
+                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed} onClick={() => window.open('/review-routing', '_blank')}>
                     <Scale className="w-4 h-4 mr-2" />
                     Legal Review
                   </Button>
-                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed}>
+                  <Button variant="outline" className="justify-start" disabled={!isAnalyzed} onClick={() => setShowUpdateModal(true)}>
                     <Zap className="w-4 h-4 mr-2" />
                     Update Docs
                   </Button>
@@ -353,6 +358,88 @@ export default function TokenClassificationPage() {
             </p>
           </CardContent>
         </Card>
+
+        {/* Export Report Modal */}
+        <Dialog open={showExportModal} onOpenChange={setShowExportModal}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Download className="w-5 h-5 text-primary" />
+                Export Classification Report
+              </DialogTitle>
+              <DialogDescription>
+                Enterprise-grade simulation for comprehensive token analysis report
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div className="p-4 bg-muted/30 rounded-lg">
+                <h4 className="font-medium mb-2">Report Contents</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                    <span>Howey Test Analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                    <span>MiCA Framework Compliance</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                    <span>SEC Regulatory Assessment</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                    <span>Risk Analysis & Recommendations</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3">
+                <Button className="w-full">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Download PDF
+                </Button>
+                <Button variant="outline" className="w-full">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export CSV Data
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Update Docs Modal */}
+        <Dialog open={showUpdateModal} onOpenChange={setShowUpdateModal}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 text-primary" />
+                Update Documentation
+              </DialogTitle>
+              <DialogDescription>
+                Enterprise simulation for automated document updates based on classification results
+              </DialogDescription>
+            </DialogHeader>
+            
+            <div className="space-y-4">
+              <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                <h4 className="font-medium mb-2">Recommended Updates</h4>
+                <div className="space-y-2 text-sm">
+                  <p>• Whitepaper: Update utility token definition to emphasize functional use cases</p>
+                  <p>• Legal disclosures: Add staking reward disclaimers</p>
+                  <p>• Terms of Service: Include token utility restrictions</p>
+                  <p>• Privacy Policy: Add token holder data processing clauses</p>
+                </div>
+              </div>
+              
+              <Button className="w-full">
+                <Zap className="w-4 h-4 mr-2" />
+                Apply Recommended Updates
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

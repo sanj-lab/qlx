@@ -297,7 +297,7 @@ export default function AlertingPage() {
                             Affected: {alert.affectedDocs.join(", ")}
                           </span>
                         </div>
-                        <Button size="sm">
+                        <Button size="sm" onClick={() => window.open('/document-generator', '_blank')}>
                           Update Affected Docs
                         </Button>
                       </div>

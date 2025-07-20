@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { 
   Archive, 
   FileText, 
@@ -16,13 +18,24 @@ import {
   Clock,
   AlertTriangle,
   ExternalLink,
-  Search
+  Search,
+  Calendar
 } from "lucide-react";
 
 export default function LegalVaultPage() {
   const [selectedDocument, setSelectedDocument] = useState("");
   const [isVaulting, setIsVaulting] = useState(false);
   const [vaultProgress, setVaultProgress] = useState(0);
+  const [showAuditModal, setShowAuditModal] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [showVersionModal, setShowVersionModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showCompareModal, setShowCompareModal] = useState(false);
+
+  const handleDownload = () => {
+    // Simulate download
+    console.log("Downloading document...");
+  };
 
   const documents = [
     { 
@@ -213,11 +226,11 @@ export default function LegalVaultPage() {
                 </div>
 
                 <div className="pt-4 border-t">
-                  <Button variant="outline" className="w-full mb-2">
+                  <Button variant="outline" className="w-full mb-2" onClick={() => setShowAuditModal(true)}>
                     <Download className="w-4 h-4 mr-2" />
                     Export Audit Trail
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => setShowSearchModal(true)}>
                     <Search className="w-4 h-4 mr-2" />
                     Search Vault
                   </Button>
@@ -284,21 +297,21 @@ export default function LegalVaultPage() {
 
                       <div className="flex justify-between items-center pt-3 border-t">
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" onClick={() => setShowVersionModal(true)}>
                             <History className="w-3 h-3 mr-1" />
                             Version History
                           </Button>
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" onClick={() => setShowCompareModal(true)}>
                             <GitBranch className="w-3 h-3 mr-1" />
                             Compare
                           </Button>
                         </div>
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" onClick={() => handleDownload()}>
                             <Download className="w-3 h-3 mr-1" />
                             Download
                           </Button>
-                          <Button size="sm">
+                          <Button size="sm" onClick={() => setShowDetailsModal(true)}>
                             <ExternalLink className="w-3 h-3 mr-1" />
                             View Details
                           </Button>
@@ -417,6 +430,258 @@ export default function LegalVaultPage() {
           </div>
         </div>
       </div>
+
+      {/* Search Vault Modal */}
+      <Dialog open={showSearchModal} onOpenChange={setShowSearchModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Search className="w-5 h-5 text-primary" />
+              Search Vault
+            </DialogTitle>
+            <DialogDescription>
+              Enterprise search across all vaulted documents with advanced filtering
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <Input placeholder="Search documents, content, metadata..." />
+            <div className="grid grid-cols-2 gap-4">
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Document Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="saft">SAFT</SelectItem>
+                  <SelectItem value="policy">Policy</SelectItem>
+                  <SelectItem value="agreement">Agreement</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Date Range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="7d">Last 7 days</SelectItem>
+                  <SelectItem value="30d">Last 30 days</SelectItem>
+                  <SelectItem value="90d">Last 90 days</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button className="w-full">
+              <Search className="w-4 h-4 mr-2" />
+              Search Vault
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Version History Modal */}
+      <Dialog open={showVersionModal} onOpenChange={setShowVersionModal}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <History className="w-5 h-5 text-primary" />
+              Version History
+            </DialogTitle>
+            <DialogDescription>
+              Complete version control simulation with detailed change tracking
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 max-h-[400px] overflow-y-auto">
+            <div className="space-y-3">
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary">v2.1</Badge>
+                    <span className="font-medium">Current Version</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Jan 15, 2024</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Updated anti-dilution clauses and board composition terms</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">v2.0</Badge>
+                    <span className="font-medium">Previous Version</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Jan 10, 2024</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Added investor protection clauses and vesting schedules</p>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">v1.0</Badge>
+                    <span className="font-medium">Initial Version</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">Jan 5, 2024</span>
+                </div>
+                <p className="text-sm text-muted-foreground">Initial SAFT agreement draft</p>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Compare Modal */}
+      <Dialog open={showCompareModal} onOpenChange={setShowCompareModal}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <GitBranch className="w-5 h-5 text-primary" />
+              Document Comparison
+            </DialogTitle>
+            <DialogDescription>
+              Enterprise-grade document comparison with AI-powered analysis
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-medium mb-2">Version 2.1 (Current)</h4>
+                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <p className="text-sm">+ Added comprehensive anti-dilution protection</p>
+                  <p className="text-sm">+ Enhanced board composition requirements</p>
+                  <p className="text-sm">+ Updated vesting acceleration terms</p>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-medium mb-2">Version 2.0 (Previous)</h4>
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm">- Basic investor protection clauses</p>
+                  <p className="text-sm">- Standard board voting rights</p>
+                  <p className="text-sm">- Simple vesting schedule</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <h4 className="font-medium mb-2">AI Analysis Summary</h4>
+              <p className="text-sm text-muted-foreground">
+                Version 2.1 shows 15% improvement in investor protection while maintaining 
+                favorable founder terms. Changes align with market standards and regulatory best practices.
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Document Details Modal */}
+      <Dialog open={showDetailsModal} onOpenChange={setShowDetailsModal}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
+              Document Details
+            </DialogTitle>
+            <DialogDescription>
+              Complete document metadata and security information
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div>
+                  <h4 className="font-medium">Document Information</h4>
+                  <div className="space-y-1 text-sm text-muted-foreground">
+                    <p>Name: Series A SAFT Agreement</p>
+                    <p>Type: SAFT</p>
+                    <p>Size: 2.4 MB</p>
+                    <p>Created: Jan 5, 2024</p>
+                    <p>Last Modified: Jan 15, 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <h4 className="font-medium">Security Details</h4>
+                  <div className="space-y-1 text-sm text-muted-foreground">
+                    <p>Encryption: AES-256</p>
+                    <p>Hash: 0x8f9e2c1a5b4d3e6f...</p>
+                    <p>ZK Proof: Generated</p>
+                    <p>Backup Status: Verified</p>
+                    <p>Access Level: Restricted</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 border rounded-lg">
+              <h4 className="font-medium mb-2">Access History</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span>Downloaded by Legal Expert</span>
+                  <span className="text-muted-foreground">2 hours ago</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Viewed by Sarah Chen</span>
+                  <span className="text-muted-foreground">1 day ago</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Vaulted by System</span>
+                  <span className="text-muted-foreground">Jan 15, 2024</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Audit Trail Modal */}
+      <Dialog open={showAuditModal} onOpenChange={setShowAuditModal}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Download className="w-5 h-5 text-primary" />
+              Export Audit Trail
+            </DialogTitle>
+            <DialogDescription>
+              Enterprise simulation for comprehensive audit trail export
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="p-4 bg-muted/30 rounded-lg">
+              <h4 className="font-medium mb-2">Audit Trail Contents</h4>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="space-y-1">
+                  <p>✓ Document access logs</p>
+                  <p>✓ Version control history</p>
+                  <p>✓ Encryption metadata</p>
+                  <p>✓ User authentication events</p>
+                </div>
+                <div className="space-y-1">
+                  <p>✓ Download timestamps</p>
+                  <p>✓ Vault operations log</p>
+                  <p>✓ Security status changes</p>
+                  <p>✓ Compliance verification records</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-3">
+              <Button className="w-full">
+                <Download className="w-4 h-4 mr-2" />
+                Export PDF
+              </Button>
+              <Button variant="outline" className="w-full">
+                <Download className="w-4 h-4 mr-2" />
+                Export CSV
+              </Button>
+              <Button variant="outline" className="w-full">
+                <Calendar className="w-4 h-4 mr-2" />
+                Schedule Report
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -260,11 +260,11 @@ export default function ProofGeneratorPage() {
 
                     {/* Action Buttons */}
                     <div className="grid grid-cols-2 gap-3">
-                      <Button className="w-full">
+                      <Button className="w-full" onClick={() => window.open('/share-room', '_blank')}>
                         <Share2 className="w-4 h-4 mr-2" />
                         Share Badge with VC
                       </Button>
-                      <Button variant="outline" className="w-full">
+                      <Button variant="outline" className="w-full" onClick={() => window.open('/share-room', '_blank')}>
                         <Link className="w-4 h-4 mr-2" />
                         Attach to Share Room
                       </Button>

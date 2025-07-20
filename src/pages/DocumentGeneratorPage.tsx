@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { 
   FileCheck, 
   Download, 
@@ -15,10 +18,14 @@ import {
   CheckCircle2,
   FileText,
   Shield,
-  Globe
+  Globe,
+  Archive,
+  Scale,
+  Edit3
 } from "lucide-react";
 
 export default function DocumentGeneratorPage() {
+  const navigate = useNavigate();
   const [jurisdiction, setJurisdiction] = useState("");
   const [tokenModel, setTokenModel] = useState("");
   const [companyType, setCompanyType] = useState("");
@@ -26,6 +33,9 @@ export default function DocumentGeneratorPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isGenerated, setIsGenerated] = useState(false);
+  const [showDocumentModal, setShowDocumentModal] = useState(false);
+  const [showJurisdictionModal, setShowJurisdictionModal] = useState(false);
+  const [documentContent, setDocumentContent] = useState("");
 
   const documents = [
     { id: "saft", name: "SAFT Agreement", description: "Simple Agreement for Future Tokens" },
@@ -91,6 +101,7 @@ export default function DocumentGeneratorPage() {
                       <SelectValue placeholder="Select jurisdiction" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="all">🌍 All Jurisdictions</SelectItem>
                       <SelectItem value="usa">🇺🇸 United States</SelectItem>
                       <SelectItem value="eu">🇪🇺 European Union</SelectItem>
                       <SelectItem value="singapore">🇸🇬 Singapore</SelectItem>
@@ -247,6 +258,14 @@ export default function DocumentGeneratorPage() {
                             </div>
                           </div>
                           <div className="flex gap-2">
+                            <Button size="sm" variant="outline" onClick={() => setShowDocumentModal(true)}>
+                              <FileText className="w-4 h-4 mr-1" />
+                              View/Edit
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => navigate('/vault')}>
+                              <Archive className="w-4 h-4 mr-1" />
+                              Legal Vault
+                            </Button>
                             <Button size="sm" variant="outline">
                               <Download className="w-4 h-4 mr-1" />
                               Download
@@ -284,15 +303,15 @@ export default function DocumentGeneratorPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="justify-start">
+                  <Button variant="outline" className="justify-start" onClick={() => setShowJurisdictionModal(true)}>
                     <Globe className="w-4 h-4 mr-2" />
                     Compare Jurisdictions
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button variant="outline" className="justify-start" onClick={() => navigate('/review-routing')}>
                     <FileCheck className="w-4 h-4 mr-2" />
                     Request Legal Review
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button variant="outline" className="justify-start" onClick={() => navigate('/proof-generator')}>
                     <Shield className="w-4 h-4 mr-2" />
                     Generate ZK Proof
                   </Button>
@@ -306,6 +325,104 @@ export default function DocumentGeneratorPage() {
           </div>
         </div>
       </div>
+
+      {/* Document Review Modal */}
+      <Dialog open={showDocumentModal} onOpenChange={setShowDocumentModal}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
+              Document Review & Edit
+            </DialogTitle>
+            <DialogDescription>
+              Review and edit the generated document with proper formatting
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <Textarea
+              value={documentContent || "SIMPLE AGREEMENT FOR FUTURE TOKENS (SAFT)\n\nThis Simple Agreement for Future Tokens (this \"Agreement\") is entered into...\n\n[Document content would be loaded here with proper DOCX formatting]"}
+              onChange={(e) => setDocumentContent(e.target.value)}
+              className="min-h-[400px] font-mono text-sm"
+              placeholder="Document content..."
+            />
+            
+            <div className="flex gap-3">
+              <Button>
+                <Edit3 className="w-4 h-4 mr-2" />
+                Save Changes
+              </Button>
+              <Button variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Download DOCX
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/vault')}>
+                <Archive className="w-4 h-4 mr-2" />
+                Save to Vault
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Jurisdiction Comparison Modal */}
+      <Dialog open={showJurisdictionModal} onOpenChange={setShowJurisdictionModal}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Scale className="w-5 h-5 text-primary" />
+              Jurisdiction Comparison Analysis
+            </DialogTitle>
+            <DialogDescription>
+              Enterprise-grade agentic workflow simulation for jurisdiction analysis
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="grid grid-cols-3 gap-4">
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">🇺🇸 United States</h4>
+                <div className="space-y-2 text-sm">
+                  <p><strong>Compliance Score:</strong> 78%</p>
+                  <p><strong>Setup Time:</strong> 2-4 weeks</p>
+                  <p><strong>Cost:</strong> $15,000-25,000</p>
+                  <p><strong>Key Requirements:</strong> SEC compliance, state registration</p>
+                </div>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">🇪🇺 European Union</h4>
+                <div className="space-y-2 text-sm">
+                  <p><strong>Compliance Score:</strong> 85%</p>
+                  <p><strong>Setup Time:</strong> 3-6 weeks</p>
+                  <p><strong>Cost:</strong> €12,000-20,000</p>
+                  <p><strong>Key Requirements:</strong> MiCA compliance, GDPR</p>
+                </div>
+              </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">🇦🇪 UAE</h4>
+                <div className="space-y-2 text-sm">
+                  <p><strong>Compliance Score:</strong> 92%</p>
+                  <p><strong>Setup Time:</strong> 1-3 weeks</p>
+                  <p><strong>Cost:</strong> $8,000-15,000</p>
+                  <p><strong>Key Requirements:</strong> VARA license, local presence</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <h4 className="font-medium mb-2">AI Recommendation</h4>
+              <p className="text-sm text-muted-foreground">
+                Based on your token model ({tokenModel}) and entity type ({companyType}), 
+                UAE offers the most favorable regulatory environment with fastest setup time and lowest costs.
+              </p>
+            </div>
+            
+            <Button className="w-full">
+              Generate Jurisdiction-Specific Documents
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
