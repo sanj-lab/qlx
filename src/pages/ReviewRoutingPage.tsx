@@ -17,8 +17,13 @@ import {
   Eye,
   Users,
   Calendar,
-  Lightbulb
+  Lightbulb,
+  Star,
+  ThumbsUp,
+  Paperclip
 } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 export default function ReviewRoutingPage() {
   const [selectedDocument, setSelectedDocument] = useState("");
@@ -26,6 +31,9 @@ export default function ReviewRoutingPage() {
   const [priority, setPriority] = useState("");
   const [reviewNote, setReviewNote] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showViewDetailsModal, setShowViewDetailsModal] = useState(false);
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [selectedReview, setSelectedReview] = useState<any>(null);
 
   const documents = [
     { id: "saft-1", name: "SAFT Agreement v2.1", type: "SAFT", status: "Draft" },
@@ -277,12 +285,25 @@ export default function ReviewRoutingPage() {
                             <Calendar className="w-3 h-3" />
                             <span>Started {review.startDate}</span>
                           </div>
-                          <div className="flex items-center gap-1">
+                          <div 
+                            className="flex items-center gap-1 cursor-pointer hover:text-primary"
+                            onClick={() => {
+                              setSelectedReview(review);
+                              setShowCommentsModal(true);
+                            }}
+                          >
                             <MessageSquare className="w-3 h-3" />
                             <span>{review.comments} comments</span>
                           </div>
                         </div>
-                        <Button size="sm" variant="outline">
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => {
+                            setSelectedReview(review);
+                            setShowViewDetailsModal(true);
+                          }}
+                        >
                           View Details
                         </Button>
                       </div>
@@ -372,6 +393,185 @@ export default function ReviewRoutingPage() {
           </div>
         </div>
       </div>
+
+      {/* View Details Modal */}
+      <Dialog open={showViewDetailsModal} onOpenChange={setShowViewDetailsModal}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="w-5 h-5 text-primary" />
+              Review Details - {selectedReview?.document}
+            </DialogTitle>
+            <DialogDescription>
+              Comprehensive review status and progress tracking
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedReview && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="text-sm font-medium">Document</div>
+                  <div className="text-sm text-muted-foreground">{selectedReview.document}</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-medium">Reviewer</div>
+                  <div className="text-sm text-muted-foreground">{selectedReview.reviewer}</div>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-medium">Status</div>
+                  <Badge className={getStatusColor(selectedReview.status)}>{selectedReview.status}</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-medium">Progress</div>
+                  <div className="text-sm text-muted-foreground">{selectedReview.progress}% complete</div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="text-sm font-medium">Review Timeline</div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 bg-success/10 rounded-lg">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium">Review Started</div>
+                      <div className="text-xs text-muted-foreground">{selectedReview.startDate}</div>
+                    </div>
+                  </div>
+                  {selectedReview.status === "In Review" && (
+                    <div className="flex items-center gap-3 p-3 bg-primary/10 rounded-lg">
+                      <Clock className="w-4 h-4 text-primary" />
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">Currently Reviewing</div>
+                        <div className="text-xs text-muted-foreground">Section 3: Anti-dilution provisions</div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                    <AlertCircle className="w-4 h-4 text-muted-foreground" />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium">Estimated Completion</div>
+                      <div className="text-xs text-muted-foreground">January 22, 2024</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="text-sm font-medium">Review Metrics</div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="p-3 border rounded-lg text-center">
+                    <div className="text-lg font-bold text-primary">{selectedReview.comments}</div>
+                    <div className="text-xs text-muted-foreground">Comments</div>
+                  </div>
+                  <div className="p-3 border rounded-lg text-center">
+                    <div className="text-lg font-bold text-warning">2</div>
+                    <div className="text-xs text-muted-foreground">Issues Found</div>
+                  </div>
+                  <div className="p-3 border rounded-lg text-center">
+                    <div className="text-lg font-bold text-success">4.8</div>
+                    <div className="text-xs text-muted-foreground">Rating</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Comments Modal */}
+      <Dialog open={showCommentsModal} onOpenChange={setShowCommentsModal}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-primary" />
+              Review Comments - {selectedReview?.document}
+            </DialogTitle>
+            <DialogDescription>
+              Comment thread and feedback from reviewer
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="space-y-3 max-h-[400px] overflow-y-auto">
+              <div className="flex gap-3 p-3 bg-muted/30 rounded-lg">
+                <Avatar className="w-8 h-8">
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-medium text-sm">Sarah Chen</span>
+                    <span className="text-xs text-muted-foreground">2 hours ago</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    The anti-dilution clause in Section 4.2 needs significant revision. The current full-ratchet protection is extremely investor-favorable and could severely harm founder equity in down rounds.
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="destructive" className="text-xs">Critical</Badge>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Paperclip className="w-3 h-3" />
+                      <span>Section 4.2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex gap-3 p-3 bg-muted/30 rounded-lg">
+                <Avatar className="w-8 h-8">
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-medium text-sm">Sarah Chen</span>
+                    <span className="text-xs text-muted-foreground">3 hours ago</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Board composition in Section 6.1 should be revised to maintain founder control. Suggest 2-1-1 structure rather than equal representation.
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-warning text-warning-foreground text-xs">High Priority</Badge>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Paperclip className="w-3 h-3" />
+                      <span>Section 6.1</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex gap-3 p-3 bg-muted/30 rounded-lg">
+                <Avatar className="w-8 h-8">
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-medium text-sm">Sarah Chen</span>
+                    <span className="text-xs text-muted-foreground">4 hours ago</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Overall document structure is well-organized. Good compliance with Delaware C-Corp standards.
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="secondary" className="text-xs">Positive</Badge>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <ThumbsUp className="w-3 h-3" />
+                      <span>General feedback</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border-t pt-4">
+              <div className="flex gap-2">
+                <Input placeholder="Add a comment..." className="flex-1" />
+                <Button size="sm">
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -247,17 +247,19 @@ export default function DocumentGeneratorPage() {
                     {selectedDocs.map(docId => {
                       const doc = documents.find(d => d.id === docId);
                       return (
-                        <div key={docId} className="flex items-center justify-between p-4 border rounded-lg">
-                          <div className="flex items-center gap-3">
-                            <FileText className="w-5 h-5 text-primary" />
-                            <div>
-                              <p className="font-medium">{doc?.name}</p>
-                              <p className="text-sm text-muted-foreground">
-                                Customized for {jurisdiction?.toUpperCase()} • {tokenModel} • {companyType}
-                              </p>
+                        <div key={docId} className="p-4 border rounded-lg">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-3">
+                              <FileText className="w-5 h-5 text-primary" />
+                              <div>
+                                <p className="font-medium">{doc?.name}</p>
+                                <p className="text-sm text-muted-foreground">
+                                  Customized for {jurisdiction?.toUpperCase()} • {tokenModel} • {companyType}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex flex-wrap gap-2">
                             <Button size="sm" variant="outline" onClick={() => setShowDocumentModal(true)}>
                               <FileText className="w-4 h-4 mr-1" />
                               View/Edit
@@ -270,7 +272,7 @@ export default function DocumentGeneratorPage() {
                               <Download className="w-4 h-4 mr-1" />
                               Download
                             </Button>
-                            <Button size="sm">
+                            <Button size="sm" variant="outline">
                               <Code className="w-4 h-4 mr-1" />
                               Export to Smart Contract
                             </Button>

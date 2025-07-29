@@ -34,6 +34,7 @@ export default function ShareRoomPage() {
   const [isGenerated, setIsGenerated] = useState(false);
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
   const [showManageModal, setShowManageModal] = useState(false);
+  const [showSendEmailModal, setShowSendEmailModal] = useState(false);
 
   const badges = [
     { 
@@ -298,7 +299,7 @@ export default function ShareRoomPage() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                      <Button className="w-full">
+                      <Button className="w-full" onClick={() => setShowSendEmailModal(true)}>
                         <Mail className="w-4 h-4 mr-2" />
                         Send via Email
                       </Button>

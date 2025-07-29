@@ -17,14 +17,25 @@ import {
   Building,
   Plus,
   Filter,
-  Lightbulb
+  Lightbulb,
+  X,
+  ExternalLink,
+  Send,
+  Wallet
 } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function FilingCalendarPage() {
   const [selectedJurisdiction, setSelectedJurisdiction] = useState("");
   const [entityType, setEntityType] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [showCustomDeadlineModal, setShowCustomDeadlineModal] = useState(false);
+  const [showViewRequirementsModal, setShowViewRequirementsModal] = useState(false);
+  const [showAddToCalendarModal, setShowAddToCalendarModal] = useState(false);
+  const [showSetReminderModal, setShowSetReminderModal] = useState(false);
+  const [showExportCalendarModal, setShowExportCalendarModal] = useState(false);
 
   const jurisdictions = [
     { value: "usa", label: "🇺🇸 United States", filings: 12 },
@@ -221,11 +232,11 @@ export default function FilingCalendarPage() {
                     <Plus className="w-4 h-4 mr-2" />
                     Add Custom Deadline
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => setShowExportCalendarModal(true)}>
                     <Download className="w-4 h-4 mr-2" />
                     Export Calendar
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => setShowSetReminderModal(true)}>
                     <Bell className="w-4 h-4 mr-2" />
                     Set Reminder
                   </Button>
@@ -299,11 +310,11 @@ export default function FilingCalendarPage() {
                           {filing.status}
                         </Badge>
                         <div className="flex gap-2">
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" onClick={() => setShowViewRequirementsModal(true)}>
                             <FileText className="w-3 h-3 mr-1" />
                             View Requirements
                           </Button>
-                          <Button size="sm">
+                          <Button size="sm" onClick={() => setShowAddToCalendarModal(true)}>
                             <Calendar className="w-3 h-3 mr-1" />
                             Add to Calendar
                           </Button>
@@ -429,6 +440,301 @@ export default function FilingCalendarPage() {
           </div>
         </div>
       </div>
+
+      {/* View Requirements Modal */}
+      <Dialog open={showViewRequirementsModal} onOpenChange={setShowViewRequirementsModal}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5 text-primary" />
+              Filing Requirements - Annual Corporate Report
+            </DialogTitle>
+            <DialogDescription>
+              Detailed requirements for USA jurisdiction filing
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="p-4 bg-warning/10 border border-warning/20 rounded-lg">
+              <h4 className="font-medium text-warning mb-2">Required Documents</h4>
+              <ul className="space-y-1 text-sm">
+                <li>• Audited financial statements (last fiscal year)</li>
+                <li>• Board resolutions and meeting minutes</li>
+                <li>• Updated articles of incorporation</li>
+                <li>• Shareholder registry with ownership percentages</li>
+                <li>• Compliance officer certification</li>
+              </ul>
+            </div>
+            
+            <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
+              <h4 className="font-medium text-primary mb-2">Filing Process</h4>
+              <ol className="space-y-1 text-sm">
+                <li>1. Complete Form 10-K with SEC EDGAR system</li>
+                <li>2. Submit state-specific annual report forms</li>
+                <li>3. Pay applicable filing fees ($500-$2,000)</li>
+                <li>4. Obtain filing confirmation receipts</li>
+                <li>5. Update corporate records and minute books</li>
+              </ol>
+            </div>
+            
+            <Button className="w-full">
+              <Download className="w-4 h-4 mr-2" />
+              Download Complete Requirements Checklist
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add to Calendar Modal */}
+      <Dialog open={showAddToCalendarModal} onOpenChange={setShowAddToCalendarModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-primary" />
+              Add to Calendar
+            </DialogTitle>
+            <DialogDescription>
+              Select your preferred calendar integration
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-3">
+            <Button className="w-full justify-start" variant="outline">
+              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Google Calendar
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              Outlook Calendar
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <ExternalLink className="w-5 h-5 mr-3" />
+              Apple Calendar (.ics)
+            </Button>
+            
+            <div className="pt-4 border-t">
+              <div className="p-3 bg-success/10 border border-success/20 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="w-4 h-4 text-success" />
+                  <span className="font-medium text-success">Event Details</span>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Annual Corporate Report - Due Feb 15, 2024<br/>
+                  Reminder: 1 week before deadline
+                </p>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Set Reminder Modal */}
+      <Dialog open={showSetReminderModal} onOpenChange={setShowSetReminderModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Bell className="w-5 h-5 text-primary" />
+              Set Reminder
+            </DialogTitle>
+            <DialogDescription>
+              Configure reminder notifications for filing deadlines
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-medium">Reminder Type</Label>
+              <div className="space-y-2 mt-2">
+                <label className="flex items-center space-x-2">
+                  <input type="radio" name="reminder" value="email" defaultChecked />
+                  <span className="text-sm">Email notification</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="radio" name="reminder" value="sms" />
+                  <span className="text-sm">SMS notification</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="radio" name="reminder" value="both" />
+                  <span className="text-sm">Both email and SMS</span>
+                </label>
+              </div>
+            </div>
+            
+            <div>
+              <Label className="text-sm font-medium">Reminder Schedule</Label>
+              <div className="space-y-2 mt-2">
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" defaultChecked />
+                  <span className="text-sm">2 weeks before deadline</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" defaultChecked />
+                  <span className="text-sm">1 week before deadline</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" />
+                  <span className="text-sm">3 days before deadline</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" />
+                  <span className="text-sm">Day of deadline</span>
+                </label>
+              </div>
+            </div>
+            
+            <Button className="w-full">
+              <Bell className="w-4 h-4 mr-2" />
+              Set Reminders
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Export Calendar Modal */}
+      <Dialog open={showExportCalendarModal} onOpenChange={setShowExportCalendarModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Download className="w-5 h-5 text-primary" />
+              Export Calendar
+            </DialogTitle>
+            <DialogDescription>
+              Export filing calendar in various formats
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-3">
+            <Button className="w-full justify-start" variant="outline">
+              <FileText className="w-5 h-5 mr-3" />
+              PDF Report
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <Calendar className="w-5 h-5 mr-3" />
+              iCal Format (.ics)
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <FileText className="w-5 h-5 mr-3" />
+              Excel Spreadsheet
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <Send className="w-5 h-5 mr-3" />
+              CSV Export
+            </Button>
+            
+            <div className="pt-4 border-t">
+              <div className="flex items-center gap-2 mb-2">
+                <Lightbulb className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">Export Options</span>
+              </div>
+              <div className="space-y-2">
+                <label className="flex items-center space-x-2 text-sm">
+                  <input type="checkbox" defaultChecked />
+                  Include completed filings
+                </label>
+                <label className="flex items-center space-x-2 text-sm">
+                  <input type="checkbox" defaultChecked />
+                  Include deadline reminders
+                </label>
+                <label className="flex items-center space-x-2 text-sm">
+                  <input type="checkbox" />
+                  Include requirements checklist
+                </label>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Custom Deadline Modal */}
+      <Dialog open={showCustomDeadlineModal} onOpenChange={setShowCustomDeadlineModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Plus className="w-5 h-5 text-primary" />
+              Add Custom Deadline
+            </DialogTitle>
+            <DialogDescription>
+              Add a custom filing deadline to your calendar
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="deadline-title">Deadline Title</Label>
+              <Input 
+                id="deadline-title"
+                placeholder="e.g., Quarterly Tax Filing"
+                className="mt-1"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="deadline-date">Due Date</Label>
+              <Input 
+                id="deadline-date"
+                type="date"
+                className="mt-1"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="deadline-jurisdiction">Jurisdiction</Label>
+              <Select>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select jurisdiction" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="usa">🇺🇸 United States</SelectItem>
+                  <SelectItem value="eu">🇪🇺 European Union</SelectItem>
+                  <SelectItem value="singapore">🇸🇬 Singapore</SelectItem>
+                  <SelectItem value="uae">🇦🇪 UAE</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="deadline-priority">Priority Level</Label>
+              <Select>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="critical">Critical</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label htmlFor="deadline-notes">Notes</Label>
+              <Textarea 
+                id="deadline-notes"
+                placeholder="Additional notes or requirements..."
+                className="mt-1"
+              />
+            </div>
+            
+            <Button className="w-full">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Custom Deadline
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

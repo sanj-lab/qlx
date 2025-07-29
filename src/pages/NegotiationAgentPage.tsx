@@ -22,7 +22,13 @@ import {
   Zap,
   Shield,
   Copy,
-  Download
+  Download,
+  Calendar,
+  Share2,
+  FileText,
+  Video,
+  Mail,
+  Phone
 } from "lucide-react";
 
 export default function NegotiationAgentPage() {
@@ -33,6 +39,9 @@ export default function NegotiationAgentPage() {
   const [isAnalyzed, setIsAnalyzed] = useState(false);
   const [showCounterProposal, setShowCounterProposal] = useState(false);
   const [counterProposalContent, setCounterProposalContent] = useState("");
+  const [showScheduleCallModal, setShowScheduleCallModal] = useState(false);
+  const [showShareTeamModal, setShowShareTeamModal] = useState(false);
+  const [showExportAnalysisModal, setShowExportAnalysisModal] = useState(false);
 
   const counterpartyTypes = [
     { value: "vc", label: "Venture Capital Fund", risk: "Medium" },
@@ -416,15 +425,15 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                     <Zap className="w-4 h-4 mr-2" />
                     Generate Counter-Proposal
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button variant="outline" className="justify-start" onClick={() => setShowScheduleCallModal(true)}>
                     <Target className="w-4 h-4 mr-2" />
                     Schedule Strategy Call
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button variant="outline" className="justify-start" onClick={() => setShowShareTeamModal(true)}>
                     <Users className="w-4 h-4 mr-2" />
                     Share with Legal Team
                   </Button>
-                  <Button variant="outline" className="justify-start">
+                  <Button variant="outline" className="justify-start" onClick={() => setShowExportAnalysisModal(true)}>
                     <TrendingUp className="w-4 h-4 mr-2" />
                     Export Analysis
                   </Button>
@@ -475,6 +484,187 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                 <Users className="w-4 h-4 mr-2" />
                 Share with Legal Team
               </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Schedule Strategy Call Modal */}
+      <Dialog open={showScheduleCallModal} onOpenChange={setShowScheduleCallModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-primary" />
+              Schedule Strategy Call
+            </DialogTitle>
+            <DialogDescription>
+              Book a consultation with our negotiation experts
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <h4 className="font-medium mb-2">Expert Consultation Available</h4>
+              <p className="text-sm text-muted-foreground">
+                Schedule a 60-minute strategy session with our senior legal advisors to review your negotiation approach and optimize deal terms.
+              </p>
+            </div>
+            
+            <div className="space-y-3">
+              <Button className="w-full justify-start">
+                <Video className="w-5 h-5 mr-3" />
+                Video Call (Zoom)
+              </Button>
+              
+              <Button className="w-full justify-start" variant="outline">
+                <Phone className="w-5 h-5 mr-3" />
+                Phone Call
+              </Button>
+              
+              <Button className="w-full justify-start" variant="outline">
+                <Users className="w-5 h-5 mr-3" />
+                In-Person Meeting
+              </Button>
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Preferred Time Slots</Label>
+              <div className="grid grid-cols-2 gap-2">
+                <Button size="sm" variant="outline">Mon 10 AM</Button>
+                <Button size="sm" variant="outline">Tue 2 PM</Button>
+                <Button size="sm" variant="outline">Wed 11 AM</Button>
+                <Button size="sm" variant="outline">Thu 3 PM</Button>
+              </div>
+            </div>
+            
+            <Button className="w-full">
+              <Calendar className="w-4 h-4 mr-2" />
+              Confirm Booking
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Share with Legal Team Modal */}
+      <Dialog open={showShareTeamModal} onOpenChange={setShowShareTeamModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Share2 className="w-5 h-5 text-primary" />
+              Share with Legal Team
+            </DialogTitle>
+            <DialogDescription>
+              Share negotiation analysis with your legal advisors
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label>Team Members</Label>
+              <div className="space-y-2 mt-2">
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" defaultChecked />
+                  <span className="text-sm">Sarah Chen - Senior Legal Counsel</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" defaultChecked />
+                  <span className="text-sm">Marcus Rodriguez - Regulatory Expert</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input type="checkbox" />
+                  <span className="text-sm">Elena Kozlov - Contract Specialist</span>
+                </label>
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="share-message">Message (Optional)</Label>
+              <Textarea 
+                id="share-message"
+                placeholder="Add context or specific questions for the team..."
+                className="mt-1"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <input type="checkbox" id="include-docs" defaultChecked />
+                <Label htmlFor="include-docs">Include original term sheet</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <input type="checkbox" id="include-analysis" defaultChecked />
+                <Label htmlFor="include-analysis">Include risk analysis</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <input type="checkbox" id="include-recommendations" defaultChecked />
+                <Label htmlFor="include-recommendations">Include recommendations</Label>
+              </div>
+            </div>
+            
+            <Button className="w-full">
+              <Mail className="w-4 h-4 mr-2" />
+              Share Analysis
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Export Analysis Modal */}
+      <Dialog open={showExportAnalysisModal} onOpenChange={setShowExportAnalysisModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Download className="w-5 h-5 text-primary" />
+              Export Analysis
+            </DialogTitle>
+            <DialogDescription>
+              Download negotiation analysis in various formats
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-3">
+            <Button className="w-full justify-start" variant="outline">
+              <FileText className="w-5 h-5 mr-3" />
+              PDF Report
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <FileText className="w-5 h-5 mr-3" />
+              Word Document
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <Download className="w-5 h-5 mr-3" />
+              Excel Spreadsheet
+            </Button>
+            
+            <Button className="w-full justify-start" variant="outline">
+              <Copy className="w-5 h-5 mr-3" />
+              JSON Data Export
+            </Button>
+            
+            <div className="pt-4 border-t">
+              <div className="space-y-2">
+                <div className="text-sm font-medium">Export Options</div>
+                <div className="space-y-2">
+                  <label className="flex items-center space-x-2 text-sm">
+                    <input type="checkbox" defaultChecked />
+                    Include risk assessment
+                  </label>
+                  <label className="flex items-center space-x-2 text-sm">
+                    <input type="checkbox" defaultChecked />
+                    Include recommendations
+                  </label>
+                  <label className="flex items-center space-x-2 text-sm">
+                    <input type="checkbox" defaultChecked />
+                    Include deal scenarios
+                  </label>
+                  <label className="flex items-center space-x-2 text-sm">
+                    <input type="checkbox" />
+                    Include confidential notes
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </DialogContent>

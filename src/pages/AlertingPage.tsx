@@ -18,8 +18,11 @@ import {
   RefreshCw,
   Mail,
   Smartphone,
-  Shield
+  Shield,
+  Edit,
+  FileText
 } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function AlertingPage() {
   const [selectedJurisdiction, setSelectedJurisdiction] = useState("");
@@ -27,6 +30,7 @@ export default function AlertingPage() {
   const [alertsEnabled, setAlertsEnabled] = useState(true);
   const [emailAlerts, setEmailAlerts] = useState(true);
   const [pushAlerts, setPushAlerts] = useState(false);
+  const [showUpdateDocsModal, setShowUpdateDocsModal] = useState(false);
 
   const jurisdictions = [
     { value: "eu", label: "🇪🇺 European Union", framework: "MiCA" },
@@ -178,7 +182,7 @@ export default function AlertingPage() {
                   </div>
                 </div>
 
-                <Button className="w-full">
+                <Button className="w-full" onClick={() => setSelectedJurisdiction(selectedJurisdiction || "usa")}>
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Check for Updates
                 </Button>
@@ -389,6 +393,87 @@ export default function AlertingPage() {
           </div>
         </div>
       </div>
+
+      {/* Update Docs Modal */}
+      <Dialog open={showUpdateDocsModal} onOpenChange={setShowUpdateDocsModal}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Edit className="w-5 h-5 text-primary" />
+              Update Affected Documents
+            </DialogTitle>
+            <DialogDescription>
+              Apply regulatory changes to your legal documents
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="p-4 bg-warning/10 border border-warning/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 text-warning" />
+                <span className="font-medium">Documents Requiring Updates</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                The following documents need updates based on recent regulatory changes:
+              </p>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <input type="checkbox" defaultChecked />
+                  <FileText className="w-4 h-4 text-primary" />
+                  <div>
+                    <div className="font-medium">Privacy Policy</div>
+                    <div className="text-sm text-muted-foreground">Update: MiCA Article 43 compliance</div>
+                  </div>
+                </div>
+                <Badge variant="destructive">Critical</Badge>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <input type="checkbox" defaultChecked />
+                  <FileText className="w-4 h-4 text-primary" />
+                  <div>
+                    <div className="font-medium">Token Charter</div>
+                    <div className="text-sm text-muted-foreground">Update: Stablecoin reserve requirements</div>
+                  </div>
+                </div>
+                <Badge className="bg-warning text-warning-foreground">High</Badge>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <input type="checkbox" />
+                  <FileText className="w-4 h-4 text-primary" />
+                  <div>
+                    <div className="font-medium">Terms of Service</div>
+                    <div className="text-sm text-muted-foreground">Update: User protection clauses</div>
+                  </div>
+                </div>
+                <Badge variant="secondary">Medium</Badge>
+              </div>
+            </div>
+            
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Shield className="w-4 h-4 text-primary" />
+                <span className="font-medium">AI-Powered Updates</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Our AI agent will automatically apply regulatory changes while preserving your 
+                custom terms and maintaining document consistency.
+              </p>
+            </div>
+            
+            <Button className="w-full">
+              <Edit className="w-4 h-4 mr-2" />
+              Update Selected Documents
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
