@@ -41,6 +41,7 @@ export default function DocumentGeneratorPage() {
   const [showDocumentModal, setShowDocumentModal] = useState(false);
   const [showJurisdictionModal, setShowJurisdictionModal] = useState(false);
   const [showVaultModal, setShowVaultModal] = useState(false);
+  const [showSmartContractModal, setShowSmartContractModal] = useState(false);
   const [documentContent, setDocumentContent] = useState("");
 
   const documents = [
@@ -265,7 +266,7 @@ export default function DocumentGeneratorPage() {
                               </div>
                             </div>
                           </div>
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="grid grid-cols-2 gap-2 mb-3">
                             <Button size="sm" variant="outline" onClick={() => setShowDocumentModal(true)}>
                               <FileText className="w-4 h-4 mr-1" />
                               View/Edit
@@ -278,7 +279,7 @@ export default function DocumentGeneratorPage() {
                               <Download className="w-4 h-4 mr-1" />
                               Download
                             </Button>
-                            <Button size="sm" variant="outline">
+                            <Button size="sm" variant="outline" onClick={() => setShowSmartContractModal(true)}>
                               <Code className="w-4 h-4 mr-1" />
                               Export to Smart Contract
                             </Button>
@@ -574,6 +575,158 @@ export default function DocumentGeneratorPage() {
               </Button>
               <Button variant="outline" onClick={() => setShowVaultModal(false)}>
                 Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Smart Contract Export Modal */}
+      <Dialog open={showSmartContractModal} onOpenChange={setShowSmartContractModal}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Code className="w-5 h-5 text-primary" />
+              Export Document to Smart Contract
+            </DialogTitle>
+            <DialogDescription>
+              Convert legal document terms into executable smart contract code
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="p-4 bg-muted/30 rounded-lg">
+              <div className="flex items-center gap-3 mb-3">
+                <FileText className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">SAFT Agreement Terms</p>
+                  <p className="text-sm text-muted-foreground">Converting to Solidity smart contract</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">Blockchain Network</label>
+                <Select defaultValue="ethereum">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ethereum">Ethereum</SelectItem>
+                    <SelectItem value="polygon">Polygon</SelectItem>
+                    <SelectItem value="arbitrum">Arbitrum</SelectItem>
+                    <SelectItem value="base">Base</SelectItem>
+                    <SelectItem value="bsc">BSC</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-2 block">Contract Type</label>
+                <Select defaultValue="erc20">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="erc20">ERC-20 Token</SelectItem>
+                    <SelectItem value="erc721">ERC-721 NFT</SelectItem>
+                    <SelectItem value="erc1155">ERC-1155 Multi-Token</SelectItem>
+                    <SelectItem value="custom">Custom Contract</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-medium">Extractable Contract Terms</h4>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <input type="checkbox" defaultChecked />
+                    <div>
+                      <p className="text-sm font-medium">Token Vesting Schedule</p>
+                      <p className="text-xs text-muted-foreground">12-month cliff, 36-month linear vesting</p>
+                    </div>
+                  </div>
+                  <Badge variant="secondary">Automated</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <input type="checkbox" defaultChecked />
+                    <div>
+                      <p className="text-sm font-medium">Purchase Rights</p>
+                      <p className="text-xs text-muted-foreground">Minimum $10,000, Maximum $1,000,000</p>
+                    </div>
+                  </div>
+                  <Badge variant="secondary">Automated</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <input type="checkbox" defaultChecked />
+                    <div>
+                      <p className="text-sm font-medium">Discount Rate</p>
+                      <p className="text-xs text-muted-foreground">20% discount on token sale price</p>
+                    </div>
+                  </div>
+                  <Badge variant="secondary">Automated</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <input type="checkbox" />
+                    <div>
+                      <p className="text-sm font-medium">Governance Rights</p>
+                      <p className="text-xs text-muted-foreground">Voting weight based on token allocation</p>
+                    </div>
+                  </div>
+                  <Badge variant="outline">Manual Review</Badge>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-warning/10 border border-warning/20 rounded-lg">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-5 h-5 text-warning mt-0.5" />
+                <div>
+                  <p className="font-medium text-warning">Security Notice</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Smart contract code will be generated based on legal terms. Please conduct thorough 
+                    security audits before deployment to mainnet.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-medium">Generated Contract Preview</h4>
+              <div className="p-4 bg-muted/50 rounded-lg font-mono text-sm">
+                <div className="text-muted-foreground mb-2">// SAFT.sol - Generated Smart Contract</div>
+                <div className="space-y-1">
+                  <div>pragma solidity ^0.8.19;</div>
+                  <div></div>
+                  <div>contract SAFTAgreement &#123;</div>
+                  <div className="ml-4">uint256 public constant CLIFF_DURATION = 365 days;</div>
+                  <div className="ml-4">uint256 public constant VESTING_DURATION = 1095 days;</div>
+                  <div className="ml-4">uint256 public constant DISCOUNT_RATE = 20;</div>
+                  <div className="ml-4">uint256 public constant MIN_PURCHASE = 10000e18;</div>
+                  <div className="ml-4">uint256 public constant MAX_PURCHASE = 1000000e18;</div>
+                  <div className="ml-4">...</div>
+                  <div>&#125;</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <Button className="flex-1">
+                <Code className="w-4 h-4 mr-2" />
+                Generate Full Contract
+              </Button>
+              <Button variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Download Solidity Files
+              </Button>
+              <Button variant="outline">
+                <Shield className="w-4 h-4 mr-2" />
+                Request Security Audit
               </Button>
             </div>
           </div>

@@ -174,12 +174,14 @@ export default function FilingCalendarPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CalendarComponent
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={setSelectedDate}
-                  className="rounded-md border pointer-events-auto"
-                />
+                <div className="w-full overflow-hidden">
+                  <CalendarComponent
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    className="rounded-md border pointer-events-auto w-full"
+                  />
+                </div>
               </CardContent>
             </Card>
 
