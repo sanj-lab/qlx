@@ -259,7 +259,7 @@ export default function DocumentGeneratorPage() {
                               </div>
                             </div>
                           </div>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="grid grid-cols-2 gap-2">
                             <Button size="sm" variant="outline" onClick={() => setShowDocumentModal(true)}>
                               <FileText className="w-4 h-4 mr-1" />
                               View/Edit

@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   Share2, 
   Copy, 
@@ -21,7 +22,11 @@ import {
   Download,
   Lock,
   Globe,
-  Lightbulb
+  Lightbulb,
+  Settings,
+  BarChart3,
+  UserPlus,
+  Trash2
 } from "lucide-react";
 
 export default function ShareRoomPage() {
@@ -425,6 +430,250 @@ export default function ShareRoomPage() {
           </div>
         </div>
       </div>
+
+      {/* Send Email Modal */}
+      <Dialog open={showSendEmailModal} onOpenChange={setShowSendEmailModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Mail className="w-5 h-5 text-primary" />
+              Send Share Room via Email
+            </DialogTitle>
+            <DialogDescription>
+              Share the room link with specific recipients
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">Recipients</label>
+              <Textarea 
+                placeholder="Enter email addresses separated by commas..."
+                className="min-h-[80px]"
+              />
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-2 block">Subject</label>
+              <Input defaultValue="Access to Legal Share Room - Series A Due Diligence" />
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-2 block">Message</label>
+              <Textarea 
+                defaultValue="Please find the secure access link to our legal document share room. This link contains confidential information and expires in 30 days."
+                className="min-h-[100px]"
+              />
+            </div>
+            
+            <div className="flex gap-2">
+              <Button className="flex-1">
+                <Mail className="w-4 h-4 mr-2" />
+                Send Invitations
+              </Button>
+              <Button variant="outline" onClick={() => setShowSendEmailModal(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Analytics Modal */}
+      <Dialog open={showAnalyticsModal} onOpenChange={setShowAnalyticsModal}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BarChart3 className="w-5 h-5 text-primary" />
+              Share Room Analytics Dashboard
+            </DialogTitle>
+            <DialogDescription>
+              Detailed analytics and access tracking for this share room
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="grid grid-cols-4 gap-4">
+              <div className="p-4 border rounded-lg text-center">
+                <div className="text-2xl font-bold text-primary">47</div>
+                <div className="text-sm text-muted-foreground">Total Views</div>
+                <div className="text-xs text-success">+12% this week</div>
+              </div>
+              <div className="p-4 border rounded-lg text-center">
+                <div className="text-2xl font-bold text-success">15</div>
+                <div className="text-sm text-muted-foreground">Unique Visitors</div>
+                <div className="text-xs text-success">+25% this week</div>
+              </div>
+              <div className="p-4 border rounded-lg text-center">
+                <div className="text-2xl font-bold text-warning">23</div>
+                <div className="text-sm text-muted-foreground">Downloads</div>
+                <div className="text-xs text-warning">+8% this week</div>
+              </div>
+              <div className="p-4 border rounded-lg text-center">
+                <div className="text-2xl font-bold text-primary">4.2m</div>
+                <div className="text-sm text-muted-foreground">Avg. Session</div>
+                <div className="text-xs text-muted-foreground">minutes</div>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-medium mb-3">Most Viewed Documents</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>SAFT Agreement v2.1</span>
+                    <span className="text-muted-foreground">34 views</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Token Economics</span>
+                    <span className="text-muted-foreground">21 views</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>Whitepaper v3.0</span>
+                    <span className="text-muted-foreground">18 views</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-medium mb-3">Visitor Geography</h4>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>🇺🇸 United States</span>
+                    <span className="text-muted-foreground">8 visitors</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>🇪🇺 European Union</span>
+                    <span className="text-muted-foreground">4 visitors</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span>🇸🇬 Singapore</span>
+                    <span className="text-muted-foreground">3 visitors</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="font-medium mb-3">Access Timeline</h4>
+              <div className="space-y-2 max-h-40 overflow-y-auto">
+                <div className="flex justify-between text-sm p-2 bg-muted/30 rounded">
+                  <span>investor@sequoia.com downloaded SAFT Agreement</span>
+                  <span className="text-muted-foreground">15 min ago</span>
+                </div>
+                <div className="flex justify-between text-sm p-2 bg-muted/30 rounded">
+                  <span>legal@andreessen.com viewed Token Economics</span>
+                  <span className="text-muted-foreground">2 hours ago</span>
+                </div>
+                <div className="flex justify-between text-sm p-2 bg-muted/30 rounded">
+                  <span>analyst@a16z.com accessed share room</span>
+                  <span className="text-muted-foreground">4 hours ago</span>
+                </div>
+                <div className="flex justify-between text-sm p-2 bg-muted/30 rounded">
+                  <span>compliance@sec.gov reviewed whitepaper</span>
+                  <span className="text-muted-foreground">1 day ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Manage Modal */}
+      <Dialog open={showManageModal} onOpenChange={setShowManageModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Settings className="w-5 h-5 text-primary" />
+              Manage Share Room
+            </DialogTitle>
+            <DialogDescription>
+              Configure access settings and manage room permissions
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">Room Name</label>
+                <Input defaultValue="Series A Due Diligence" />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-2 block">Status</label>
+                <Select defaultValue="active">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="paused">Paused</SelectItem>
+                    <SelectItem value="expired">Expired</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-2 block">Access Permissions</label>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <div className="font-medium">Download Documents</div>
+                    <div className="text-sm text-muted-foreground">Allow visitors to download files</div>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <div className="font-medium">View Analytics</div>
+                    <div className="text-sm text-muted-foreground">Track visitor engagement</div>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <div className="font-medium">Email Notifications</div>
+                    <div className="text-sm text-muted-foreground">Get notified of new access</div>
+                  </div>
+                  <Switch defaultChecked />
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-2 block">Authorized Users</label>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                <div className="flex items-center justify-between p-2 border rounded">
+                  <span className="text-sm">investor@sequoia.com</span>
+                  <Button size="sm" variant="outline">
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+                <div className="flex items-center justify-between p-2 border rounded">
+                  <span className="text-sm">legal@andreessen.com</span>
+                  <Button size="sm" variant="outline">
+                    <Trash2 className="w-3 h-3" />
+                  </Button>
+                </div>
+              </div>
+              <Button size="sm" variant="outline" className="w-full mt-2">
+                <UserPlus className="w-3 h-3 mr-1" />
+                Add User
+              </Button>
+            </div>
+            
+            <div className="flex gap-2 pt-4 border-t">
+              <Button className="flex-1">
+                <Settings className="w-4 h-4 mr-2" />
+                Save Changes
+              </Button>
+              <Button variant="outline" onClick={() => setShowManageModal(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
