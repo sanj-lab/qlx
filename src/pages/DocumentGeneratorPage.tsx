@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { 
   FileCheck, 
   Download, 
@@ -21,7 +22,11 @@ import {
   Globe,
   Archive,
   Scale,
-  Edit3
+  Edit3,
+  Lock,
+  Database,
+  CheckCircle,
+  AlertTriangle
 } from "lucide-react";
 
 export default function DocumentGeneratorPage() {
@@ -35,6 +40,7 @@ export default function DocumentGeneratorPage() {
   const [isGenerated, setIsGenerated] = useState(false);
   const [showDocumentModal, setShowDocumentModal] = useState(false);
   const [showJurisdictionModal, setShowJurisdictionModal] = useState(false);
+  const [showVaultModal, setShowVaultModal] = useState(false);
   const [documentContent, setDocumentContent] = useState("");
 
   const documents = [
@@ -264,7 +270,7 @@ export default function DocumentGeneratorPage() {
                               <FileText className="w-4 h-4 mr-1" />
                               View/Edit
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => navigate('/vault')}>
+                            <Button size="sm" variant="outline" onClick={() => setShowVaultModal(true)}>
                               <Archive className="w-4 h-4 mr-1" />
                               Legal Vault
                             </Button>
@@ -422,6 +428,154 @@ export default function DocumentGeneratorPage() {
             <Button className="w-full">
               Generate Jurisdiction-Specific Documents
             </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Legal Vault Modal */}
+      <Dialog open={showVaultModal} onOpenChange={setShowVaultModal}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Archive className="w-5 h-5 text-primary" />
+              Vault Document to Legal Memory
+            </DialogTitle>
+            <DialogDescription>
+              Securely store and organize generated documents in the Legal Vault
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            <div className="p-4 bg-muted/30 rounded-lg">
+              <div className="flex items-center gap-3 mb-3">
+                <FileText className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">SAFT Agreement v2.1</p>
+                  <p className="text-sm text-muted-foreground">Generated for {jurisdiction?.toUpperCase()} • {tokenModel} • {companyType}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-muted-foreground">File Size:</span>
+                  <p className="font-medium">2.4 MB</p>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Format:</span>
+                  <p className="font-medium">DOCX, PDF</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">Document Category</label>
+                <Select defaultValue="legal-agreements">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="legal-agreements">Legal Agreements</SelectItem>
+                    <SelectItem value="compliance-docs">Compliance Documents</SelectItem>
+                    <SelectItem value="corporate-docs">Corporate Documents</SelectItem>
+                    <SelectItem value="regulatory-filings">Regulatory Filings</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-2 block">Access Level</label>
+                <Select defaultValue="confidential">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="public">Public</SelectItem>
+                    <SelectItem value="internal">Internal</SelectItem>
+                    <SelectItem value="confidential">Confidential</SelectItem>
+                    <SelectItem value="restricted">Restricted</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Tags</label>
+              <Input placeholder="e.g., SAFT, token-sale, regulatory, compliance" />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Description</label>
+              <Textarea 
+                placeholder="Brief description of the document and its purpose..."
+                className="min-h-[80px]"
+              />
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-medium">Vault Security Features</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Shield className="w-5 h-5 text-success" />
+                  <div>
+                    <p className="text-sm font-medium">End-to-End Encryption</p>
+                    <p className="text-xs text-muted-foreground">AES-256 encryption</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Lock className="w-5 h-5 text-success" />
+                  <div>
+                    <p className="text-sm font-medium">Access Control</p>
+                    <p className="text-xs text-muted-foreground">Role-based permissions</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <Database className="w-5 h-5 text-success" />
+                  <div>
+                    <p className="text-sm font-medium">Version Control</p>
+                    <p className="text-xs text-muted-foreground">Automatic versioning</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 border rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-success" />
+                  <div>
+                    <p className="text-sm font-medium">Audit Trail</p>
+                    <p className="text-xs text-muted-foreground">Complete access logs</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+              <div className="flex items-start gap-3">
+                <Lightbulb className="w-5 h-5 text-primary mt-0.5" />
+                <div>
+                  <p className="font-medium text-primary">AI-Powered Organization</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Our AI will automatically categorize, tag, and organize your document based on its content 
+                    and jurisdiction requirements for easy retrieval.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <Button className="flex-1" onClick={() => {
+                // Simulate vaulting process
+                setTimeout(() => {
+                  setShowVaultModal(false);
+                  alert("Document successfully vaulted to Legal Memory!");
+                }, 1000);
+              }}>
+                <Archive className="w-4 h-4 mr-2" />
+                Vault Document
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/vault')}>
+                <Database className="w-4 h-4 mr-2" />
+                Open Vault
+              </Button>
+              <Button variant="outline" onClick={() => setShowVaultModal(false)}>
+                Cancel
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
