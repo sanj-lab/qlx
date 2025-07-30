@@ -3,38 +3,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Shield, 
-  FileText, 
-  Scale, 
-  Zap, 
-  Globe, 
-  Lock,
-  CheckCircle,
-  ArrowRight,
-  Database,
-  Cpu,
-  Settings,
-  Clock,
-  Lightbulb,
-  Users,
-  FolderOpen,
-  Bell,
-  Share2,
-  Calendar,
-  GitBranch,
-  FileCheck,
-  Handshake,
-  UserCheck,
-  Archive,
-  AlertTriangle
-} from "lucide-react";
-
+import { Shield, FileText, Scale, Zap, Globe, Lock, CheckCircle, ArrowRight, Database, Cpu, Settings, Clock, Lightbulb, Users, FolderOpen, Bell, Share2, Calendar, GitBranch, FileCheck, Handshake, UserCheck, Archive, AlertTriangle } from "lucide-react";
 export default function Homepage() {
   const [showNotifications, setShowNotifications] = useState(false);
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       {/* Hero Section */}
       <section className="hero-gradient py-20 px-6">
         <div className="container mx-auto max-w-6xl text-center">
@@ -115,37 +87,9 @@ export default function Homepage() {
 
           {/* Notification Bell */}
           <div className="flex justify-end mb-6">
-            <button
-              className="relative p-2 rounded-lg hover:bg-muted/50 transition-colors"
-              onClick={() => setShowNotifications(!showNotifications)}
-            >
-              <Bell className="w-5 h-5 text-muted-foreground" />
-              <span className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full flex items-center justify-center">
-                <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-              </span>
-            </button>
             
-            {showNotifications && (
-              <div className="absolute right-6 mt-12 w-80 bg-background border rounded-lg shadow-lg p-4 z-50">
-                <h4 className="font-semibold mb-3">Regulatory Updates</h4>
-                <div className="space-y-3">
-                  <div className="p-3 bg-destructive/10 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1">
-                      <AlertTriangle className="w-4 h-4 text-destructive" />
-                      <span className="font-medium text-sm">MiCA Update</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">New compliance requirements effective July 15, 2024</p>
-                  </div>
-                  <div className="p-3 bg-warning/10 rounded-lg">
-                    <div className="flex items-center gap-2 mb-1">
-                      <AlertTriangle className="w-4 h-4 text-warning" />
-                      <span className="font-medium text-sm">UAE VARA Guidelines</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">Updated liability frameworks - review contracts</p>
-                  </div>
-                </div>
-              </div>
-            )}
+            
+            {showNotifications}
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -477,24 +421,7 @@ export default function Homepage() {
               </CardContent>
             </Card>
 
-            <Card className="enterprise-card p-6 opacity-75">
-              <CardContent className="p-0">
-                <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-muted-foreground" />
-                </div>
-                <h3 className="font-semibold text-lg mb-2 text-muted-foreground">Smart Contract Auditor</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Formal verification with automated proof generation.
-                </p>
-                <div className="flex items-center text-xs text-muted-foreground mb-4">
-                  <Clock className="w-3 h-3 mr-1" />
-                  Q1 2026
-                </div>
-                <Button variant="outline" size="sm" className="w-full" disabled>
-                  Request Early Access
-                </Button>
-              </CardContent>
-            </Card>
+            
 
             <Card className="enterprise-card p-6 opacity-75">
               <CardContent className="p-0">
@@ -515,7 +442,7 @@ export default function Homepage() {
               </CardContent>
             </Card>
 
-            <Card className="enterprise-card p-6 opacity-75">
+            <Card className="enterprise-card p-6 opacity-75 px-[25px]">
               <CardContent className="p-0">
                 <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
                   <Settings className="w-6 h-6 text-muted-foreground" />
@@ -568,6 +495,5 @@ export default function Homepage() {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 }
