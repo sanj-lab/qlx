@@ -401,15 +401,16 @@ export default function Homepage() {
             <p className="text-lg text-muted-foreground">Next-generation legal infrastructure</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="enterprise-card p-6 opacity-75">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {/* Token Policy Engine */}
+            <Card className="enterprise-card p-6 opacity-75 hover:opacity-90 transition-opacity">
               <CardContent className="p-0">
                 <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
                   <Cpu className="w-6 h-6 text-muted-foreground" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2 text-muted-foreground">Token Policy Engine</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Automated token launch compliance with smart contract generation.
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  Automated token launch compliance with smart contract generation and regulatory pre-validation.
                 </p>
                 <div className="flex items-center text-xs text-muted-foreground mb-4">
                   <Clock className="w-3 h-3 mr-1" />
@@ -421,16 +422,15 @@ export default function Homepage() {
               </CardContent>
             </Card>
 
-            
-
-            <Card className="enterprise-card p-6 opacity-75">
+            {/* IP Compliance Engine */}
+            <Card className="enterprise-card p-6 opacity-75 hover:opacity-90 transition-opacity">
               <CardContent className="p-0">
                 <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
-                  <Database className="w-6 h-6 text-muted-foreground" />
+                  <Lightbulb className="w-6 h-6 text-muted-foreground" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2 text-muted-foreground">Legal DAO Registry</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  On-chain registry for verified legal entities and DAOs.
+                <h3 className="font-semibold text-lg mb-2 text-muted-foreground">IP Compliance Engine</h3>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  Automated intellectual property clearance with patent conflict detection and licensing optimization.
                 </p>
                 <div className="flex items-center text-xs text-muted-foreground mb-4">
                   <Clock className="w-3 h-3 mr-1" />
@@ -442,18 +442,39 @@ export default function Homepage() {
               </CardContent>
             </Card>
 
-            <Card className="enterprise-card p-6 opacity-75 px-[25px]">
+            {/* Legal DAO Registry */}
+            <Card className="enterprise-card p-6 opacity-75 hover:opacity-90 transition-opacity">
+              <CardContent className="p-0">
+                <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
+                  <Database className="w-6 h-6 text-muted-foreground" />
+                </div>
+                <h3 className="font-semibold text-lg mb-2 text-muted-foreground">Legal DAO Registry</h3>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  On-chain registry for verified legal entities and DAOs with cross-jurisdictional recognition.
+                </p>
+                <div className="flex items-center text-xs text-muted-foreground mb-4">
+                  <Clock className="w-3 h-3 mr-1" />
+                  Q2 2026
+                </div>
+                <Button variant="outline" size="sm" className="w-full" disabled>
+                  Request Early Access
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Custom Compliance API */}
+            <Card className="enterprise-card p-6 opacity-75 hover:opacity-90 transition-opacity">
               <CardContent className="p-0">
                 <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
                   <Settings className="w-6 h-6 text-muted-foreground" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2 text-muted-foreground">Custom Compliance API</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Enterprise API for custom compliance workflows.
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  Enterprise API for custom compliance workflows with white-label deployment options.
                 </p>
                 <div className="flex items-center text-xs text-muted-foreground mb-4">
                   <Clock className="w-3 h-3 mr-1" />
-                  Q2 2026
+                  Q3 2026
                 </div>
                 <Button variant="outline" size="sm" className="w-full" disabled>
                   Request Early Access
