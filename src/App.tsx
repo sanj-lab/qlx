@@ -35,6 +35,10 @@ const AlertingPage = lazy(() => import("./pages/AlertingPage"));
 const ShareRoomPage = lazy(() => import("./pages/ShareRoomPage"));
 const FilingCalendarPage = lazy(() => import("./pages/FilingCalendarPage"));
 const TokenClassificationPage = lazy(() => import("./pages/TokenClassificationPage"));
+const LaunchPathPage = lazy(() => import("./pages/LaunchPathPage"));
+const CoReviewPage = lazy(() => import("./pages/CoReviewPage"));
+const ProofsSpacePage = lazy(() => import("./pages/ProofsPage"));
+const DealDeskPage = lazy(() => import("./pages/DealDeskPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -89,6 +93,10 @@ const App = () => (
                   <Route path="/share-room" element={<ShareRoomPage />} />
                   <Route path="/filing-calendar" element={<FilingCalendarPage />} />
                   <Route path="/token-classification" element={<TokenClassificationPage />} />
+                  <Route path="/launch-path" element={<LaunchPathPage />} />
+                  <Route path="/co-review" element={<CoReviewPage />} />
+                  <Route path="/proofs" element={<ProofsSpacePage />} />
+                  <Route path="/deal-desk" element={<DealDeskPage />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

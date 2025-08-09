@@ -77,316 +77,98 @@ export default function Homepage() {
         </div>
       </section>
 
-      {/* Founder Legal Dashboard */}
+      {/* The Spaces */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Founder Legal Dashboard</h2>
-            <p className="text-lg text-muted-foreground">Complete legal compliance toolkit for Web3 startups</p>
+            <h2 className="text-3xl font-bold text-foreground mb-4">The Spaces</h2>
+            <p className="text-lg text-muted-foreground">Minimal clicks. Maximum clarity. Each space is a guided journey.</p>
           </div>
 
-          {/* Notification Bell */}
-          <div className="flex justify-end mb-6">
-            
-            
-            {showNotifications}
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {/* 1. Clause Redline Agent */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Space 1: Launch Path */}
+            <Card className="enterprise-card p-6 hover:shadow-lg transition-all">
               <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FileText className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Clause Redline Agent</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Automatically detects legal compliance gaps with real-time explanations and agentic suggestions.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Smart Contract Support</Badge>
-                      <Badge variant="secondary" className="text-xs">Risk Scoring</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/clm">
-                    Fix Clauses
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
+                <h3 className="text-xl font-semibold mb-2">Launch Path</h3>
+                <p className="text-sm text-muted-foreground mb-4">From idea to ready. A single, agent‑guided flow.</p>
+                <ul className="text-sm text-muted-foreground space-y-1 mb-4">
+                  <li>• Jurisdiction Navigator</li>
+                  <li>• Token ID</li>
+                  <li>• Compliance Map</li>
+                  <li>• Risk Lens (idea + documents)</li>
+                  <li>• Contract Canvas</li>
+                  <li>• Vault & Doc Studio</li>
+                </ul>
+                <Button asChild className="w-full">
+                  <Link to="/launch-path">Open Launch Path <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
 
-            {/* 2. Jurisdiction Selector + Compliance Scoring */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
+            {/* Space 2: Co‑Review */}
+            <Card className="enterprise-card p-6 hover:shadow-lg transition-all">
               <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Scale className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Jurisdiction Selector + Compliance Scoring</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Choose the most legally favorable jurisdiction with ZK proof generation built-in.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">License Detection</Badge>
-                      <Badge variant="secondary" className="text-xs">ZK Proofs</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/compliance">
-                    Generate Score
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
+                <h3 className="text-xl font-semibold mb-2">Co‑Review</h3>
+                <p className="text-sm text-muted-foreground mb-4">Send docs, maps, or choices to counsel—once.</p>
+                <ul className="text-sm text-muted-foreground space-y-1 mb-4">
+                  <li>• Pick Items</li>
+                  <li>• Choose Counsel</li>
+                  <li>• Collaborate & Redline</li>
+                  <li>• Approve & Merge</li>
+                </ul>
+                <Button asChild variant="outline" className="w-full">
+                  <Link to="/co-review">Open Co‑Review <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
 
-            {/* 3. Token Classification Agent */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
+            {/* Space 3: Command Center (Founder Dashboard) */}
+            <Card className="enterprise-card p-6 hover:shadow-lg transition-all">
               <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <GitBranch className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Token Classification Agent</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Analyze tokenomics using Howey Test, MiCA, and SEC frameworks with confidence scoring.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Howey Test</Badge>
-                      <Badge variant="secondary" className="text-xs">MiCA Analysis</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/token-classification">
-                    Analyze Token
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
+                <h3 className="text-xl font-semibold mb-2">Command Center</h3>
+                <p className="text-sm text-muted-foreground mb-4">Company‑level oversight for founders.</p>
+                <ul className="text-sm text-muted-foreground space-y-1 mb-4">
+                  <li>• Company Risk Score</li>
+                  <li>• Status Board</li>
+                  <li>• Drift Watch</li>
+                  <li>• Filing Timeline</li>
+                </ul>
+                <Button asChild variant="outline" className="w-full">
+                  <Link to="/dashboard">Go to Dashboard <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
 
-            {/* 4. Modular Legal Document Generator */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
+            {/* Space 4: Proofs */}
+            <Card className="enterprise-card p-6 hover:shadow-lg transition-all">
               <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FileCheck className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Modular Legal Document Generator</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Generate SAFT, DAO Charter, Privacy Policy based on jurisdiction and token model.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">SAFT Generation</Badge>
-                      <Badge variant="secondary" className="text-xs">Smart Contract Export</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/document-generator">
-                    Generate Docs
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
+                <h3 className="text-xl font-semibold mb-2">Proofs</h3>
+                <p className="text-sm text-muted-foreground mb-4">Turn readiness into trust. ZK only lives here.</p>
+                <ul className="text-sm text-muted-foreground space-y-1 mb-4">
+                  <li>• Self Snapshot</li>
+                  <li>• Expert Snapshot</li>
+                  <li>• Share Link</li>
+                  <li>• Timeline View</li>
+                </ul>
+                <Button asChild variant="outline" className="w-full">
+                  <Link to="/proofs">Open Proofs <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </CardContent>
             </Card>
 
-            {/* 5. Regulatory Compliance Proof Generator */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
+            {/* Space 5: Deal Desk */}
+            <Card className="enterprise-card p-6 hover:shadow-lg transition-all">
               <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Regulatory Compliance Proof Generator</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Convert compliance results into verifiable ZK proofs with timestamped badges.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">ZK-Verified</Badge>
-                      <Badge variant="secondary" className="text-xs">IPFS Storage</Badge>
-                    </div>
-                  </div>
+                <h3 className="text-xl font-semibold mb-2">Deal Desk</h3>
+                <p className="text-sm text-muted-foreground mb-4">Fundraising & diligence tools that move fast.</p>
+                <ul className="text-sm text-muted-foreground space-y-1 mb-4">
+                  <li>• Negotiator</li>
+                  <li>• Investor Room</li>
+                </ul>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button asChild size="sm"><Link to="/negotiation-agent">Negotiator</Link></Button>
+                  <Button asChild size="sm" variant="outline"><Link to="/share-room">Investor Room</Link></Button>
                 </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/proof-generator">
-                    Generate Proof
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 6. Negotiation Strategy Agent */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Handshake className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Negotiation Strategy Agent</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Upload Term Sheet, get risk scores and clause suggestions for deal outcomes.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Risk Analysis</Badge>
-                      <Badge variant="secondary" className="text-xs">Deal Simulation</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/negotiation-agent">
-                    Simulate Deal
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 7. Async Legal Review Routing */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <UserCheck className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Async Legal Review Routing</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Route documents to reviewers with status tracking and comment threads.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Status Tracking</Badge>
-                      <Badge variant="secondary" className="text-xs">Comment System</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/review-routing">
-                    Request Review
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 8. Legal Memory & Filing Vault */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Archive className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Legal Memory & Filing Vault</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Timeline view with version control and encrypted storage for finalized docs.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Version Control</Badge>
-                      <Badge variant="secondary" className="text-xs">Encrypted Storage</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/legal-vault">
-                    Vault This
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 9. Change Detection & Regulatory Alerting */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <AlertTriangle className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Change Detection & Regulatory Alerting</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Dynamic alerts when regulations change with drift scores for affected docs.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Real-time Alerts</Badge>
-                      <Badge variant="secondary" className="text-xs">Drift Analysis</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/alerting">
-                    Update Affected Docs
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 10. Investor & Regulator Share Room */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Share2 className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Investor & Regulator Share Room</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Generate sharable room links with access control for badges and documents.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Access Control</Badge>
-                      <Badge variant="secondary" className="text-xs">Sharable Links</Badge>
-                    </div>
-                  </div>
-                </div>
-                <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                  <Link to="/share-room">
-                    Generate Share Room
-                    <ArrowRight className="w-3 h-3 ml-1" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* 11. Filing Calendar & Deadline Tracker */}
-            <Card className="enterprise-card p-6 hover:shadow-lg transition-all duration-200">
-              <CardContent className="p-0">
-                <div className="flex items-start space-x-4 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Calendar className="w-5 h-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold mb-1">Filing Calendar & Deadline Tracker</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Timeline of filings due with calendar view, alerts, and downloadable checklists.
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      <Badge variant="secondary" className="text-xs">Calendar Integration</Badge>
-                      <Badge variant="secondary" className="text-xs">Deadline Alerts</Badge>
-                    </div>
-                  </div>
-                </div>
-                 <Button asChild size="sm" className="w-full bg-background hover:bg-primary hover:text-primary-foreground border transition-colors">
-                   <Link to="/filing-calendar">
-                     Add to Calendar
-                     <ArrowRight className="w-3 h-3 ml-1" />
-                   </Link>
-                 </Button>
               </CardContent>
             </Card>
           </div>
