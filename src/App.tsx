@@ -39,6 +39,7 @@ const LaunchPathPage = lazy(() => import("./pages/LaunchPathPage"));
 const CoReviewPage = lazy(() => import("./pages/CoReviewPage"));
 const ProofsSpacePage = lazy(() => import("./pages/ProofsPage"));
 const DealDeskPage = lazy(() => import("./pages/DealDeskPage"));
+const FounderDashboardPage = lazy(() => import("./pages/FounderDashboardPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
