@@ -30,7 +30,7 @@ export default function DocumentRiskPage() {
             <Card className="enterprise-card">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-3"><FileSearch className="w-4 h-4 text-primary" /><h3 className="font-semibold">Upload Document</h3></div>
-                <DragDropZone onFilesSelected={() => {}} />
+                <DragDropZone onFilesChange={() => {}} />
                 <div className="mt-3 flex gap-2">
                   <Button size="sm">Compute Risk</Button>
                   <Button size="sm" variant="outline">Explain</Button>
