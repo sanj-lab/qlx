@@ -44,6 +44,28 @@ export default function ProofsPage() {
 
           <Card className="enterprise-card p-6">
             <CardContent className="p-0">
+              <h2 className="text-lg font-semibold mb-2">Company Badge</h2>
+              <p className="text-sm text-muted-foreground mb-4">Mint a whole‑company badge using your latest company risk score.</p>
+              <div className="flex items-center gap-2 mb-4">
+                <Badge>Ready</Badge>
+              </div>
+              <Button>Generate Company Badge</Button>
+            </CardContent>
+          </Card>
+
+          <Card className="enterprise-card p-6">
+            <CardContent className="p-0">
+              <h2 className="text-lg font-semibold mb-2">Document Risk Score</h2>
+              <p className="text-sm text-muted-foreground mb-4">Upload a policy or contract, assess risk, and attach to a snapshot.</p>
+              <div className="flex items-center gap-2 mb-4">
+                <Badge variant="secondary">ZK‑Ready</Badge>
+              </div>
+              <Button variant="outline">Open Document Risk</Button>
+            </CardContent>
+          </Card>
+
+          <Card className="enterprise-card p-6">
+            <CardContent className="p-0">
               <h2 className="text-lg font-semibold mb-2">Share Link</h2>
               <p className="text-sm text-muted-foreground mb-4">Share badges, access controls, and verification history.</p>
               <Button variant="outline"><Share2 className="w-4 h-4 mr-2"/>Create Link</Button>

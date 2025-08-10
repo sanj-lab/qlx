@@ -40,6 +40,11 @@ const CoReviewPage = lazy(() => import("./pages/CoReviewPage"));
 const ProofsSpacePage = lazy(() => import("./pages/ProofsPage"));
 const DealDeskPage = lazy(() => import("./pages/DealDeskPage"));
 const FounderDashboardPage = lazy(() => import("./pages/FounderDashboardPage"));
+const JurisdictionSelectorPage = lazy(() => import("./pages/JurisdictionSelectorPage"));
+const ComplianceChecklistPage = lazy(() => import("./pages/ComplianceChecklistPage"));
+const BusinessIdeaRiskPage = lazy(() => import("./pages/BusinessIdeaRiskPage"));
+const ContractRedliningPage = lazy(() => import("./pages/ContractRedliningPage"));
+const DocumentRiskPage = lazy(() => import("./pages/DocumentRiskPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -98,6 +103,11 @@ const App = () => (
                   <Route path="/co-review" element={<CoReviewPage />} />
                   <Route path="/proofs" element={<ProofsSpacePage />} />
                   <Route path="/deal-desk" element={<DealDeskPage />} />
+                  <Route path="/launch-path/jurisdiction" element={<JurisdictionSelectorPage />} />
+                  <Route path="/launch-path/compliance-map" element={<ComplianceChecklistPage />} />
+                  <Route path="/launch-path/idea-risk" element={<BusinessIdeaRiskPage />} />
+                  <Route path="/launch-path/contract-canvas" element={<ContractRedliningPage />} />
+                  <Route path="/proofs/document-risk" element={<DocumentRiskPage />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

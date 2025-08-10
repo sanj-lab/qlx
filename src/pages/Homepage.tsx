@@ -95,7 +95,7 @@ export default function Homepage() {
                   <li>• Jurisdiction Navigator</li>
                   <li>• Token ID</li>
                   <li>• Compliance Map</li>
-                  <li>• Risk Lens (idea + documents)</li>
+                  <li>• Risk Lens (idea)</li>
                   <li>• Contract Canvas</li>
                   <li>• Vault & Doc Studio</li>
                 </ul>

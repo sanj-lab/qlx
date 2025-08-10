@@ -14,7 +14,7 @@ export default function LaunchPathPage() {
     { key: "jurisdiction", title: "Jurisdiction Navigator", desc: "Compare jurisdictions and select the optimal incorporation path.", icon: Globe },
     { key: "token", title: "Token ID", desc: "Classify your token with plain‑language outcomes and citations.", icon: GitBranch },
     { key: "map", title: "Compliance Map", desc: "Auto‑generated licenses & filings checklist per jurisdiction.", icon: ListChecks },
-    { key: "risk", title: "Risk Lens", desc: "Unified risk score: idea‑level + document‑level in one place.", icon: Shield },
+    { key: "risk", title: "Risk Lens (Idea)", desc: "Assess regulatory risk for your business idea. Document risk lives in Proofs.", icon: Shield },
     { key: "canvas", title: "Contract Canvas", desc: "Juro‑style redlining with AI; supports smart contracts.", icon: FileText },
     { key: "vault", title: "Vault", desc: "Encrypted storage for drafts and signed versions.", icon: Lock },
     { key: "studio", title: "Doc Studio", desc: "Generate policies and contracts from clause packs.", icon: FileText },

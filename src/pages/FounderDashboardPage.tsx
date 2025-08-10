@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -63,8 +64,8 @@ export default function FounderDashboardPage() {
           <Card className="enterprise-card">
             <CardContent className="p-6">
               <h2 className="text-lg font-semibold mb-2">Company Badge</h2>
-              <p className="text-sm text-muted-foreground mb-4">When you're satisfied with the score and coverage, mint your whole‑company badge.</p>
-              <Button className="w-full"><Share2 className="w-4 h-4 mr-2"/>Generate Company Badge</Button>
+              <p className="text-sm text-muted-foreground mb-4">Generate in Proofs after your company risk score and coverage meet your target.</p>
+              <Button asChild className="w-full"><Link to="/proofs"><Share2 className="w-4 h-4 mr-2"/>Open Proofs</Link></Button>
               <p className="text-xs text-muted-foreground mt-3">Includes cryptographic summary of risk score, licenses status, and last review timestamps.</p>
             </CardContent>
           </Card>
