@@ -2,103 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Quentlex Enterprise Design System - Ironclad/Stripe inspired */
+/* Quentlex Enterprise Design System - Premium Compliance Aesthetic */
 
 @layer base {
   :root {
-    /* Core Colors - Enterprise Blue Theme */
-    --background: 210 17% 98%;
-    --foreground: 215 25% 15%;
+    /* Core Colors - Quentlex Brand Theme */
+    --background: 0 0% 98%;
+    --foreground: 213 23% 17%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 213 23% 17%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover-foreground: 213 23% 17%;
 
-    /* Quentlex Blue - Primary Brand */
-    --primary: 217 91% 60%;
+    /* Quentlex Gold - Primary Brand */
+    --primary: 37 51% 47%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 217 91% 55%;
+    --primary-hover: 37 51% 42%;
     
-    /* Enterprise Secondary */
-    --secondary: 215 16% 95%;
-    --secondary-foreground: 215 25% 15%;
+    /* Enterprise Secondary - Deep Navy */
+    --secondary: 214 32% 15%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 215 16% 95%;
-    --muted-foreground: 215 13% 50%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
 
     --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
 
-    /* Status Colors */
-    --success: 142 71% 45%;
+    /* Status Colors - Quentlex Palette */
+    --success: 158 84% 39%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    /* UI Elements */
-    --border: 215 16% 91%;
-    --input: 215 16% 95%;
-    --ring: 217 91% 60%;
+    /* UI Elements - Refined Grays */
+    --border: 220 14% 91%;
+    --input: 220 14% 96%;
+    --ring: 37 51% 47%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - Quentlex Navy Theme */
+    --sidebar-background: 214 32% 15%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 37 51% 47%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 213 23% 20%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 215 19% 27%;
+    --sidebar-ring: 37 51% 47%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark Mode - Sophisticated Quentlex Theme */
+    --background: 213 23% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 213 23% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 213 23% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 37 51% 52%;
+    --primary-foreground: 213 23% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 215 19% 20%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 213 23% 15%;
+    --muted-foreground: 220 9% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 217 91% 65%;
+    --accent-foreground: 213 23% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 215 19% 18%;
+    --input: 213 23% 15%;
+    --ring: 37 51% 52%;
+    
+    /* Dark Sidebar */
+    --sidebar-background: 213 23% 5%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 37 51% 52%;
+    --sidebar-primary-foreground: 213 23% 8%;
+    --sidebar-accent: 213 23% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 215 19% 15%;
+    --sidebar-ring: 37 51% 52%;
   }
 }
 
@@ -114,7 +111,19 @@
 
 @layer components {
   .hero-gradient {
-    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--secondary)) 100%);
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.05) 100%);
+  }
+
+  .quentlex-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+  }
+
+  .premium-card {
+    @apply bg-card border border-border rounded-lg shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300;
+  }
+
+  .gold-accent {
+    @apply text-primary border-primary/20 bg-primary/5;
   }
 
   .enterprise-card {
