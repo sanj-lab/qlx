@@ -20,6 +20,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Shield, FileText, Scale, Database, Cpu, Settings, LogOut, User, Bell, AlertTriangle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { QuentlexLogo } from "@/components/ui/quentlex-logo";
 
 export function Header() {
   const { user, login, logout } = useAuth();
@@ -55,13 +56,7 @@ export function Header() {
           {/* Left side - Logo and Sidebar trigger */}
           <div className="flex items-center space-x-4">
             {hasSidebar && <SidebarTrigger className="h-8 w-8" />}
-            <Link to="/" className="flex items-center space-x-2">
-              <img 
-                src="/lovable-uploads/3e1de433-02a0-4004-85f3-a856bce6b4ab.png" 
-                alt="Quentlex Logo" 
-                className="h-8 w-auto"
-              />
-            </Link>
+            <QuentlexLogo />
           </div>
 
           {/* Navigation */}

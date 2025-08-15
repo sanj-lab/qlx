@@ -72,6 +72,10 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				quentlex: {
+					gold: 'hsl(37, 51%, 47%)', // #B48D3A
+					dark: 'hsl(209, 23%, 17%)' // #212A35
 				}
 			},
 			borderRadius: {
