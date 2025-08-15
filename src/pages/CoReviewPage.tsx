@@ -12,9 +12,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress";
-import { LawyerCard } from "@/components/ui/lawyer-card";
-import { VaultPicker } from "@/components/ui/vault-picker";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { VaultPicker } from "@/components/ui/vault-picker";
+import { ExplainPanel } from "@/components/ui/explain-panel";
+import { ReviewThread } from "@/components/ui/review-thread";
+import { ReviewStatusTracker } from "@/components/ui/review-status-tracker";
+import { SmartLawyerSelector } from "@/components/ui/smart-lawyer-selector";
+import { ReviewAnalytics } from "@/components/ui/review-analytics";
 import { 
   Plus, 
   Filter, 
@@ -39,7 +43,9 @@ import {
   ArrowRight,
   Zap,
   Target,
-  Settings
+  Settings,
+  Brain,
+  BarChart3
 } from "lucide-react";
 import type { Document } from "@/lib/types";
 
@@ -123,6 +129,177 @@ const MOCK_LAWYERS = [
   }
 ];
 
+// Enhanced review data with full workflow support
+const MOCK_REVIEW_THREADS = [
+  {
+    id: 'review_1',
+    title: 'Series A Documentation Review',
+    status: 'in-review' as const,
+    lawyer: {
+      id: 'lawyer_1',
+      name: 'Sarah Chen',
+      firm: 'Clifford Chance',
+      avatar: '/api/placeholder/32/32',
+      isOnline: true
+    },
+    documents: [
+      {
+        id: 'doc_1',
+        name: 'SAFT Agreement v2.1',
+        type: 'document' as const,
+        content: `SIMPLE AGREEMENT FOR FUTURE TOKENS
+
+THIS CERTIFIES THAT in exchange for the payment by the undersigned purchaser (the "Purchaser") of $[________] (the "Purchase Amount") on or about [DATE], [COMPANY NAME], a [State of Incorporation] corporation (the "Company"), hereby issues to the Purchaser the right (the "Right") to certain units of cryptographic tokens (the "Tokens") subject to the terms set forth below.
+
+The "Network Launch" means a bona fide transaction or series of transactions, pursuant to which the Company will sell, issue, grant, transfer or otherwise distribute to the public Tokens that will have the functionality described in the Company's White Paper.
+
+Upon a Network Launch, the Purchaser will automatically receive the number of Tokens equal to the Purchase Amount divided by the Discount Price.
+
+The "Discount Price" means the price per Token sold in the Network Launch multiplied by (100% minus the Discount Rate). The "Discount Rate" means [___]%.
+
+[Additional clauses continue...]`,
+        changes: [
+          {
+            id: 'change_1',
+            type: 'modification' as const,
+            position: { start: 150, end: 200 },
+            original: 'the "Purchase Amount"',
+            suggested: 'the "Purchase Amount" (subject to escrow arrangements)',
+            status: 'pending' as const
+          }
+        ]
+      },
+      {
+        id: 'doc_2',
+        name: 'UAE Compliance Map',
+        type: 'analysis' as const,
+        content: `REGULATORY COMPLIANCE ANALYSIS - UAE
+
+1. LICENSING REQUIREMENTS
+- VARA Preliminary Approval: Required for token issuance
+- ADGM/DIFC licensing consideration based on activities
+- Potential need for additional operational licenses
+
+2. TOKEN CLASSIFICATION
+- Current assessment: Likely regulated as Virtual Asset
+- Requires formal submission to VARA for classification
+- Consider utility vs security token implications
+
+3. COMPLIANCE OBLIGATIONS
+- AML/CTF procedures mandatory
+- KYC requirements for all token purchasers
+- Ongoing reporting obligations to VARA
+
+[Detailed analysis continues...]`
+      }
+    ],
+    comments: [
+      {
+        id: 'comment_1',
+        userId: 'lawyer_1',
+        userName: 'Sarah Chen',
+        userAvatar: '/api/placeholder/32/32',
+        content: 'I\'ve reviewed the SAFT structure. The discount mechanism needs adjustment for VARA compliance.',
+        timestamp: '2024-01-16T14:30:00Z',
+        type: 'comment' as const,
+        documentId: 'doc_1'
+      },
+      {
+        id: 'comment_2',
+        userId: 'founder_1',
+        userName: 'You',
+        content: 'What specific changes do you recommend for the discount structure?',
+        timestamp: '2024-01-16T14:35:00Z',
+        type: 'comment' as const,
+        documentId: 'doc_1'
+      },
+      {
+        id: 'comment_3',
+        userId: 'lawyer_1',
+        userName: 'Sarah Chen',
+        userAvatar: '/api/placeholder/32/32',
+        content: 'I recommend implementing an escrow mechanism for the purchase amount and clarifying the token utility aspects. See my suggested changes.',
+        timestamp: '2024-01-16T14:42:00Z',
+        type: 'change' as const,
+        documentId: 'doc_1'
+      }
+    ],
+    progress: 65,
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-16T14:30:00Z'
+  }
+];
+
+// Mock analytics data
+const MOCK_ANALYTICS = {
+  totalReviews: 24,
+  activeReviews: 3,
+  completedReviews: 21,
+  avgTurnaround: 36,
+  totalSpent: 45000,
+  budgetUtilization: 72,
+  topLawyers: [
+    { name: 'Sarah Chen', firm: 'Clifford Chance', reviews: 8, avgRating: 4.9 },
+    { name: 'Emma Thompson', firm: 'Linklaters', reviews: 7, avgRating: 4.8 },
+    { name: 'Michael Rodriguez', firm: 'Allen & Overy', reviews: 5, avgRating: 4.7 }
+  ],
+  recentActivity: [
+    {
+      id: 'activity_1',
+      type: 'review_completed' as const,
+      title: 'Token Classification Review completed',
+      timestamp: '2024-01-16T16:00:00Z',
+      lawyer: 'Sarah Chen'
+    },
+    {
+      id: 'activity_2',
+      type: 'comment_added' as const,
+      title: 'New comment on SAFT Agreement',
+      timestamp: '2024-01-16T14:42:00Z',
+      lawyer: 'Sarah Chen'
+    },
+    {
+      id: 'activity_3',
+      type: 'review_started' as const,
+      title: 'Privacy Policy review started',
+      timestamp: '2024-01-16T10:00:00Z',
+      lawyer: 'Emma Thompson'
+    }
+  ]
+};
+
+// AI explanation data for ExplainPanel
+const MOCK_EXPLAIN_ENTRIES = [
+  {
+    id: 'explain_1',
+    timestamp: '2024-01-16T14:30:00Z',
+    type: 'analysis' as const,
+    message: 'Analyzing SAFT structure against VARA regulations',
+    confidence: 92
+  },
+  {
+    id: 'explain_2',
+    timestamp: '2024-01-16T14:31:00Z',
+    type: 'rule' as const,
+    message: 'VARA Rule 3.2.1: Token sale agreements must include investor protection clauses',
+    details: 'The current SAFT lacks adequate investor protection mechanisms required under UAE law'
+  },
+  {
+    id: 'explain_3',
+    timestamp: '2024-01-16T14:32:00Z',
+    type: 'warning' as const,
+    message: 'Potential compliance gap identified in discount mechanism',
+    details: 'The unlimited discount structure may trigger additional regulatory requirements'
+  },
+  {
+    id: 'explain_4',
+    timestamp: '2024-01-16T14:33:00Z',
+    type: 'citation' as const,
+    message: 'Referenced: VARA Rulebook section 3.2.1, 3.4.2',
+    confidence: 95
+  }
+];
+
 const MOCK_REVIEWS: Review[] = [
   {
     id: 'review_1',
@@ -170,7 +347,11 @@ export default function CoReviewPage() {
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState("");
   const [reviews, setReviews] = useState<Review[]>(MOCK_REVIEWS);
-  const [activeReview, setActiveReview] = useState<string | null>(null);
+  const [activeReview, setActiveReview] = useState<string | null>('review_1');
+  const [currentView, setCurrentView] = useState<'overview' | 'thread' | 'analytics'>('overview');
+  const [reviewThreads] = useState(MOCK_REVIEW_THREADS);
+  const [explainEntries] = useState(MOCK_EXPLAIN_ENTRIES);
+  const [isExplainActive, setIsExplainActive] = useState(false);
 
   useEffect(() => {
     document.title = "Co-Review – Quentlex";
@@ -287,6 +468,35 @@ export default function CoReviewPage() {
                 <Shield className="w-3 h-3 mr-1" />
                 Simulated for pilot
               </Badge>
+              
+              {/* View Toggles */}
+              <div className="flex rounded-lg border p-1">
+                <Button
+                  variant={currentView === 'overview' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setCurrentView('overview')}
+                >
+                  Overview
+                </Button>
+                <Button
+                  variant={currentView === 'thread' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setCurrentView('thread')}
+                  disabled={!activeReview}
+                >
+                  <MessageSquare className="w-4 h-4 mr-1" />
+                  Review Thread
+                </Button>
+                <Button
+                  variant={currentView === 'analytics' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setCurrentView('analytics')}
+                >
+                  <BarChart3 className="w-4 h-4 mr-1" />
+                  Analytics
+                </Button>
+              </div>
+              
               <Dialog open={showNewReview} onOpenChange={setShowNewReview}>
                 <DialogTrigger asChild>
                   <Button className="flex items-center gap-2">
@@ -348,19 +558,18 @@ export default function CoReviewPage() {
 
                     <Separator />
 
-                    {/* Step 2: Select Lawyer */}
+                      {/* Step 2: Select Lawyer */}
                     <div>
-                      <h3 className="font-medium mb-3">2. Choose Legal Expert</h3>
-                      <div className="grid gap-3 max-h-64 overflow-y-auto">
-                        {MOCK_LAWYERS.map((lawyer) => (
-                          <LawyerCard
-                            key={lawyer.id}
-                            lawyer={lawyer}
-                            selected={selectedLawyer === lawyer.id}
-                            onSelect={() => setSelectedLawyer(lawyer.id)}
-                          />
-                        ))}
-                      </div>
+                      <SmartLawyerSelector
+                        lawyers={MOCK_LAWYERS}
+                        selectedLawyer={selectedLawyer}
+                        onSelect={setSelectedLawyer}
+                        reviewContext={{
+                          jurisdictions: ['UAE', 'UK'],
+                          documentTypes: selectedItems.map(item => item.type),
+                          urgency
+                        }}
+                      />
                     </div>
 
                     <Separator />
@@ -432,25 +641,26 @@ export default function CoReviewPage() {
       </section>
 
       <div className="container mx-auto max-w-7xl p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Reviews List */}
-          <div className="lg:col-span-1 space-y-4">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">Active Reviews</CardTitle>
-                  <Badge variant="secondary">{reviews.length}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Filters */}
-                <div className="flex gap-2">
-                  <Button 
-                    size="sm" 
-                    variant={activeFilter === 'all' ? 'default' : 'outline'}
-                    onClick={() => setActiveFilter('all')}
-                  >
-                    All
+        {currentView === 'overview' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Reviews List */}
+            <div className="lg:col-span-1 space-y-4">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">Active Reviews</CardTitle>
+                    <Badge variant="secondary">{reviews.length}</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Filters */}
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      variant={activeFilter === 'all' ? 'default' : 'outline'}
+                      onClick={() => setActiveFilter('all')}
+                    >
+                      All
                   </Button>
                   <Button 
                     size="sm" 
@@ -541,10 +751,24 @@ export default function CoReviewPage() {
               </Card>
             )}
           </div>
-        </div>
+          </div>
+        )}
+
+        {currentView === 'thread' && activeReview && (
+          <ReviewThread
+            review={reviewThreads[0]}
+            onStatusChange={(status) => console.log('Status changed:', status)}
+            onCommentAdd={(comment) => console.log('Comment added:', comment)}
+            className="min-h-[600px]"
+          />
+        )}
+
+        {currentView === 'analytics' && (
+          <ReviewAnalytics metrics={MOCK_ANALYTICS} />
+        )}
       </div>
 
-      {/* Vault Picker Dialog */}
+      {/* VaultPicker Dialog */}
       <Dialog open={showVaultPicker} onOpenChange={setShowVaultPicker}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>
