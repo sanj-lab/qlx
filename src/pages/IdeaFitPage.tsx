@@ -1,5 +1,6 @@
-// @new - Idea-Stage Fit Analysis with agentic workflow
+// @modified - Idea-Stage Fit Analysis with shared subnav
 import { useState, useEffect } from "react";
+import { SubnavTabs } from "@/components/ui/subnav-tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -460,6 +461,14 @@ export default function IdeaFitPage() {
 
   return (
     <main className="min-h-screen bg-background">
+      {/* SubNav */}
+      <section className="py-4 px-6 border-b bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <SubnavTabs />
+        </div>
+      </section>
+
+      {/* Hero Section */}
       <div className="container mx-auto max-w-4xl py-8 px-6">
         {/* Header */}
         <div className="mb-8">

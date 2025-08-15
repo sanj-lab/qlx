@@ -1,5 +1,6 @@
-// @new - Doc Studio page for modular document generation
+// @modified - Doc Studio page with shared subnav
 import { useState, useEffect } from "react";
+import { SubnavTabs } from "@/components/ui/subnav-tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -228,6 +229,13 @@ For the purposes of this document, the following terms shall have the meanings s
 
   return (
     <main className="min-h-screen bg-background">
+      {/* SubNav */}
+      <section className="py-4 px-6 border-b bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <SubnavTabs />
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="py-8 px-6 border-b">
         <div className="container mx-auto max-w-7xl">

@@ -1,5 +1,6 @@
-// @new - Redlining Agent page for CLM-style contract review
+// @modified - Redlining Agent page with shared subnav
 import { useState, useEffect } from "react";
+import { SubnavTabs } from "@/components/ui/subnav-tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -197,6 +198,14 @@ NOW THEREFORE, in consideration of the mutual covenants contained herein, the pa
 
   return (
     <main className="min-h-screen bg-background">
+      {/* SubNav */}
+      <section className="py-4 px-6 border-b bg-muted/30">
+        <div className="container mx-auto max-w-6xl">
+          <SubnavTabs />
+        </div>
+      </section>
+
+      {/* Hero Section */}
       {/* Hero Section */}
       <section className="py-8 px-6 border-b">
         <div className="container mx-auto max-w-7xl">
