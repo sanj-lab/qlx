@@ -13,9 +13,9 @@ export function QuentlexLogo({ className = "", showWordmark = true }: QuentlexLo
       className={`flex items-center gap-3 group transition-all duration-200 hover:scale-[1.02] ${className}`}
     >
       <img 
-        src="/lovable-uploads/e7b6043d-0074-4ccc-987c-d840b7ba3368.png" 
+        src="/lovable-uploads/3b2c28bb-cdb5-4243-9c10-4535c65f4ce6.png" 
         alt="Quentlex Logo" 
-        className="h-10 w-auto transition-all duration-200 group-hover:brightness-110"
+        className="h-8 w-8 transition-all duration-200 group-hover:brightness-110"
       />
       {showWordmark && (
         <span className="text-xl font-semibold text-quentlex-dark tracking-tight transition-colors duration-200 group-hover:text-quentlex-gold">
