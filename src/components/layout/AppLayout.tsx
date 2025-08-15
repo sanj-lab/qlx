@@ -1,18 +1,21 @@
-// @new - Enhanced App Layout with Left Rail Navigation
+// @modified - Enhanced App Layout with Shadcn Sidebar
 import { Outlet } from "react-router-dom";
 import { Header } from "@/components/layout/Header";
-import { LeftRailNavigation } from "@/components/layout/LeftRailNavigation";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export function AppLayout() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <div className="flex">
-        <LeftRailNavigation />
-        <main className="flex-1 min-w-0">
-          <Outlet />
-        </main>
+    <SidebarProvider defaultOpen={false}>
+      <div className="min-h-screen flex w-full">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col min-w-0">
+          <Header />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

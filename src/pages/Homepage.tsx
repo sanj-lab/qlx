@@ -24,10 +24,10 @@ export default function Homepage() {
                   <Lock className="w-4 h-4" />
                   Zero-Knowledge. Private by Design.
                 </div>
-                <h1 className="text-5xl md:text-6xl font-light text-foreground mb-6 tracking-tight">
-                  Legal Oracle
+                 <h1 className="text-5xl md:text-6xl font-light text-foreground mb-6 tracking-tight">
+                  <span className="text-primary font-bold">Quentlex</span>
                   <br />
-                  <span className="text-primary font-medium">for Web3</span>
+                  <span className="text-foreground">Legal Oracle for Web3</span>
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed font-light">
                   Transform compliance into competitive advantage. 
