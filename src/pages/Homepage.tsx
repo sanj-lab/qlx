@@ -240,54 +240,38 @@ export default function Homepage() {
             </Card>
 
             {/* Space 5: Deal Desk */}
-            <Card className="group relative overflow-hidden bg-card border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl lg:col-span-2">
+            <Card className="group relative overflow-hidden bg-card border-0 shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl">
               <div className="absolute inset-0 bg-gradient-to-br from-warning/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <CardContent className="relative p-8">
-                <div className="flex items-start gap-8">
-                  <div className="w-14 h-14 bg-warning/10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Briefcase className="w-7 h-7 text-warning" />
+                <div className="w-14 h-14 bg-warning/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Briefcase className="w-7 h-7 text-warning" />
+                </div>
+                <h3 className="text-2xl font-semibold mb-3 text-foreground">Deal Desk</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed">Fundraising acceleration tools. Intelligent negotiation and investor-ready data rooms.</p>
+                <div className="space-y-2 mb-8 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2">
+                    <Network className="w-4 h-4 text-warning/60" />
+                    <span>AI Negotiation Agent</span>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-semibold mb-3 text-foreground">Deal Desk</h3>
-                    <p className="text-muted-foreground mb-6 leading-relaxed">Fundraising acceleration tools. Intelligent negotiation and investor-ready data rooms.</p>
-                    <div className="grid md:grid-cols-2 gap-6 mb-8">
-                      <div className="space-y-2 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Network className="w-4 h-4 text-warning/60" />
-                          <span>AI Negotiation Agent</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Target className="w-4 h-4 text-warning/60" />
-                          <span>Smart Term Optimization</span>
-                        </div>
-                      </div>
-                      <div className="space-y-2 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Shield className="w-4 h-4 text-warning/60" />
-                          <span>Secure Investor Rooms</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Eye className="w-4 h-4 text-warning/60" />
-                          <span>Due Diligence Automation</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <Button asChild className="h-12 rounded-xl font-medium">
-                        <Link to="/negotiation-agent">
-                          Negotiation Agent
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Link>
-                      </Button>
-                      <Button asChild variant="outline" className="h-12 rounded-xl font-medium border-2">
-                        <Link to="/share-room">
-                          Investor Room
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Link>
-                      </Button>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <Target className="w-4 h-4 text-warning/60" />
+                    <span>Smart Term Optimization</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-warning/60" />
+                    <span>Secure Investor Rooms</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-4 h-4 text-warning/60" />
+                    <span>Due Diligence Automation</span>
                   </div>
                 </div>
+                <Button asChild variant="outline" className="w-full h-12 rounded-xl font-medium border-2">
+                  <Link to="/deal-desk">
+                    Access Deal Desk
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
               </CardContent>
             </Card>
           </div>
