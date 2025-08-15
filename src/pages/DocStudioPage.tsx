@@ -1,4 +1,4 @@
-// @modified - Doc Studio page with shared subnav
+// @modified - Enterprise-grade Doc Studio with institutional precision
 import { useState, useEffect } from "react";
 import { SubnavTabs } from "@/components/ui/subnav-tabs";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,12 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ProgressStepper, type ProgressStep } from "@/components/ui/progress-stepper";
 import { ExplainPanel } from "@/components/ui/explain-panel";
 import { VaultPicker } from "@/components/ui/vault-picker";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
   FileText, 
   Plus, 
@@ -28,7 +30,17 @@ import {
   Users,
   Gavel,
   Coins,
-  Globe
+  Globe,
+  Sparkles,
+  Library,
+  Filter,
+  Eye,
+  Copy,
+  ExternalLink,
+  Package,
+  Zap,
+  Target,
+  Settings
 } from "lucide-react";
 import type { Document, ExplainEntry } from "@/lib/types";
 
@@ -51,45 +63,68 @@ interface GeneratedDoc {
 }
 
 const DOC_CATEGORIES = [
-  { id: 'incorporation', name: 'Incorporation', icon: Building, color: 'bg-blue-500' },
-  { id: 'pre-incorporation', name: 'Pre-Incorporation', icon: Users, color: 'bg-green-500' },
-  { id: 'licenses', name: 'License Documents', icon: Gavel, color: 'bg-purple-500' },
-  { id: 'token', name: 'Token Launch', icon: Coins, color: 'bg-orange-500' },
-  { id: 'investor', name: 'Investor Documents', icon: Users, color: 'bg-indigo-500' },
-  { id: 'jurisdiction', name: 'Jurisdiction Specific', icon: Globe, color: 'bg-teal-500' },
-  { id: 'tech', name: 'Tech Agreements', icon: FileText, color: 'bg-red-500' }
+  { id: 'incorporation', name: 'Incorporation', icon: Building, color: 'text-blue-600', bgColor: 'bg-blue-50 dark:bg-blue-950' },
+  { id: 'pre-incorporation', name: 'Pre-Incorporation', icon: Users, color: 'text-green-600', bgColor: 'bg-green-50 dark:bg-green-950' },
+  { id: 'licenses', name: 'License & Filings', icon: Gavel, color: 'text-purple-600', bgColor: 'bg-purple-50 dark:bg-purple-950' },
+  { id: 'token', name: 'Token Launch', icon: Coins, color: 'text-orange-600', bgColor: 'bg-orange-50 dark:bg-orange-950' },
+  { id: 'investor', name: 'Investor Documents', icon: Users, color: 'text-indigo-600', bgColor: 'bg-indigo-50 dark:bg-indigo-950' },
+  { id: 'jurisdiction', name: 'Jurisdiction Specific', icon: Globe, color: 'text-teal-600', bgColor: 'bg-teal-50 dark:bg-teal-950' },
+  { id: 'tech', name: 'Tech Agreements', icon: FileText, color: 'text-red-600', bgColor: 'bg-red-50 dark:bg-red-950' },
+  { id: 'packages', name: 'Document Packages', icon: Package, color: 'text-gray-600', bgColor: 'bg-gray-50 dark:bg-gray-950' }
 ];
 
 const DOC_TEMPLATES: DocTemplate[] = [
   // Incorporation
-  { id: 'articles', name: 'Articles of Association', category: 'incorporation', description: 'Company formation document', icon: Building },
-  { id: 'bylaws', name: 'Corporate Bylaws', category: 'incorporation', description: 'Internal governance rules', icon: Building },
-  { id: 'shareholders', name: 'Shareholders Agreement', category: 'incorporation', description: 'Shareholder rights and obligations', icon: Building },
+  { id: 'articles', name: 'Articles of Association', category: 'incorporation', description: 'UAE commercial company formation document with VARA compliance', icon: Building, required: true },
+  { id: 'bylaws', name: 'Corporate Bylaws', category: 'incorporation', description: 'Internal governance rules and procedures', icon: Building },
+  { id: 'shareholders', name: 'Shareholders Agreement', category: 'incorporation', description: 'Shareholder rights, obligations, and transfer restrictions', icon: Building },
+  { id: 'board-resolutions', name: 'Board Resolutions', category: 'incorporation', description: 'Corporate authorization and decision templates', icon: Building },
   
   // Pre-incorporation
-  { id: 'founders', name: 'Founders Agreement', category: 'pre-incorporation', description: 'Founding team arrangements', icon: Users },
-  { id: 'advisory', name: 'Advisory Agreement', category: 'pre-incorporation', description: 'Advisor compensation terms', icon: Users },
-  { id: 'employment', name: 'Employment Contracts', category: 'pre-incorporation', description: 'Employee agreement templates', icon: Users },
+  { id: 'founders', name: 'Founders Agreement', category: 'pre-incorporation', description: 'Equity allocation, vesting, and team arrangements', icon: Users },
+  { id: 'advisory', name: 'Advisory Agreement', category: 'pre-incorporation', description: 'Advisor compensation and equity terms', icon: Users },
+  { id: 'employment', name: 'Employment Contracts', category: 'pre-incorporation', description: 'Employee agreements with crypto-specific clauses', icon: Users },
+  { id: 'contractor', name: 'Independent Contractor', category: 'pre-incorporation', description: 'Service provider agreements', icon: Users },
+  
+  // License & Filings
+  { id: 'vara-license', name: 'VARA License Application', category: 'licenses', description: 'Virtual Asset Service Provider license documentation', icon: Gavel, required: true },
+  { id: 'aml-policy', name: 'AML/KYC Policy', category: 'licenses', description: 'Anti-money laundering compliance framework', icon: Gavel, required: true },
+  { id: 'custody-policy', name: 'Digital Asset Custody Policy', category: 'licenses', description: 'Asset safekeeping and security procedures', icon: Gavel },
+  { id: 'compliance-manual', name: 'Compliance Manual', category: 'licenses', description: 'Comprehensive regulatory compliance guide', icon: Gavel },
   
   // Token Launch
-  { id: 'saft', name: 'SAFT Agreement', category: 'token', description: 'Simple Agreement for Future Tokens', icon: Coins },
-  { id: 'whitepaper', name: 'Technical Whitepaper', category: 'token', description: 'Token mechanics documentation', icon: Coins },
-  { id: 'token-sale', name: 'Token Sale Terms', category: 'token', description: 'Public sale conditions', icon: Coins },
+  { id: 'saft', name: 'SAFT Agreement', category: 'token', description: 'Simple Agreement for Future Tokens - institutional grade', icon: Coins },
+  { id: 'whitepaper', name: 'Technical Whitepaper', category: 'token', description: 'Token economics and technical documentation', icon: Coins },
+  { id: 'token-sale', name: 'Token Sale Terms', category: 'token', description: 'Public sale terms and conditions', icon: Coins },
+  { id: 'utility-token', name: 'Utility Token Framework', category: 'token', description: 'Non-securities token classification documentation', icon: Coins },
   
   // Investor Documents
-  { id: 'term-sheet', name: 'Investment Term Sheet', category: 'investor', description: 'Investment terms summary', icon: Users },
-  { id: 'subscription', name: 'Subscription Agreement', category: 'investor', description: 'Investment subscription terms', icon: Users },
-  { id: 'disclosure', name: 'Investor Disclosure', category: 'investor', description: 'Risk and compliance disclosures', icon: Users },
+  { id: 'term-sheet', name: 'Investment Term Sheet', category: 'investor', description: 'Series A/B investment terms summary', icon: Users },
+  { id: 'subscription', name: 'Subscription Agreement', category: 'investor', description: 'Equity/SAFT subscription documentation', icon: Users },
+  { id: 'disclosure', name: 'Investor Disclosure', category: 'investor', description: 'Risk factors and regulatory disclosures', icon: Users },
+  { id: 'side-letter', name: 'Investor Side Letter', category: 'investor', description: 'Special investor rights and provisions', icon: Users },
+  
+  // Jurisdiction Specific
+  { id: 'uae-commercial', name: 'UAE Commercial Package', category: 'jurisdiction', description: 'Complete UAE incorporation and compliance suite', icon: Globe },
+  { id: 'uk-fintech', name: 'UK FinTech Package', category: 'jurisdiction', description: 'FCA-compliant digital asset business setup', icon: Globe },
+  { id: 'eu-mica', name: 'EU MiCA Compliance', category: 'jurisdiction', description: 'Markets in Crypto-Assets regulation compliance', icon: Globe },
   
   // Tech Agreements
-  { id: 'privacy', name: 'Privacy Policy', category: 'tech', description: 'Data protection compliance', icon: FileText },
-  { id: 'terms', name: 'Terms of Service', category: 'tech', description: 'Platform usage terms', icon: FileText },
-  { id: 'api', name: 'API License Agreement', category: 'tech', description: 'Technical integration terms', icon: FileText }
+  { id: 'privacy', name: 'Privacy Policy', category: 'tech', description: 'GDPR/data protection compliance policy', icon: FileText },
+  { id: 'terms', name: 'Terms of Service', category: 'tech', description: 'Platform usage terms for crypto services', icon: FileText },
+  { id: 'api', name: 'API License Agreement', category: 'tech', description: 'Technical integration and data licensing', icon: FileText },
+  { id: 'security-policy', name: 'Information Security Policy', category: 'tech', description: 'Cybersecurity and data protection framework', icon: FileText },
+  
+  // Document Packages
+  { id: 'startup-package', name: 'Complete Startup Package', category: 'packages', description: 'End-to-end documentation for new ventures', icon: Package, dependencies: ['articles', 'founders', 'employment'] },
+  { id: 'token-launch-package', name: 'Token Launch Package', category: 'packages', description: 'Complete token issuance documentation suite', icon: Package, dependencies: ['saft', 'whitepaper', 'utility-token', 'disclosure'] },
+  { id: 'vara-compliance-package', name: 'VARA Compliance Package', category: 'packages', description: 'Full UAE regulatory compliance suite', icon: Package, dependencies: ['vara-license', 'aml-policy', 'compliance-manual'] }
 ];
 
 export default function DocStudioPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedJurisdiction, setSelectedJurisdiction] = useState<string>("");
   const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
   const [customInstructions, setCustomInstructions] = useState("");
   const [memoryDocuments, setMemoryDocuments] = useState<Document[]>([]);
@@ -100,6 +135,7 @@ export default function DocStudioPage() {
   const [generatedDocs, setGeneratedDocs] = useState<GeneratedDoc[]>([]);
   const [showVaultPicker, setShowVaultPicker] = useState(false);
   const [showPreview, setShowPreview] = useState<GeneratedDoc | null>(null);
+  const [activeView, setActiveView] = useState<'selection' | 'results'>('selection');
 
   useEffect(() => {
     document.title = "Doc Studio – Quentlex";
@@ -113,10 +149,10 @@ export default function DocStudioPage() {
   });
 
   const steps: ProgressStep[] = [
-    { id: 'memory', label: 'Gather Memory', status: currentStep > 0 ? 'completed' : currentStep === 0 ? 'active' : 'pending' },
-    { id: 'clauses', label: 'Select Clauses', status: currentStep > 1 ? 'completed' : currentStep === 1 ? 'active' : 'pending' },
-    { id: 'assemble', label: 'Assemble Documents', status: currentStep > 2 ? 'completed' : currentStep === 2 ? 'active' : 'pending' },
-    { id: 'validate', label: 'Validate & Format', status: currentStep > 3 ? 'completed' : currentStep === 3 ? 'active' : 'pending' }
+    { id: 'memory', label: 'Gather Company Memory', status: currentStep > 0 ? 'completed' : currentStep === 0 ? 'active' : 'pending' },
+    { id: 'clauses', label: 'Select Clause Packages', status: currentStep > 1 ? 'completed' : currentStep === 1 ? 'active' : 'pending' },
+    { id: 'assemble', label: 'Assemble & Cross-Reference', status: currentStep > 2 ? 'completed' : currentStep === 2 ? 'active' : 'pending' },
+    { id: 'validate', label: 'Validate & Quality Check', status: currentStep > 3 ? 'completed' : currentStep === 3 ? 'active' : 'pending' }
   ];
 
   const handleTemplateToggle = (templateId: string) => {
@@ -272,12 +308,54 @@ For the purposes of this document, the following terms shall have the meanings s
                   />
                 </div>
 
+                {/* Jurisdiction Context */}
+                <div>
+                  <Label className="text-sm font-medium">Jurisdiction Context</Label>
+                  <Select value={selectedJurisdiction} onValueChange={setSelectedJurisdiction}>
+                    <SelectTrigger className="mt-2">
+                      <SelectValue placeholder="Select primary jurisdiction" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="uae">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-green-500 rounded-full" />
+                          UAE (VARA Framework)
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="uk">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                          United Kingdom (FCA)
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="eu">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-purple-500 rounded-full" />
+                          European Union (MiCA)
+                        </div>
+                      </SelectItem>
+                      <SelectItem value="us">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-red-500 rounded-full" />
+                          United States (SEC)
+                        </div>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 {/* Categories */}
                 <div>
                   <Label className="text-sm font-medium">Document Categories</Label>
-                  <div className="grid grid-cols-2 gap-2 mt-2">
+                  <div className="grid grid-cols-1 gap-2 mt-2">
                     {DOC_CATEGORIES.map((category) => {
                       const Icon = category.icon;
+                      const categoryCount = DOC_TEMPLATES.filter(t => t.category === category.id).length;
+                      const selectedCount = selectedTemplates.filter(id => {
+                        const template = DOC_TEMPLATES.find(t => t.id === id);
+                        return template?.category === category.id;
+                      }).length;
+                      
                       return (
                         <Button
                           key={category.id}
@@ -286,10 +364,20 @@ For the purposes of this document, the following terms shall have the meanings s
                           onClick={() => setSelectedCategory(
                             selectedCategory === category.id ? null : category.id
                           )}
-                          className="justify-start text-xs"
+                          className={`justify-between text-xs h-auto p-3 ${selectedCategory === category.id ? category.bgColor : ''}`}
                         >
-                          <Icon className="w-3 h-3 mr-1" />
-                          {category.name}
+                          <div className="flex items-center gap-2">
+                            <Icon className={`w-4 h-4 ${category.color}`} />
+                            <span className="font-medium">{category.name}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            {selectedCount > 0 && (
+                              <Badge variant="secondary" className="text-xs px-1.5 py-0.5">
+                                {selectedCount}
+                              </Badge>
+                            )}
+                            <span className="text-muted-foreground">({categoryCount})</span>
+                          </div>
                         </Button>
                       );
                     })}
@@ -300,15 +388,18 @@ For the purposes of this document, the following terms shall have the meanings s
 
                 {/* Custom Instructions */}
                 <div>
-                  <Label htmlFor="instructions">Special Instructions (Optional)</Label>
+                  <Label htmlFor="instructions">Custom Instructions</Label>
                   <Textarea
                     id="instructions"
-                    placeholder="Any specific requirements or modifications..."
+                    placeholder="e.g., Include specific compliance clauses, modify vesting schedules, add industry-specific terms..."
                     value={customInstructions}
                     onChange={(e) => setCustomInstructions(e.target.value)}
                     className="mt-2"
                     rows={3}
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    AI will incorporate your requirements into the generated documents
+                  </p>
                 </div>
 
                 {/* Memory Documents */}
@@ -372,12 +463,26 @@ For the purposes of this document, the following terms shall have the meanings s
           <div className="lg:col-span-2 space-y-6">
             {!isGenerating && !isGenerated && (
               <>
-                {/* Template Grid */}
+                {/* Template Selection */}
                 <Card>
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle>Available Templates</CardTitle>
-                      <Badge variant="secondary">{selectedTemplates.length} selected</Badge>
+                      <CardTitle className="flex items-center gap-2">
+                        <Library className="w-5 h-5" />
+                        Document Templates
+                      </CardTitle>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary">{selectedTemplates.length} selected</Badge>
+                        {selectedTemplates.length > 0 && (
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => setSelectedTemplates([])}
+                          >
+                            Clear All
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -386,27 +491,62 @@ For the purposes of this document, the following terms shall have the meanings s
                         {filteredTemplates.map((template) => {
                           const Icon = getCategoryIcon(template.category);
                           const isSelected = selectedTemplates.includes(template.id);
+                          const category = DOC_CATEGORIES.find(c => c.id === template.category);
                           
                           return (
                             <div 
                               key={template.id}
-                              className={`flex items-start gap-3 p-3 border rounded-lg cursor-pointer transition-colors ${
-                                isSelected ? 'bg-primary/5 border-primary' : 'hover:bg-muted/50'
+                              className={`group p-4 border rounded-lg cursor-pointer transition-all ${
+                                isSelected 
+                                  ? 'bg-primary/5 border-primary shadow-sm' 
+                                  : 'hover:bg-muted/50 hover:border-muted-foreground/30'
                               }`}
                               onClick={() => handleTemplateToggle(template.id)}
                             >
-                              <Checkbox checked={isSelected} />
-                              <Icon className="w-5 h-5 mt-0.5 text-muted-foreground" />
-                              <div className="flex-1">
-                                <h4 className="font-medium text-sm">{template.name}</h4>
-                                <p className="text-xs text-muted-foreground">{template.description}</p>
-                                <Badge variant="outline" className="mt-1 text-xs">
-                                  {DOC_CATEGORIES.find(c => c.id === template.category)?.name}
-                                </Badge>
+                              <div className="flex items-start gap-4">
+                                <div className={`flex-shrink-0 p-2 rounded-lg ${category?.bgColor || 'bg-muted'}`}>
+                                  <Icon className={`w-5 h-5 ${category?.color || 'text-muted-foreground'}`} />
+                                </div>
+                                <div className="flex-1 space-y-2">
+                                  <div className="flex items-start justify-between">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <h4 className="font-medium text-sm">{template.name}</h4>
+                                        {template.required && (
+                                          <Badge variant="outline" className="text-xs">
+                                            Required
+                                          </Badge>
+                                        )}
+                                      </div>
+                                      <p className="text-xs text-muted-foreground mt-1">{template.description}</p>
+                                    </div>
+                                    <Checkbox checked={isSelected} className="mt-0.5" />
+                                  </div>
+                                  
+                                  <div className="flex items-center gap-2">
+                                    <Badge variant="outline" className="text-xs">
+                                      {category?.name}
+                                    </Badge>
+                                    {template.dependencies && template.dependencies.length > 0 && (
+                                      <Badge variant="outline" className="text-xs">
+                                        Includes {template.dependencies.length} dependencies
+                                      </Badge>
+                                    )}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           );
                         })}
+                        
+                        {filteredTemplates.length === 0 && (
+                          <div className="text-center py-8">
+                            <FileText className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
+                            <p className="text-sm text-muted-foreground">
+                              No templates found matching your criteria
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </ScrollArea>
                   </CardContent>
