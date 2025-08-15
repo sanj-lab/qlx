@@ -44,7 +44,12 @@ const LaunchPathPage = lazy(() => import("./pages/LaunchPathPage"));
 const IdeaFitPage = lazy(() => import("./pages/IdeaFitPage"));
 const PostIncorpPage = lazy(() => import("./pages/PostIncorpPage"));
 const CoReviewPage = lazy(() => import("./pages/CoReviewPage"));
-const ProofsSpacePage = lazy(() => import("./pages/ProofsPage"));
+const ProofsPage = lazy(() => import("./pages/ProofsPage"));
+const SelfSnapshotPage = lazy(() => import("./pages/SelfSnapshotPage"));
+const ExpertSnapshotPage = lazy(() => import("./pages/ExpertSnapshotPage"));
+const CompanyBadgePage = lazy(() => import("./pages/CompanyBadgePage"));
+const ProofSharePage = lazy(() => import("./pages/ProofSharePage"));
+const ProofTimelinePage = lazy(() => import("./pages/ProofTimelinePage"));
 const DealDeskPage = lazy(() => import("./pages/DealDeskPage"));
 const FounderDashboardPage = lazy(() => import("./pages/FounderDashboardPage"));
 const JurisdictionSelectorPage = lazy(() => import("./pages/JurisdictionSelectorPage"));
@@ -118,18 +123,14 @@ const App = () => (
                   <Route path="/token-classification" element={<TokenClassificationPage />} />
                   <Route path="/launch-path" element={<LaunchPathPage />} />
                   <Route path="/co-review" element={<CoReviewPage />} />
-                  <Route path="/proofs" element={<ProofsSpacePage />} />
-                  <Route path="/deal-desk" element={<DealDeskPage />} />
-                  <Route path="/launch-path" element={<LaunchPathPage />} />
-                  <Route path="/launch-path/idea-fit" element={<IdeaFitPage />} />
-                  <Route path="/launch-path/post-incorp" element={<PostIncorpPage />} />
-                  <Route path="/launch-path/redline" element={<RedliningPage />} />
-                  <Route path="/launch-path/doc-studio" element={<DocStudioPage />} />
-                  <Route path="/launch-path/jurisdiction" element={<JurisdictionSelectorPage />} />
-                  <Route path="/launch-path/compliance-map" element={<ComplianceChecklistPage />} />
-                  <Route path="/launch-path/idea-risk" element={<BusinessIdeaRiskPage />} />
-                  <Route path="/launch-path/contract-canvas" element={<ContractRedliningPage />} />
-                  <Route path="/proofs/document-risk" element={<DocumentRiskPage />} />
+                <Route path="/proofs" element={<ProofsPage />} />
+                <Route path="/proofs/self-snapshot" element={<SelfSnapshotPage />} />
+                <Route path="/proofs/expert-snapshot" element={<ExpertSnapshotPage />} />
+                <Route path="/proofs/company-badge" element={<CompanyBadgePage />} />
+                <Route path="/proofs/document-risk" element={<DocumentRiskPage />} />
+                <Route path="/proofs/share" element={<ProofSharePage />} />
+                <Route path="/proofs/timeline" element={<ProofTimelinePage />} />
+                <Route path="/deal-desk" element={<DealDeskPage />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Route>

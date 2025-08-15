@@ -1,8 +1,21 @@
-// @new - App Sidebar with Command Center navigation
+// @modified - App Sidebar with complete Proofs navigation
 import { NavLink, useLocation } from "react-router-dom"
 import {
-  Rocket, Users, Building, Lock, Briefcase, Home, Target, Eye, Layers, 
-  FileSearch, TrendingUp, AlertCircle, Gavel, Shield, Database
+  Rocket, 
+  MessageSquare, 
+  Command, 
+  Shield, 
+  Briefcase, 
+  FileSearch, 
+  TrendingUp, 
+  AlertCircle, 
+  Gavel,
+  Zap,
+  UserCheck,
+  Building2,
+  FileText,
+  Share2,
+  Clock
 } from "lucide-react"
 
 import {
@@ -18,18 +31,16 @@ import {
 } from "@/components/ui/sidebar"
 
 const mainSpaces = [
-  { title: "Homepage", url: "/", icon: Home },
   { title: "Launch Path", url: "/launch-path", icon: Rocket },
-  { title: "Co-Review", url: "/co-review", icon: Users },
-  { title: "Command Center", url: "/command-center/dashboard", icon: Building },
-  { title: "Proofs", url: "/proofs", icon: Lock },
+  { title: "Co-Review", url: "/co-review", icon: MessageSquare },
+  { title: "Command Center", url: "/command-center", icon: Command },
+  { title: "Proofs", url: "/proofs", icon: Shield },
   { title: "Deal Desk", url: "/deal-desk", icon: Briefcase },
 ]
 
 const launchPathItems = [
-  { title: "Idea Fit", url: "/launch-path/idea-fit", icon: Target },
-  { title: "Post Incorp", url: "/launch-path/post-incorp", icon: Eye },
-  { title: "Token Classification", url: "/launch-path/token-classification", icon: Layers },
+  { title: "Idea Fit", url: "/launch-path/idea-fit", icon: FileSearch },
+  { title: "Post Incorp", url: "/launch-path/post-incorp", icon: FileSearch },
   { title: "Redlining", url: "/launch-path/redline", icon: FileSearch },
   { title: "Doc Studio", url: "/launch-path/doc-studio", icon: FileSearch },
 ]
@@ -39,6 +50,15 @@ const commandCenterItems = [
   { title: "Regulatory Drift", url: "/command-center/drift", icon: AlertCircle },
   { title: "Filing Calendar", url: "/command-center/filings", icon: Gavel },
   { title: "Legal Vault", url: "/command-center/vault", icon: Shield },
+]
+
+const proofsItems = [
+  { title: "Self Snapshot", url: "/proofs/self-snapshot", icon: Zap },
+  { title: "Expert Snapshot", url: "/proofs/expert-snapshot", icon: UserCheck },
+  { title: "Company Badge", url: "/proofs/company-badge", icon: Building2 },
+  { title: "Document Risk", url: "/proofs/document-risk", icon: FileText },
+  { title: "Share & Verify", url: "/proofs/share", icon: Share2 },
+  { title: "Timeline View", url: "/proofs/timeline", icon: Clock },
 ]
 
 export function AppSidebar() {
@@ -54,6 +74,7 @@ export function AppSidebar() {
 
   const isLaunchPathExpanded = launchPathItems.some((item) => isActive(item.url))
   const isCommandCenterExpanded = commandCenterItems.some((item) => isActive(item.url))
+  const isProofsExpanded = currentPath.startsWith('/proofs')
 
   return (
     <Sidebar
@@ -73,7 +94,6 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <NavLink 
                       to={item.url} 
-                      end={item.url === "/"}
                       className={getNavCls}
                     >
                       <item.icon className="h-5 w-5" />
@@ -95,6 +115,29 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 {launchPathItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink to={item.url} className={getNavCls}>
+                        <item.icon className="h-4 w-4 ml-2" />
+                        <span className="text-sm">{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {/* Proofs Sub-menu */}
+        {!collapsed && isProofsExpanded && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              Proofs
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {proofsItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <NavLink to={item.url} className={getNavCls}>
@@ -131,25 +174,6 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         )}
-
-        {/* Other Spaces */}
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-            {!collapsed && "Other"}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <NavLink to="/dashboard" className={getNavCls}>
-                    <Database className="h-5 w-5" />
-                    {!collapsed && <span className="text-sm">Enterprise Dashboard</span>}
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   )
