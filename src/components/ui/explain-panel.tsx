@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Brain, Zap, FileSearch, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface ExplainEntry {
+interface ExplainEntry {
   id: string;
   timestamp: string;
   type: 'analysis' | 'rule' | 'citation' | 'warning';
