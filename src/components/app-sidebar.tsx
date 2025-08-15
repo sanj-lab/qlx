@@ -241,7 +241,7 @@ export function AppSidebar() {
                 <img 
                   src="/lovable-uploads/3b2c28bb-cdb5-4243-9c10-4535c65f4ce6.png" 
                   alt="Quentlex Logo" 
-                  className="w-7 h-7"
+                  className="w-8 h-8"
                 />
               </div>
               <div>
