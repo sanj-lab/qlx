@@ -68,9 +68,11 @@ export function AppSidebar() {
   
   const collapsed = state === "collapsed"
 
+  console.log('AppSidebar render:', { state, collapsed, currentPath })
+
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path)
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-primary text-primary-foreground font-medium" : "text-foreground hover:bg-muted/50"
+    isActive ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent/50"
 
   const isLaunchPathExpanded = launchPathItems.some((item) => isActive(item.url))
   const isCommandCenterExpanded = commandCenterItems.some((item) => isActive(item.url))
@@ -80,11 +82,21 @@ export function AppSidebar() {
     <Sidebar
       className={collapsed ? "w-14" : "w-64"}
       collapsible="offcanvas"
+      style={{ 
+        backgroundColor: 'hsl(var(--sidebar-background))',
+        color: 'hsl(var(--sidebar-foreground))'
+      }}
     >
-      <SidebarContent className="bg-background border-r">
+      <SidebarContent 
+        className="bg-sidebar border-r border-sidebar-border"
+        style={{ 
+          backgroundColor: 'hsl(var(--sidebar-background))',
+          borderColor: 'hsl(var(--sidebar-border))'
+        }}
+      >
         {/* Main Spaces */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
             {!collapsed && "Main Spaces"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -109,7 +121,7 @@ export function AppSidebar() {
         {/* Launch Path Sub-items */}
         {(!collapsed && isLaunchPathExpanded) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
               Launch Path
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -132,7 +144,7 @@ export function AppSidebar() {
         {/* Proofs Sub-menu */}
         {!collapsed && isProofsExpanded && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
               Proofs
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -155,7 +167,7 @@ export function AppSidebar() {
         {/* Command Center Sub-items */}
         {(!collapsed && isCommandCenterExpanded) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
               Command Center
             </SidebarGroupLabel>
             <SidebarGroupContent>
