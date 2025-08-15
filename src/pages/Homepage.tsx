@@ -42,7 +42,7 @@ export default function Homepage() {
                     </Link>
                   </Button>
                   <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base font-medium rounded-xl border-2">
-                    <Link to="/command-center">
+                    <Link to="/command-center/dashboard">
                       <Building className="w-5 h-5 mr-2" />
                       Command Center
                     </Link>
@@ -195,8 +195,8 @@ export default function Homepage() {
                   </div>
                 </div>
                 <Button asChild variant="outline" className="w-full h-12 rounded-xl font-medium border-2">
-                  <Link to="/dashboard">
-                    Access Dashboard
+                  <Link to="/command-center/dashboard">
+                    Access Command Center
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Link>
                 </Button>

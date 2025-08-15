@@ -60,20 +60,47 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-64">
                 <DropdownMenuItem asChild>
-                  <Link to="/clm" className="flex items-center space-x-2">
-                    <FileText className="w-4 h-4" />
+                  <Link to="/launch-path" className="flex items-center space-x-2">
+                    <Shield className="w-4 h-4" />
                     <div>
-                      <div className="font-medium">Contract Lifecycle Management</div>
-                      <div className="text-sm text-muted-foreground">AI-powered contract analysis</div>
+                      <div className="font-medium">Launch Path</div>
+                      <div className="text-sm text-muted-foreground">From idea to incorporation</div>
                     </div>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/compliance" className="flex items-center space-x-2">
+                  <Link to="/command-center/dashboard" className="flex items-center space-x-2">
+                    <Database className="w-4 h-4" />
+                    <div>
+                      <div className="font-medium">Command Center</div>
+                      <div className="text-sm text-muted-foreground">Compliance mission control</div>
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/co-review" className="flex items-center space-x-2">
+                    <FileText className="w-4 h-4" />
+                    <div>
+                      <div className="font-medium">Co-Review</div>
+                      <div className="text-sm text-muted-foreground">Expert legal collaboration</div>
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/proofs" className="flex items-center space-x-2">
                     <Scale className="w-4 h-4" />
                     <div>
-                      <div className="font-medium">Regulatory Compliance</div>
-                      <div className="text-sm text-muted-foreground">Cross-jurisdictional compliance</div>
+                      <div className="font-medium">Proofs</div>
+                      <div className="text-sm text-muted-foreground">Zero-knowledge compliance</div>
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/deal-desk" className="flex items-center space-x-2">
+                    <Cpu className="w-4 h-4" />
+                    <div>
+                      <div className="font-medium">Deal Desk</div>
+                      <div className="text-sm text-muted-foreground">Investor negotiations</div>
                     </div>
                   </Link>
                 </DropdownMenuItem>
@@ -211,6 +238,10 @@ export function Header() {
                     </div>
                   </div>
                   <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/command-center/dashboard')}>
+                    <Database className="mr-2 h-4 w-4" />
+                    Command Center
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate('/dashboard')}>
                     <User className="mr-2 h-4 w-4" />
                     Enterprise Dashboard

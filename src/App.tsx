@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { Header } from "@/components/layout/Header";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 
@@ -79,15 +79,18 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <div className="min-h-screen bg-background">
+          <Suspense fallback={<PageLoadingFallback />}>
         <BrowserRouter>
           <ErrorBoundary>
-            <div className="min-h-screen bg-background">
-              <Header />
-              <Suspense fallback={<PageLoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<Homepage />} />
-                  <Route path="/auth" element={<EnterpriseAuth />} />
-                  <Route path="/dashboard" element={<EnterpriseDashboard />} />
+            <Routes>
+              {/* Homepage route - no layout */}
+              <Route path="/" element={<Homepage />} />
+              <Route path="/auth" element={<EnterpriseAuth />} />
+              
+              {/* All other routes use AppLayout with left rail */}
+              <Route element={<AppLayout />}>
+                <Route path="/dashboard" element={<EnterpriseDashboard />} />
                   <Route path="/clm" element={<CLMPage />} />
                   <Route path="/clm/upload" element={<CLMUploadPage />} />
                   <Route path="/clm/jurisdiction" element={<CLMJurisdictionPage />} />
@@ -129,11 +132,12 @@ const App = () => (
                   <Route path="/proofs/document-risk" element={<DocumentRiskPage />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </div>
-          </ErrorBoundary>
+                </Route>
+              </Routes>
+            </ErrorBoundary>
         </BrowserRouter>
+          </Suspense>
+        </div>
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
