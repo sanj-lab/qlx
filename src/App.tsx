@@ -16,6 +16,11 @@ const CLMUploadPage = lazy(() => import("./pages/CLMUploadPage"));
 const CLMJurisdictionPage = lazy(() => import("./pages/CLMJurisdictionPage"));
 const CLMAnalysisPage = lazy(() => import("./pages/CLMAnalysisPage"));
 const CLMDashboardPage = lazy(() => import("./pages/CLMDashboardPage"));
+const CommandCenterPage = lazy(() => import("./pages/CommandCenterPage"));
+const CommandCenterDashboardPage = lazy(() => import("./pages/CommandCenterDashboardPage"));
+const CommandCenterDriftPage = lazy(() => import("./pages/CommandCenterDriftPage"));
+const CommandCenterFilingsPage = lazy(() => import("./pages/CommandCenterFilingsPage"));
+const CommandCenterVaultPage = lazy(() => import("./pages/CommandCenterVaultPage"));
 const CompliancePage = lazy(() => import("./pages/CompliancePage"));
 const ComplianceUploadPage = lazy(() => import("./pages/ComplianceUploadPage"));
 const ComplianceJurisdictionPage = lazy(() => import("./pages/ComplianceJurisdictionPage"));
@@ -88,6 +93,11 @@ const App = () => (
                   <Route path="/clm/jurisdiction" element={<CLMJurisdictionPage />} />
                   <Route path="/clm/analysis" element={<CLMAnalysisPage />} />
                   <Route path="/clm/dashboard" element={<CLMDashboardPage />} />
+                  <Route path="/command-center" element={<CommandCenterPage />} />
+                  <Route path="/command-center/dashboard" element={<CommandCenterDashboardPage />} />
+                  <Route path="/command-center/drift" element={<CommandCenterDriftPage />} />
+                  <Route path="/command-center/filings" element={<CommandCenterFilingsPage />} />
+                  <Route path="/command-center/vault" element={<CommandCenterVaultPage />} />
                   <Route path="/compliance" element={<CompliancePage />} />
                   <Route path="/compliance/upload" element={<ComplianceUploadPage />} />
                   <Route path="/compliance/jurisdiction" element={<ComplianceJurisdictionPage />} />
