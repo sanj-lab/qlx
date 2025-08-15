@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { SubnavTabs } from "@/components/ui/subnav-tabs";
+import { CommandCenterSubnav } from "@/components/ui/command-center-subnav";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   AlertTriangle, 
@@ -205,7 +205,7 @@ export default function CommandCenterDriftPage() {
               <p className="text-muted-foreground">Track document obsolescence and regulatory changes</p>
             </div>
           </div>
-          <SubnavTabs className="w-full" />
+          <CommandCenterSubnav className="w-full" />
         </div>
       </div>
 

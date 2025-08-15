@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
-import { SubnavTabs } from "@/components/ui/subnav-tabs";
+import { CommandCenterSubnav } from "@/components/ui/command-center-subnav";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -241,7 +241,7 @@ export default function CommandCenterFilingsPage() {
               </Dialog>
             </div>
           </div>
-          <SubnavTabs className="w-full" />
+          <CommandCenterSubnav className="w-full" />
         </div>
       </div>
 

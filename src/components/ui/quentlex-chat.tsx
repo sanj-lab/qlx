@@ -25,7 +25,7 @@ export function QuentlexChat({ className }: QuentlexChatProps) {
       timestamp: new Date().toISOString(),
       actions: [
         { type: "navigate", label: "Compare Jurisdictions", target: "/launch-path/idea-fit", params: {} },
-        { type: "navigate", label: "Check Compliance Status", target: "/command-center", params: {} },
+        { type: "navigate", label: "Check Compliance Status", target: "/command-center/dashboard", params: {} },
         { type: "navigate", label: "Generate Proof", target: "/proofs", params: {} }
       ]
     }
@@ -98,7 +98,7 @@ export function QuentlexChat({ className }: QuentlexChatProps) {
         citations: files.length > 0 ? ["Analyzed uploaded documents"] : undefined,
         actions: [
           { type: "navigate", label: "Launch Path", target: "/launch-path", params: {} },
-          { type: "navigate", label: "Command Center", target: "/command-center", params: {} }
+          { type: "navigate", label: "Command Center", target: "/command-center/dashboard", params: {} }
         ]
       };
 

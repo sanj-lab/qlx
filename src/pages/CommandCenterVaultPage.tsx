@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { SubnavTabs } from "@/components/ui/subnav-tabs";
+import { CommandCenterSubnav } from "@/components/ui/command-center-subnav";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DragDropZone } from "@/components/ui/drag-drop-zone";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -211,7 +211,7 @@ export default function CommandCenterVaultPage() {
                   <DragDropZone
                     onFilesChange={setUploadFiles}
                     maxFiles={10}
-                    acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']}
+                    acceptedFileTypes={['.pdf', '.docx', '.txt', '.sol']}
                   />
                   
                   <div className="grid md:grid-cols-2 gap-4">
@@ -265,7 +265,7 @@ export default function CommandCenterVaultPage() {
               </DialogContent>
             </Dialog>
           </div>
-          <SubnavTabs className="w-full" />
+          <CommandCenterSubnav className="w-full" />
         </div>
       </div>
 

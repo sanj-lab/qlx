@@ -135,18 +135,18 @@ const mockDocuments: DocumentItem[] = [
 ];
 
 const badgeGenerationSteps = [
-  { label: "Validate Inputs", description: "Checking input data integrity" },
-  { label: "Hash Data", description: "Creating cryptographic hash" },
-  { label: "Generate Badge", description: "Creating ZK proof badge" },
-  { label: "Show Badge Card", description: "Finalizing badge display" }
+  { id: "step-1", label: "Validate Inputs", description: "Checking input data integrity", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "step-2", label: "Hash Data", description: "Creating cryptographic hash", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "step-3", label: "Generate Badge", description: "Creating ZK proof badge", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "step-4", label: "Show Badge Card", description: "Finalizing badge display", status: "pending" as 'pending' | 'active' | 'completed' | 'error' }
 ];
 
 const riskCalculationSteps = [
-  { label: "Validate Inputs", description: "Verifying data sources" },
-  { label: "Analyze Documents vs Badges", description: "Comparing document and badge scores" },
-  { label: "Weight Badge Scores Higher", description: "Applying expert review weights" },
-  { label: "Regulatory Cross-Check", description: "Validating against regulations" },
-  { label: "Generate Combined Score", description: "Computing final risk score" }
+  { id: "risk-1", label: "Validate Inputs", description: "Verifying data sources", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "risk-2", label: "Analyze Documents vs Badges", description: "Comparing document and badge scores", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "risk-3", label: "Weight Badge Scores Higher", description: "Applying expert review weights", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "risk-4", label: "Regulatory Cross-Check", description: "Validating against regulations", status: "pending" as 'pending' | 'active' | 'completed' | 'error' },
+  { id: "risk-5", label: "Generate Combined Score", description: "Computing final risk score", status: "pending" as 'pending' | 'active' | 'completed' | 'error' }
 ];
 
 const explainEntries = [
@@ -179,7 +179,8 @@ export default function CommandCenterDashboardPage() {
   const [showVaultPicker, setShowVaultPicker] = useState(false);
   const [isGeneratingBadge, setIsGeneratingBadge] = useState(false);
   const [isCalculatingRisk, setIsCalculatingRisk] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
+  const [badgeSteps, setBadgeSteps] = useState(badgeGenerationSteps);
+  const [riskSteps, setRiskSteps] = useState(riskCalculationSteps);
 
   const getStatusBadge = (status: DocumentItem['status']) => {
     switch (status) {
@@ -207,30 +208,42 @@ export default function CommandCenterDashboardPage() {
     if (!mockCompanyMetrics.eligibleForBadge) return;
     
     setIsGeneratingBadge(true);
-    setCurrentStep(0);
+    setBadgeSteps(badgeGenerationSteps.map(step => ({ ...step })));
     
-    for (let i = 0; i < badgeGenerationSteps.length; i++) {
+    for (let i = 0; i < badgeSteps.length; i++) {
+      setBadgeSteps(prev => prev.map((step, index) => 
+        index === i ? { ...step, status: 'active' as const } : step
+      ));
       await new Promise(resolve => setTimeout(resolve, 1500));
-      setCurrentStep(i + 1);
+      setBadgeSteps(prev => prev.map((step, index) => 
+        index === i ? { ...step, status: 'completed' as const } : step
+      ));
     }
     
     setTimeout(() => {
       setIsGeneratingBadge(false);
+      setBadgeSteps(badgeGenerationSteps.map(step => ({ ...step })));
       navigate('/proofs');
     }, 1000);
   };
 
   const handleRecalculateRisk = async () => {
     setIsCalculatingRisk(true);
-    setCurrentStep(0);
+    setRiskSteps(riskCalculationSteps.map(step => ({ ...step })));
     
-    for (let i = 0; i < riskCalculationSteps.length; i++) {
+    for (let i = 0; i < riskSteps.length; i++) {
+      setRiskSteps(prev => prev.map((step, index) => 
+        index === i ? { ...step, status: 'active' as const } : step
+      ));
       await new Promise(resolve => setTimeout(resolve, 1200));
-      setCurrentStep(i + 1);
+      setRiskSteps(prev => prev.map((step, index) => 
+        index === i ? { ...step, status: 'completed' as const } : step
+      ));
     }
     
     setTimeout(() => {
       setIsCalculatingRisk(false);
+      setRiskSteps(riskCalculationSteps.map(step => ({ ...step })));
     }, 1000);
   };
 
@@ -450,9 +463,8 @@ export default function CommandCenterDashboardPage() {
             {/* Progress Stepper */}
             {(isGeneratingBadge || isCalculatingRisk) && (
               <ProgressStepper
-                steps={isGeneratingBadge ? badgeGenerationSteps : riskCalculationSteps}
-                currentStep={currentStep}
-                title={isGeneratingBadge ? "Generating Badge" : "Calculating Risk"}
+                steps={isGeneratingBadge ? badgeSteps : riskSteps}
+                className="mb-6"
               />
             )}
 
