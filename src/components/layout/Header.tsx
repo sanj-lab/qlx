@@ -56,10 +56,11 @@ export function Header() {
           <div className="flex items-center space-x-4">
             {hasSidebar && <SidebarTrigger className="h-8 w-8" />}
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold text-foreground">Quentlex</span>
+              <img 
+                src="/lovable-uploads/3e1de433-02a0-4004-85f3-a856bce6b4ab.png" 
+                alt="Quentlex Logo" 
+                className="h-8 w-auto"
+              />
             </Link>
           </div>
 
