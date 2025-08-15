@@ -80,8 +80,9 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className={collapsed ? "w-14" : "w-64"}
+      variant="sidebar"
       collapsible="offcanvas"
+      className="data-[state=closed]:w-0 data-[state=open]:w-64"
       style={{ 
         backgroundColor: 'hsl(var(--sidebar-background))',
         color: 'hsl(var(--sidebar-foreground))'
