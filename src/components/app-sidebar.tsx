@@ -71,8 +71,8 @@ export function AppSidebar() {
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path)
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive 
-      ? "bg-amber-100 text-amber-900 border-l-4 border-amber-500 font-medium" 
-      : "text-slate-300 hover:bg-slate-800 hover:text-white"
+      ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" 
+      : "text-sidebar-foreground hover:bg-sidebar-accent/50"
 
   const isLaunchPathExpanded = launchPathItems.some((item) => isActive(item.url))
   const isCommandCenterExpanded = commandCenterItems.some((item) => isActive(item.url))
@@ -82,12 +82,22 @@ export function AppSidebar() {
     <Sidebar
       variant="sidebar"
       collapsible="offcanvas"
-      className="data-[state=closed]:w-0 data-[state=open]:w-64 bg-slate-900"
+      className="data-[state=closed]:w-0 data-[state=open]:w-64"
+      style={{ 
+        backgroundColor: 'hsl(var(--sidebar-background))',
+        color: 'hsl(var(--sidebar-foreground))'
+      }}
     >
-      <SidebarContent className="bg-slate-900 border-r border-slate-700">
+      <SidebarContent 
+        className="border-r"
+        style={{ 
+          backgroundColor: 'hsl(var(--sidebar-background))',
+          borderColor: 'hsl(var(--sidebar-border))'
+        }}
+      >
         {/* Main Spaces */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
+          <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
             Main Spaces
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -112,7 +122,7 @@ export function AppSidebar() {
         {/* Launch Path Sub-items */}
         {(isExpanded && isLaunchPathExpanded) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
               Launch Path
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -135,7 +145,7 @@ export function AppSidebar() {
         {/* Proofs Sub-menu */}
         {isExpanded && isProofsExpanded && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
               Proofs
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -158,7 +168,7 @@ export function AppSidebar() {
         {/* Command Center Sub-items */}
         {(isExpanded && isCommandCenterExpanded) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
               Command Center
             </SidebarGroupLabel>
             <SidebarGroupContent>
