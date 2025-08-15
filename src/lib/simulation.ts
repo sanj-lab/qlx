@@ -124,6 +124,30 @@ export class AgentSimulator {
     };
   }
 
+  static async* analyzeContract(document: any) {
+    const steps = [
+      'Parsing contract structure...',
+      'Identifying risk clauses...',
+      'Cross-referencing regulations...',
+      'Generating redline suggestions...'
+    ];
+
+    for (let i = 0; i < steps.length; i++) {
+      yield {
+        step: i,
+        progress: ((i + 1) / steps.length) * 100,
+        status: steps[i],
+        explanation: `Step ${i + 1}: ${steps[i]}`
+      };
+      await new Promise(resolve => setTimeout(resolve, 1200));
+    }
+
+    return {
+      riskScore: Math.floor(Math.random() * 40) + 60,
+      issues: []
+    };
+  }
+
   static async* negotiateTerms(termSheet: any) {
     const steps = [
       'Parsing term sheet structure...',

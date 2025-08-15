@@ -225,3 +225,12 @@ export interface ChatAction {
   target: string;
   params?: Record<string, any>;
 }
+
+export interface ExplainEntry {
+  id: string;
+  timestamp: string;
+  type: 'analysis' | 'rule' | 'citation' | 'warning';
+  message: string;
+  details?: string;
+  confidence?: number;
+}

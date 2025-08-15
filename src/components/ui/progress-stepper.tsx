@@ -9,6 +9,8 @@ interface ProgressStep {
   description?: string;
 }
 
+export type { ProgressStep };
+
 interface ProgressStepperProps {
   steps: ProgressStep[];
   className?: string;
