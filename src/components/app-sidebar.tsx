@@ -66,13 +66,13 @@ export function AppSidebar() {
   const location = useLocation()
   const currentPath = location.pathname
   
-  const collapsed = state === "collapsed"
-
-  console.log('AppSidebar render:', { state, collapsed, currentPath })
+  const isExpanded = state === "expanded"
 
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path)
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent/50"
+    isActive 
+      ? "bg-amber-100 text-amber-900 border-l-4 border-amber-500 font-medium" 
+      : "text-slate-300 hover:bg-slate-800 hover:text-white"
 
   const isLaunchPathExpanded = launchPathItems.some((item) => isActive(item.url))
   const isCommandCenterExpanded = commandCenterItems.some((item) => isActive(item.url))
@@ -82,23 +82,13 @@ export function AppSidebar() {
     <Sidebar
       variant="sidebar"
       collapsible="offcanvas"
-      className="data-[state=closed]:w-0 data-[state=open]:w-64"
-      style={{ 
-        backgroundColor: 'hsl(var(--sidebar-background))',
-        color: 'hsl(var(--sidebar-foreground))'
-      }}
+      className="data-[state=closed]:w-0 data-[state=open]:w-64 bg-slate-900"
     >
-      <SidebarContent 
-        className="bg-sidebar border-r border-sidebar-border"
-        style={{ 
-          backgroundColor: 'hsl(var(--sidebar-background))',
-          borderColor: 'hsl(var(--sidebar-border))'
-        }}
-      >
+      <SidebarContent className="bg-slate-900 border-r border-slate-700">
         {/* Main Spaces */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
-            {!collapsed && "Main Spaces"}
+          <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
+            Main Spaces
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -110,7 +100,7 @@ export function AppSidebar() {
                       className={getNavCls}
                     >
                       <item.icon className="h-5 w-5" />
-                      {!collapsed && <span className="text-sm">{item.title}</span>}
+                      <span className="text-sm">{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -120,9 +110,9 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {/* Launch Path Sub-items */}
-        {(!collapsed && isLaunchPathExpanded) && (
+        {(isExpanded && isLaunchPathExpanded) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
               Launch Path
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -143,9 +133,9 @@ export function AppSidebar() {
         )}
 
         {/* Proofs Sub-menu */}
-        {!collapsed && isProofsExpanded && (
+        {isExpanded && isProofsExpanded && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
               Proofs
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -166,9 +156,9 @@ export function AppSidebar() {
         )}
 
         {/* Command Center Sub-items */}
-        {(!collapsed && isCommandCenterExpanded) && (
+        {(isExpanded && isCommandCenterExpanded) && (
           <SidebarGroup>
-            <SidebarGroupLabel className="text-xs font-semibold text-sidebar-foreground/70 uppercase tracking-wide px-3 py-2">
+            <SidebarGroupLabel className="text-xs font-semibold text-slate-400 uppercase tracking-wide px-3 py-2">
               Command Center
             </SidebarGroupLabel>
             <SidebarGroupContent>
