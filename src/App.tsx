@@ -84,10 +84,12 @@ const App = () => (
         <BrowserRouter>
           <ErrorBoundary>
             <Routes>
-              {/* All routes use AppLayout with left rail */}
+              {/* Auth route - no layout */}
+              <Route path="/auth" element={<EnterpriseAuth />} />
+              
+              {/* All other routes use AppLayout with left rail */}
               <Route element={<AppLayout />}>
                 <Route path="/" element={<Homepage />} />
-                <Route path="/auth" element={<EnterpriseAuth />} />
                 <Route path="/dashboard" element={<EnterpriseDashboard />} />
                   <Route path="/clm" element={<CLMPage />} />
                   <Route path="/clm/upload" element={<CLMUploadPage />} />
