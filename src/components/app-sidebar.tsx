@@ -1,5 +1,5 @@
 // @modified - App Sidebar with Steve Jobs-level design
-import { useState } from "react"
+import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -223,8 +223,18 @@ export function AppSidebar() {
   };
 
   const shouldExpand = (space: NavigationItem) => {
-    return expandedSpaces.includes(space.id) || isSpaceActive(space);
+    // Only expand if explicitly toggled by user, not automatically based on active state
+    return expandedSpaces.includes(space.id);
   };
+
+  // Auto-expand active spaces on initial load
+  React.useEffect(() => {
+    navigationSpaces.forEach(space => {
+      if (isSpaceActive(space) && !expandedSpaces.includes(space.id)) {
+        setExpandedSpaces(prev => [...prev, space.id]);
+      }
+    });
+  }, [location.pathname]);
 
   return (
     <Sidebar
@@ -235,7 +245,7 @@ export function AppSidebar() {
       <SidebarContent className="h-screen bg-background border-r flex flex-col">
         {/* Header */}
         {isExpanded && (
-          <div className="p-6 border-b">
+          <div className="p-4 border-b">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-primary-foreground" />
@@ -249,7 +259,7 @@ export function AppSidebar() {
         )}
 
         {/* Navigation Spaces */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-2">
+        <div className="flex-1 overflow-y-auto p-3 space-y-1">
           {navigationSpaces.map((space) => {
             const isSpaceExpanded = shouldExpand(space);
             const SpaceIcon = space.icon;
@@ -261,16 +271,16 @@ export function AppSidebar() {
                   "group relative rounded-lg transition-all duration-200",
                   isSpaceActive(space) && "bg-primary/10"
                 )}>
-                  <div className="flex items-center">
+                  <div className="flex items-center justify-between">
                     <Link
                       to={space.path}
                       className={cn(
-                        "flex-1 flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors",
+                        "flex items-center space-x-3 p-2.5 rounded-lg hover:bg-muted/50 transition-colors flex-1",
                         isActive(space.path) && "bg-primary/20 text-primary font-medium"
                       )}
                     >
                       <SpaceIcon className={cn(
-                        "w-5 h-5 transition-colors",
+                        "w-5 h-5 transition-colors flex-shrink-0",
                         isActive(space.path) ? "text-primary" : "text-muted-foreground"
                       )} />
                       {isExpanded && (
@@ -283,7 +293,7 @@ export function AppSidebar() {
                               </Badge>
                             )}
                           </div>
-                          <p className="text-xs text-muted-foreground">{space.description}</p>
+                          <p className="text-xs text-muted-foreground leading-tight mt-0.5">{space.description}</p>
                         </div>
                       )}
                     </Link>
@@ -293,13 +303,13 @@ export function AppSidebar() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="w-8 h-8 p-0 mr-2"
+                        className="w-6 h-6 p-0 mr-1 flex-shrink-0 hover:bg-muted"
                         onClick={() => toggleSpace(space.id)}
                       >
                         {isSpaceExpanded ? (
-                          <ChevronDown className="w-4 h-4" />
+                          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
                         ) : (
-                          <ChevronRight className="w-4 h-4" />
+                          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
                         )}
                       </Button>
                     )}
@@ -308,7 +318,7 @@ export function AppSidebar() {
 
                 {/* Sub Items */}
                 {space.subItems && isSpaceExpanded && isExpanded && (
-                  <div className="ml-8 space-y-1 border-l border-border pl-4">
+                  <div className="ml-6 space-y-0.5 border-l border-border pl-3 mt-1">
                     {space.subItems.map((subItem) => {
                       const SubIcon = subItem.icon;
                       
@@ -317,17 +327,17 @@ export function AppSidebar() {
                           key={subItem.id}
                           to={subItem.path}
                           className={cn(
-                            "flex items-center space-x-3 p-2 rounded-md hover:bg-muted/50 transition-colors text-sm",
+                            "flex items-center space-x-2.5 p-2 rounded-md hover:bg-muted/50 transition-colors text-sm",
                             isActive(subItem.path) && "bg-primary/20 text-primary font-medium"
                           )}
                         >
                           <SubIcon className={cn(
-                            "w-4 h-4 transition-colors",
+                            "w-4 h-4 transition-colors flex-shrink-0",
                             isActive(subItem.path) ? "text-primary" : "text-muted-foreground"
                           )} />
                           <div className="flex-1 min-w-0">
-                            <div className="font-medium">{subItem.label}</div>
-                            <p className="text-xs text-muted-foreground">{subItem.description}</p>
+                            <div className="font-medium text-sm">{subItem.label}</div>
+                            <p className="text-xs text-muted-foreground leading-tight mt-0.5">{subItem.description}</p>
                           </div>
                         </Link>
                       );
@@ -341,7 +351,7 @@ export function AppSidebar() {
 
         {/* Footer */}
         {isExpanded && (
-          <div className="p-4 border-t">
+          <div className="p-3 border-t">
             <div className="bg-primary/5 rounded-lg p-3">
               <div className="flex items-center space-x-2 mb-2">
                 <Clock className="w-4 h-4 text-primary" />
