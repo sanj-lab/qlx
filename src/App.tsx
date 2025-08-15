@@ -36,6 +36,8 @@ const ShareRoomPage = lazy(() => import("./pages/ShareRoomPage"));
 const FilingCalendarPage = lazy(() => import("./pages/FilingCalendarPage"));
 const TokenClassificationPage = lazy(() => import("./pages/TokenClassificationPage"));
 const LaunchPathPage = lazy(() => import("./pages/LaunchPathPage"));
+const IdeaFitPage = lazy(() => import("./pages/IdeaFitPage"));
+const PostIncorpPage = lazy(() => import("./pages/PostIncorpPage"));
 const CoReviewPage = lazy(() => import("./pages/CoReviewPage"));
 const ProofsSpacePage = lazy(() => import("./pages/ProofsPage"));
 const DealDeskPage = lazy(() => import("./pages/DealDeskPage"));
@@ -103,6 +105,9 @@ const App = () => (
                   <Route path="/co-review" element={<CoReviewPage />} />
                   <Route path="/proofs" element={<ProofsSpacePage />} />
                   <Route path="/deal-desk" element={<DealDeskPage />} />
+                  <Route path="/launch-path" element={<LaunchPathPage />} />
+                  <Route path="/launch-path/idea-fit" element={<IdeaFitPage />} />
+                  <Route path="/launch-path/post-incorp" element={<PostIncorpPage />} />
                   <Route path="/launch-path/jurisdiction" element={<JurisdictionSelectorPage />} />
                   <Route path="/launch-path/compliance-map" element={<ComplianceChecklistPage />} />
                   <Route path="/launch-path/idea-risk" element={<BusinessIdeaRiskPage />} />

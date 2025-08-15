@@ -552,7 +552,7 @@ export default function PostIncorpPage() {
               <div>
                 <Label>Token Specification Document</Label>
                 <DragDropZone
-                  onFilesSelected={handleFileUpload}
+                  onFilesChange={handleFileUpload}
                   className="mt-2"
                 />
                 {inputs.tokenSpec && (

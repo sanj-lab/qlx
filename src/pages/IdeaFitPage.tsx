@@ -488,7 +488,7 @@ export default function IdeaFitPage() {
               <div>
                 <Label htmlFor="whitepaper">Whitepaper or Business Brief (Optional)</Label>
                 <DragDropZone
-                  onFilesSelected={handleFileUpload}
+                  onFilesChange={handleFileUpload}
                   className="mt-2"
                 />
                 {inputs.whitepaper && (
