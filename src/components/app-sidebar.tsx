@@ -50,7 +50,7 @@ export function AppSidebar() {
 
   const isActive = (path: string) => currentPath === path || currentPath.startsWith(path)
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-muted/50"
+    isActive ? "bg-primary text-primary-foreground font-medium" : "text-foreground hover:bg-muted/50"
 
   const isLaunchPathExpanded = launchPathItems.some((item) => isActive(item.url))
   const isCommandCenterExpanded = commandCenterItems.some((item) => isActive(item.url))
