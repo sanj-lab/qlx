@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { QuentlexChat } from "@/components/ui/quentlex-chat";
+import { Header } from "@/components/layout/Header";
 import { 
   Shield, Scale, Zap, Globe, Lock, CheckCircle, ArrowRight, Database, Cpu, Settings, Clock, 
   Lightbulb, Rocket, Users, Briefcase, Award, Eye, Gavel, Network, Target, Building, 
@@ -12,6 +13,10 @@ import {
 export default function Homepage() {
   return (
     <div className="min-h-screen bg-background">
+      <Header />
+      
+      {/* Main Content */}
+      <div className="min-h-[calc(100vh-4rem)]">
       {/* Hero Section with Chat Interface */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-secondary/5" />
@@ -24,10 +29,10 @@ export default function Homepage() {
                   <Lock className="w-4 h-4" />
                   Zero-Knowledge. Private by Design.
                 </div>
-                <h1 className="text-5xl md:text-6xl font-light text-foreground mb-6 tracking-tight">
-                  Legal Oracle
+                 <h1 className="text-5xl md:text-6xl font-light text-foreground mb-6 tracking-tight">
+                  <span className="text-primary font-bold">Quentlex</span>
                   <br />
-                  <span className="text-primary font-medium">for Web3</span>
+                  <span className="text-foreground">Legal Oracle for Web3</span>
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed font-light">
                   Transform compliance into competitive advantage. 
@@ -426,6 +431,7 @@ export default function Homepage() {
           </div>
         </div>
       </section>
+      </div>
     </div>
   );
 }
