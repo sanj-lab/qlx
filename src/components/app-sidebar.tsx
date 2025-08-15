@@ -237,8 +237,12 @@ export function AppSidebar() {
         {isExpanded && (
           <div className="p-6 border-b">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-primary-foreground" />
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+                <img 
+                  src="/lovable-uploads/3b2c28bb-cdb5-4243-9c10-4535c65f4ce6.png" 
+                  alt="Quentlex Logo" 
+                  className="w-6 h-6"
+                />
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-foreground">Quentlex</h2>
