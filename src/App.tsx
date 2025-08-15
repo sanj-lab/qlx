@@ -46,6 +46,8 @@ const JurisdictionSelectorPage = lazy(() => import("./pages/JurisdictionSelector
 const ComplianceChecklistPage = lazy(() => import("./pages/ComplianceChecklistPage"));
 const BusinessIdeaRiskPage = lazy(() => import("./pages/BusinessIdeaRiskPage"));
 const ContractRedliningPage = lazy(() => import("./pages/ContractRedliningPage"));
+const RedliningPage = lazy(() => import("./pages/RedliningPage"));
+const DocStudioPage = lazy(() => import("./pages/DocStudioPage"));
 const DocumentRiskPage = lazy(() => import("./pages/DocumentRiskPage"));
 
 const queryClient = new QueryClient({
@@ -108,6 +110,8 @@ const App = () => (
                   <Route path="/launch-path" element={<LaunchPathPage />} />
                   <Route path="/launch-path/idea-fit" element={<IdeaFitPage />} />
                   <Route path="/launch-path/post-incorp" element={<PostIncorpPage />} />
+                  <Route path="/launch-path/redline" element={<RedliningPage />} />
+                  <Route path="/launch-path/doc-studio" element={<DocStudioPage />} />
                   <Route path="/launch-path/jurisdiction" element={<JurisdictionSelectorPage />} />
                   <Route path="/launch-path/compliance-map" element={<ComplianceChecklistPage />} />
                   <Route path="/launch-path/idea-risk" element={<BusinessIdeaRiskPage />} />

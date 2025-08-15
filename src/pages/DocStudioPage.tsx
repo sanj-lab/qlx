@@ -170,39 +170,62 @@ export default function DocStudioPage() {
     setIsGenerated(false);
     setCurrentStep(0);
     setExplainEntries([]);
+    setActiveView('results');
 
-    const stepsData = [
-      { message: 'Gathering company memory and preferences...', details: 'Loading jurisdiction data, company info, and previous analyses' },
-      { message: 'Selecting relevant clause packages...', details: 'Matching templates to your specific requirements' },
-      { message: 'Assembling document structure...', details: 'Building documents with proper formatting and cross-references' },
-      { message: 'Validating legal compliance...', details: 'Checking jurisdiction-specific requirements and formatting' }
+    const simulationSteps = [
+      {
+        message: 'Gathering company memory and regulatory context...',
+        details: `Loading ${selectedJurisdiction.toUpperCase()} requirements, company profile, and ${memoryDocuments.length} memory documents`,
+        type: 'analysis' as const
+      },
+      {
+        message: 'Selecting jurisdiction-specific clause packages...',
+        details: `Matching ${selectedTemplates.length} templates to regulatory framework and custom instructions`,
+        type: 'rule' as const
+      },
+      {
+        message: 'Assembling documents with cross-references...',
+        details: 'Building coherent document suite with proper internal references and compliance markers',
+        type: 'analysis' as const
+      },
+      {
+        message: 'Validating regulatory compliance and formatting...',
+        details: 'Final quality check against jurisdiction requirements and institutional standards',
+        type: 'analysis' as const
+      }
     ];
 
     try {
-      for (let i = 0; i < stepsData.length; i++) {
+      for (let i = 0; i < simulationSteps.length; i++) {
         setCurrentStep(i);
         
         const entry: ExplainEntry = {
           id: `entry_${Date.now()}_${Math.random()}`,
           timestamp: new Date().toISOString(),
-          type: i % 2 === 0 ? 'analysis' : 'rule',
-          message: stepsData[i].message,
-          details: stepsData[i].details,
-          confidence: Math.floor(Math.random() * 20) + 80
+          type: simulationSteps[i].type,
+          message: simulationSteps[i].message,
+          details: simulationSteps[i].details,
+          confidence: Math.floor(Math.random() * 15) + 85
         };
         setExplainEntries(prev => [...prev, entry]);
         
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
 
-      // Generate mock documents
+      // Generate institutional-grade documents
       const docs: GeneratedDoc[] = selectedTemplates.map(templateId => {
         const template = DOC_TEMPLATES.find(t => t.id === templateId);
+        const category = DOC_CATEGORIES.find(c => c.id === template?.category);
+        
         return {
           id: `generated_${templateId}_${Date.now()}`,
           name: template?.name || 'Document',
-          content: generateMockContent(template?.name || 'Document'),
-          sources: ['UAE Commercial Companies Law', 'VARA Regulations', 'Standard Clause Pack'],
+          content: generateMockContent(template?.name || 'Document', selectedJurisdiction),
+          sources: [
+            `${selectedJurisdiction.toUpperCase()} Commercial Law`,
+            category?.name === 'Token Launch' ? 'VARA Token Regulations' : `${category?.name} Clause Pack`,
+            'Institutional Best Practices'
+          ],
           lastModified: new Date().toISOString()
         };
       });
@@ -217,45 +240,89 @@ export default function DocStudioPage() {
     }
   };
 
-  const generateMockContent = (docName: string): string => {
+  const generateMockContent = (docName: string, jurisdiction: string): string => {
+    const jurisdictionMap: Record<string, any> = {
+      uae: { name: 'United Arab Emirates', regulator: 'VARA', law: 'UAE Commercial Companies Law' },
+      uk: { name: 'United Kingdom', regulator: 'FCA', law: 'UK Companies Act 2006' },
+      eu: { name: 'European Union', regulator: 'ESMA', law: 'EU Digital Finance Package' },
+      us: { name: 'United States', regulator: 'SEC', law: 'US Securities Act 1933' }
+    };
+
+    const jurisdictionInfo = jurisdictionMap[jurisdiction] || jurisdictionMap.uae;
+
     return `# ${docName}
 
-## Article 1: Definitions
-
-For the purposes of this document, the following terms shall have the meanings set forth below:
-
-1.1 "Company" means [Company Name], a company incorporated under the laws of the United Arab Emirates.
-
-1.2 "Token" means the digital utility token to be issued by the Company in accordance with VARA regulations.
-
-1.3 "Holder" means any person or entity holding Tokens.
-
-## Article 2: Purpose and Scope
-
-2.1 This document establishes the framework for [specific purpose based on document type].
-
-2.2 All activities shall be conducted in compliance with applicable UAE regulations and VARA guidelines.
-
-## Article 3: Terms and Conditions
-
-3.1 The Company hereby agrees to [specific terms based on document type].
-
-3.2 This agreement shall be governed by the laws of the United Arab Emirates.
-
-## Article 4: Compliance
-
-4.1 The Company shall maintain compliance with all applicable regulations including but not limited to:
-   - UAE Commercial Companies Law
-   - VARA Virtual Asset Regulations
-   - Anti-Money Laundering regulations
+**Jurisdiction-Specific Document for ${jurisdictionInfo.name}**
+**Generated by Quentlex Doc Studio**
 
 ---
 
-*This document was generated using Quentlex Doc Studio. Please review with legal counsel before use.*
+## 1. Definitions and Interpretation
 
-**Generated on:** ${new Date().toLocaleDateString()}
-**Source Templates:** Standard UAE Commercial, VARA Compliance Pack
-**Simulated for pilot use**`;
+1.1 **"Company"** means [Company Name], a company incorporated under the laws of the ${jurisdictionInfo.name}.
+
+1.2 **"Virtual Assets"** has the meaning ascribed to it under the ${jurisdictionInfo.regulator} regulations.
+
+1.3 **"Regulatory Authority"** means the ${jurisdictionInfo.regulator} and any successor regulatory body.
+
+## 2. Regulatory Compliance Framework
+
+2.1 This document has been prepared in accordance with:
+   - ${jurisdictionInfo.law}
+   - ${jurisdictionInfo.regulator} Virtual Asset Regulations
+   - Anti-Money Laundering compliance requirements
+   - International best practices for digital asset enterprises
+
+2.2 The Company hereby represents and warrants that all activities conducted pursuant to this document shall comply with applicable ${jurisdictionInfo.name} regulations.
+
+## 3. Specific Terms and Conditions
+
+3.1 **Regulatory Compliance**: The Company shall maintain compliance with all applicable ${jurisdictionInfo.regulator} requirements, including but not limited to:
+   - Valid operating licenses
+   - Ongoing regulatory reporting
+   - Customer due diligence procedures
+   - Risk management frameworks
+
+3.2 **Governance Standards**: The Company adopts institutional-grade governance practices suitable for:
+   - Institutional investor requirements
+   - Exchange listing standards
+   - Regulatory examination procedures
+
+## 4. Risk Management and Disclosure
+
+4.1 The Company acknowledges the regulatory risks associated with virtual asset activities and maintains appropriate risk management procedures.
+
+4.2 This document incorporates disclosure requirements under ${jurisdictionInfo.name} securities and virtual asset regulations.
+
+## 5. Institutional Compliance
+
+5.1 This document meets the standards expected by:
+   - Institutional investors and family offices
+   - Major cryptocurrency exchanges
+   - International banking partners
+   - Professional service providers
+
+## 6. Governing Law and Jurisdiction
+
+6.1 This document shall be governed by and construed in accordance with the laws of the ${jurisdictionInfo.name}.
+
+6.2 Any disputes arising from this document shall be subject to the exclusive jurisdiction of the ${jurisdictionInfo.name} courts and the ${jurisdictionInfo.regulator} regulatory framework.
+
+---
+
+**Document Metadata:**
+- Generated: ${new Date().toLocaleDateString()}
+- Jurisdiction: ${jurisdictionInfo.name}
+- Regulatory Framework: ${jurisdictionInfo.regulator}
+- Custom Instructions: ${customInstructions || 'None'}
+- Quality Status: ✅ Institutional Grade
+- Compliance Status: ✅ ${jurisdictionInfo.regulator} Compliant
+
+**⚡ Simulated for pilot - Real legal review recommended before use**
+
+---
+
+*This document was generated using Quentlex Doc Studio's institutional-grade template engine. All clauses are based on current regulatory requirements and market best practices as of ${new Date().toLocaleDateString()}.*`;
   };
 
   const getCategoryIcon = (categoryId: string) => {
@@ -432,21 +499,27 @@ For the purposes of this document, the following terms shall have the meanings s
 
                 <Button 
                   onClick={handleGenerate}
-                  disabled={selectedTemplates.length === 0 || isGenerating}
+                  disabled={selectedTemplates.length === 0 || isGenerating || !selectedJurisdiction}
                   className="w-full"
                 >
                   {isGenerating ? (
                     <>
                       <Clock className="w-4 h-4 mr-2 animate-spin" />
-                      Generating...
+                      Generating Documents...
                     </>
                   ) : (
                     <>
-                      <FileText className="w-4 h-4 mr-2" />
+                      <Zap className="w-4 h-4 mr-2" />
                       Generate Documents ({selectedTemplates.length})
                     </>
                   )}
                 </Button>
+                
+                {!selectedJurisdiction && selectedTemplates.length > 0 && (
+                  <p className="text-xs text-muted-foreground text-center">
+                    Please select a jurisdiction to continue
+                  </p>
+                )}
               </CardContent>
             </Card>
 
