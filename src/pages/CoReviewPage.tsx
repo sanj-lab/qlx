@@ -19,6 +19,7 @@ import { ReviewThread } from "@/components/ui/review-thread";
 import { ReviewStatusTracker } from "@/components/ui/review-status-tracker";
 import { SmartLawyerSelector } from "@/components/ui/smart-lawyer-selector";
 import { ReviewAnalytics } from "@/components/ui/review-analytics";
+import { PilotBadge } from "@/components/ui/pilot-badge";
 import { 
   Plus, 
   Filter, 
@@ -492,10 +493,7 @@ export default function CoReviewPage() {
               <p className="text-muted-foreground">Send documents, analyses, or entire compliance scenarios for review — collaborate in real time</p>
             </div>
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="text-xs">
-                <Shield className="w-3 h-3 mr-1" />
-                Simulated for pilot
-              </Badge>
+              <PilotBadge />
               
               {/* View Toggles */}
               <div className="flex rounded-lg border p-1">

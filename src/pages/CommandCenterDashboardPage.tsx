@@ -10,6 +10,9 @@ import { VaultPicker } from "@/components/ui/vault-picker";
 import { ExplainPanel } from "@/components/ui/explain-panel";
 import { ProgressStepper } from "@/components/ui/progress-stepper";
 import { CommandCenterSubnav } from "@/components/ui/command-center-subnav";
+import { PilotBadge } from "@/components/ui/pilot-badge";
+import { WorkflowActions } from "@/components/ui/workflow-actions";
+import { useWorkflowState } from "@/hooks/use-workflow-state";
 import { 
   Shield, 
   TrendingUp, 
@@ -175,12 +178,24 @@ const explainEntries = [
 
 export default function CommandCenterDashboardPage() {
   const navigate = useNavigate();
+  
+  // Integration with Launch Path workflow state
+  const [launchPathState] = useWorkflowState('idea-fit', { results: null });
+  const [postIncorpState] = useWorkflowState('post-incorp', { results: null });
+  
   const [selectedDocuments, setSelectedDocuments] = useState<string[]>([]);
   const [showVaultPicker, setShowVaultPicker] = useState(false);
   const [isGeneratingBadge, setIsGeneratingBadge] = useState(false);
   const [isCalculatingRisk, setIsCalculatingRisk] = useState(false);
   const [badgeSteps, setBadgeSteps] = useState(badgeGenerationSteps);
   const [riskSteps, setRiskSteps] = useState(riskCalculationSteps);
+
+  // Enhanced metrics that integrate with Launch Path results
+  const enhancedMetrics = {
+    ...mockCompanyMetrics,
+    riskScore: (postIncorpState.results as any)?.riskScore?.overall || mockCompanyMetrics.riskScore,
+    eligibleForBadge: (postIncorpState.results as any)?.isSnapshotEligible || mockCompanyMetrics.eligibleForBadge
+  };
 
   const getStatusBadge = (status: DocumentItem['status']) => {
     switch (status) {
@@ -205,7 +220,7 @@ export default function CommandCenterDashboardPage() {
   };
 
   const handleGenerateBadge = async () => {
-    if (!mockCompanyMetrics.eligibleForBadge) return;
+    if (!enhancedMetrics.eligibleForBadge) return;
     
     setIsGeneratingBadge(true);
     setBadgeSteps(badgeGenerationSteps.map(step => ({ ...step })));
@@ -279,17 +294,17 @@ export default function CommandCenterDashboardPage() {
               </CardHeader>
               <CardContent className="flex flex-col items-center space-y-6">
                 <RiskDial 
-                  score={mockCompanyMetrics.riskScore} 
+                  score={enhancedMetrics.riskScore} 
                   size="lg" 
                   showLabel={false} 
                 />
                 <div className="text-center">
                   <div className="text-sm text-muted-foreground mb-2">Company Risk Score</div>
-                  <div className="text-3xl font-bold mb-1">{mockCompanyMetrics.riskScore}/100</div>
-                  <Badge className="status-success text-lg px-3 py-1">Grade {mockCompanyMetrics.riskGrade}</Badge>
+                  <div className="text-3xl font-bold mb-1">{enhancedMetrics.riskScore}/100</div>
+                  <Badge className="status-success text-lg px-3 py-1">Grade {enhancedMetrics.riskGrade}</Badge>
                 </div>
                 
-                {mockCompanyMetrics.eligibleForBadge && (
+                {enhancedMetrics.eligibleForBadge && (
                   <Button 
                     onClick={handleGenerateBadge}
                     disabled={isGeneratingBadge}
@@ -302,10 +317,7 @@ export default function CommandCenterDashboardPage() {
                 )}
                 
                 <div className="text-xs text-muted-foreground text-center">
-                  <Badge variant="outline" className="border-dashed">
-                    <Zap className="w-3 h-3 mr-1" />
-                    Simulated for pilot
-                  </Badge>
+                  <PilotBadge variant="outline" className="border-dashed" />
                   <div className="mt-1">Deterministic hash from verified inputs</div>
                 </div>
               </CardContent>
@@ -514,6 +526,16 @@ export default function CommandCenterDashboardPage() {
               title="Risk Analysis Insights"
               entries={explainEntries}
               isActive={isCalculatingRisk}
+            />
+
+            {/* Workflow Integration Actions */}
+            <WorkflowActions 
+              showCoReview={true}
+              showZKBadge={enhancedMetrics.eligibleForBadge}
+              showSaveToVault={true}
+              onSaveToVault={() => {
+                console.log('Saving risk analysis to vault...');
+              }}
             />
           </div>
         </div>
