@@ -485,24 +485,33 @@ export default function CoReviewPage() {
 
   return (
     <main className="min-h-screen bg-background">
+      {/* Legal Disclaimer - Prominent Top Position */}
+      <div className="bg-orange-50 dark:bg-orange-950/20 border-b border-orange-200 dark:border-orange-800">
+        <div className="container mx-auto max-w-7xl px-6 py-3">
+          <CoReviewDisclaimer className="w-full" />
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="py-8 px-6 border-b">
         <div className="container mx-auto max-w-7xl">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Expert Review, Simplified</h1>
-              <p className="text-muted-foreground">Send documents, analyses, or entire compliance scenarios for review — collaborate in real time</p>
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-3">
+                <h1 className="text-3xl font-bold">Expert Review, Simplified</h1>
+                <PilotBadge />
+              </div>
+              <p className="text-muted-foreground text-lg">Send documents, analyses, or entire compliance scenarios for review — collaborate in real time</p>
             </div>
-            <div className="flex items-center gap-3">
-              <PilotBadge />
-              <CoReviewDisclaimer className="max-w-md" />
-              
+            
+            <div className="flex items-center gap-4">
               {/* View Toggles */}
-              <div className="flex rounded-lg border p-1">
+              <div className="flex rounded-lg border p-1 bg-muted/30">
                 <Button
                   variant={currentView === 'overview' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setCurrentView('overview')}
+                  className="text-sm"
                 >
                   Overview
                 </Button>
@@ -511,6 +520,7 @@ export default function CoReviewPage() {
                   size="sm"
                   onClick={() => setCurrentView('thread')}
                   disabled={!activeReview}
+                  className="text-sm"
                 >
                   <MessageSquare className="w-4 h-4 mr-1" />
                   Review Thread
@@ -519,6 +529,7 @@ export default function CoReviewPage() {
                   variant={currentView === 'analytics' ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => setCurrentView('analytics')}
+                  className="text-sm"
                 >
                   <BarChart3 className="w-4 h-4 mr-1" />
                   Analytics
