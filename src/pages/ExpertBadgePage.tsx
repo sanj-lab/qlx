@@ -125,13 +125,13 @@ export default function ExpertBadgePage() {
             timestamp: new Date().toISOString(),
             title: explanations[i].title,
             message: explanations[i].content,
-            type: 'info' as const
+            type: 'analysis' as const
           }]);
         }
       }
 
       // Show review thread simulation
-      if (i === 1) {
+      if (currentStep === 1) {
         setShowReviewThread(true);
       }
 
@@ -139,14 +139,11 @@ export default function ExpertBadgePage() {
       const simulator = new EnhancedProofSimulator();
       const mockInputs = [
         {
+          id: `badge-upgrade-${Date.now()}`,
+          name: existingBadge?.title || 'Existing Badge',
           type: 'badge' as const,
-          title: existingBadge?.title || 'Existing Badge',
-          content: 'Badge upgrade to expert-verified status',
-          metadata: { 
-            originalBadgeId: existingBadge?.id || selectedBadges[0],
-            lawyer: selectedLawyer.name,
-            firm: selectedLawyer.firm
-          }
+          hash: existingBadge?.id || selectedBadges[0] || 'badge-hash',
+          timestamp: new Date().toISOString()
         }
       ];
 
@@ -283,7 +280,7 @@ export default function ExpertBadgePage() {
                         <span className="font-medium">{existingBadge.title}</span>
                         <Badge variant="secondary">Self-Reviewed</Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">{existingBadge.description}</p>
+                      <p className="text-sm text-muted-foreground">{existingBadge.title}</p>
                       <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
                         <span>Score: {existingBadge.riskScore}</span>
                         <span>ID: {existingBadge.id.slice(0, 8)}...</span>
@@ -351,7 +348,18 @@ export default function ExpertBadgePage() {
                         }`}
                         onClick={() => setSelectedLawyer(lawyer)}
                       >
-                        <LawyerCard lawyer={lawyer} />
+                        <LawyerCard lawyer={{
+                          ...lawyer,
+                          title: lawyer.firm,
+                          jurisdictions: lawyer.jurisdiction,
+                          specialties: lawyer.specialty,
+                          reviewCount: 50,
+                          avgTurnaround: lawyer.responseTime,
+                          hourlyRate: parseInt(lawyer.cost.replace(/[^0-9]/g, '')),
+                          availability: 'available' as const,
+                          recentReviews: 5,
+                          languages: ['English', 'Arabic']
+                        }} />
                       </div>
                     ))}
                   </CardContent>
@@ -403,17 +411,23 @@ export default function ExpertBadgePage() {
               )}
 
               {showReviewThread && isGenerating && (
-                <ReviewThread 
-                  title="Lawyer Review Thread"
-                  lawyer={selectedLawyer!}
-                  isActive={true}
-                />
+                <Card className="enterprise-card">
+                  <CardHeader>
+                    <CardTitle>Lawyer Review Thread</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">Review in progress with {selectedLawyer?.name}...</p>
+                  </CardContent>
+                </Card>
               )}
 
               {generatedSnapshot && (
                 <div className="space-y-4">
                   <SnapshotCard 
-                    snapshot={generatedSnapshot}
+                    snapshot={{
+                      ...generatedSnapshot,
+                      documents: []
+                    }}
                     onVerify={() => {}}
                     onShare={() => {}}
                   />

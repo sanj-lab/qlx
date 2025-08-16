@@ -151,25 +151,32 @@ const navigationSpaces: NavigationItem[] = [
     description: "Zero-knowledge compliance",
     subItems: [
       {
-        id: "self-snapshot",
-        label: "Self-Reviewed",
-        path: "/proofs/self-snapshot",
+        id: "self-badge",
+        label: "Self-Reviewed Badge",
+        path: "/proofs/self-badge",
         icon: Eye,
-        description: "AI-driven compliance snapshot"
+        description: "Generate compliance badges from existing analysis"
       },
       {
-        id: "expert-snapshot",
-        label: "Expert-Reviewed",
-        path: "/proofs/expert-snapshot",
+        id: "expert-badge",
+        label: "Expert-Reviewed Badge",
+        path: "/proofs/expert-badge",
         icon: Crown,
-        description: "Lawyer-verified compliance proof"
+        description: "Lawyer-verified compliance badges"
       },
       {
-        id: "share",
-        label: "Share & Verify",
+        id: "share-hub",
+        label: "Share & Verify Hub",
         path: "/proofs/share",
         icon: Globe,
-        description: "Public verification links"
+        description: "Secure badge sharing and verification"
+      },
+      {
+        id: "timeline",
+        label: "Timeline View",
+        path: "/proofs/timeline",
+        icon: Clock,
+        description: "Compliance history and badge evolution"
       }
     ]
   },

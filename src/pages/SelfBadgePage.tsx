@@ -53,40 +53,45 @@ export default function SelfBadgePage() {
     
     if (selectedMode === 'import' && selectedDocuments.length > 0) {
       inputs.push({
+        id: `import-${Date.now()}`,
+        name: `${selectedDocuments.length} selected document(s)`,
         type: 'document',
-        title: `${selectedDocuments.length} selected document(s)`,
-        content: 'Imported from vault',
-        metadata: { source: 'vault', count: selectedDocuments.length }
+        hash: 'vault-import-hash',
+        timestamp: new Date().toISOString()
       });
     } else if (selectedMode === 'upload' && uploadedFiles.length > 0) {
-      uploadedFiles.forEach(file => {
+      uploadedFiles.forEach((file, index) => {
         inputs.push({
+          id: `upload-${Date.now()}-${index}`,
+          name: file.name,
           type: 'document',
-          title: file.name,
-          content: 'Uploaded document',
-          metadata: { size: file.size, type: file.type }
+          hash: `upload-hash-${index}`,
+          timestamp: new Date().toISOString()
         });
       });
     } else if (selectedMode === 'business') {
       inputs.push({
-        type: 'business',
-        title: 'Whole Business Analysis',
-        content: 'Complete business risk assessment',
-        metadata: { scope: 'complete' }
+        id: `business-${Date.now()}`,
+        name: 'Whole Business Analysis',
+        type: 'analysis',
+        hash: 'business-analysis-hash',
+        timestamp: new Date().toISOString()
       });
     } else if (selectedMode === 'idea') {
       inputs.push({
-        type: 'idea',
-        title: 'Business Idea Badge',
-        content: 'Business idea compliance check',
-        metadata: { scope: 'idea' }
+        id: `idea-${Date.now()}`,
+        name: 'Business Idea Badge',
+        type: 'analysis',
+        hash: 'idea-analysis-hash',
+        timestamp: new Date().toISOString()
       });
     } else if (selectedMode === 'custom') {
       inputs.push({
-        type: 'custom',
-        title: 'Custom Analysis',
-        content: customPrompt,
-        metadata: { jurisdiction: selectedJurisdiction }
+        id: `custom-${Date.now()}`,
+        name: 'Custom Analysis',
+        type: 'analysis',
+        hash: 'custom-analysis-hash',
+        timestamp: new Date().toISOString()
       });
     }
 
@@ -121,7 +126,7 @@ export default function SelfBadgePage() {
             timestamp: new Date().toISOString(),
             title: simulationSteps[i].title,
             message: simulationSteps[i].content,
-            type: 'info' as const
+            type: 'analysis' as const
           }]);
         }
       }
@@ -307,10 +312,9 @@ export default function SelfBadgePage() {
                   </CardHeader>
                   <CardContent>
                     <DragDropZone
-                      onFilesDrop={setUploadedFiles}
-                      acceptedTypes={["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain"]}
+                      onFilesChange={setUploadedFiles}
+                      acceptedFileTypes={[".pdf", ".docx", ".txt"]}
                       maxFiles={5}
-                      maxSizeMB={10}
                     />
                     
                     {uploadedFiles.length > 0 && (
@@ -430,7 +434,10 @@ export default function SelfBadgePage() {
               {generatedSnapshot && (
                 <div className="space-y-4">
                   <SnapshotCard 
-                    snapshot={generatedSnapshot}
+                    snapshot={{
+                      ...generatedSnapshot,
+                      documents: []
+                    }}
                     onVerify={() => {}}
                     onShare={() => {}}
                   />
