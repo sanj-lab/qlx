@@ -26,7 +26,7 @@ export function QuentlexLogo({ className, size = "md", showText = true }: Quentl
     return (
       <Link to="/" className="flex items-center space-x-3 group">
         <img 
-          src="/lovable-uploads/e3c4f112-f543-492c-b86c-9aa9202a8a69.png"
+          src="/assets/quentlex-logo.png"
           alt="Quentlex Logo"
           className={cn(
             "object-contain transition-all group-hover:scale-105",
@@ -43,7 +43,7 @@ export function QuentlexLogo({ className, size = "md", showText = true }: Quentl
 
   return (
     <img 
-      src="/lovable-uploads/e3c4f112-f543-492c-b86c-9aa9202a8a69.png"
+      src="/assets/quentlex-logo.png"
       alt="Quentlex Logo"
       className={cn(
         "object-contain",

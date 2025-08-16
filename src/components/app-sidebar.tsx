@@ -275,7 +275,7 @@ export function AppSidebar() {
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                 <img 
-                  src="/lovable-uploads/3b2c28bb-cdb5-4243-9c10-4535c65f4ce6.png" 
+                  src="/assets/quentlex-logo.png" 
                   alt="Quentlex Logo" 
                   className="w-8 h-8"
                 />

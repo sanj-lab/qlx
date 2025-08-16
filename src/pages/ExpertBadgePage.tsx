@@ -63,7 +63,7 @@ export default function ExpertBadgePage() {
       responseTime: '4-6 hours',
       cost: '$450/hour',
       rating: 4.9,
-      avatar: '/lovable-uploads/3e1de433-02a0-4004-85f3-a856bce6b4ab.png',
+      avatar: '/assets/expert-avatar-2.png',
       credentials: ['UAE Bar', 'Solicitor (England & Wales)', 'ADGM Qualified']
     },
     {
@@ -76,7 +76,7 @@ export default function ExpertBadgePage() {
       responseTime: '2-4 hours',
       cost: '$600/hour',
       rating: 4.8,
-      avatar: '/lovable-uploads/e7b6043d-0074-4ccc-987c-d840b7ba3368.png',
+      avatar: '/assets/expert-avatar-3.png',
       credentials: ['UAE Bar', 'New York Bar', 'DIFC Qualified']
     }
   ];
