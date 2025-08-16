@@ -149,7 +149,7 @@ export function Header() {
           </nav>
 
           {/* User Avatar / Login */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             {/* Notification System */}
             {user && <NotificationSystem />}
             
@@ -215,11 +215,6 @@ export function Header() {
                 Sign In
               </Button>
              )}
-            
-            {/* Quentlex Watermark */}
-            <div className="hidden lg:flex items-center text-xs text-muted-foreground/60">
-              <span className="font-medium">Powered by Quentlex</span>
-            </div>
           </div>
         </div>
       </header>
