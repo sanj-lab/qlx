@@ -48,13 +48,13 @@ export default function ProofsPage() {
     },
     {
       id: 'timeline',
-      title: 'Timeline View',
-      description: 'View compliance history and badge evolution over time for the whole company.',
+      title: 'Proof Evolution Timeline',
+      description: 'Chronological audit trail of proof generation, verification, and sharing events.',
       icon: Clock,
-      badge: 'Analytics',
-      badgeVariant: 'outline' as const,
-      action: 'Open Timeline',
-      route: '/proofs/timeline',
+      badge: 'Live Analytics',
+      badgeVariant: 'default' as const,
+      action: 'View Timeline',
+      route: '/proofs/proof-timeline',
       available: true
     }
   ];
