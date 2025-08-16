@@ -139,6 +139,7 @@ const App = () => (
                 <Route path="/proofs/timeline" element={<ProofTimelinePage />} />
                 <Route path="/deal-desk" element={<DealDeskPage />} />
                 <Route path="/deal-desk/negotiator" element={<NegotiationAgentPage />} />
+                <Route path="/organization-settings" element={<OrganizationSettings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Route>
