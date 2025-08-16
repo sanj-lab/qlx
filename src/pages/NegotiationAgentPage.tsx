@@ -14,7 +14,6 @@ import {
   AlertTriangle, 
   TrendingUp, 
   ChevronRight, 
-  Lightbulb, 
   Clock,
   CheckCircle2,
   Target,
@@ -123,10 +122,10 @@ This counter-proposal addresses the key risk factors identified in our analysis 
 
   return (
     <div className="min-h-screen bg-background p-6">
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Negotiation Strategy Agent</h1>
-          <p className="text-muted-foreground">Upload Term Sheet, get risk scores and clause suggestions for deal outcomes</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">AI Negotiation Agent</h1>
+          <p className="text-muted-foreground">Enterprise-grade term sheet analysis with AI-powered counter-proposals and deal strategy</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
@@ -135,13 +134,13 @@ This counter-proposal addresses the key risk factors identified in our analysis 
             <Card className="enterprise-card">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Handshake className="w-5 h-5" />
-                  Deal Configuration
+                  <Upload className="w-5 h-5" />
+                  Document Upload
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Upload Term Sheet</label>
+                  <label className="text-sm font-medium mb-2 block">Term Sheet</label>
                   <DragDropZone
                     onFilesChange={(files) => setTermSheet(files[0])}
                     acceptedFileTypes={['.pdf', '.docx']}
@@ -151,7 +150,7 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                   {termSheet && (
                     <div className="mt-2 p-3 bg-muted/30 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <Upload className="w-4 h-4 text-primary" />
+                        <FileText className="w-4 h-4 text-primary" />
                         <span className="text-sm font-medium">{termSheet.name}</span>
                       </div>
                     </div>
@@ -159,23 +158,17 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Counterparty Type</label>
+                  <label className="text-sm font-medium mb-2 block">Investor Type</label>
                   <Select value={counterpartyType} onValueChange={setCounterpartyType}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select investor type" />
+                      <SelectValue placeholder="Select investor category" />
                     </SelectTrigger>
                     <SelectContent>
                       {counterpartyTypes.map(cp => (
                         <SelectItem key={cp.value} value={cp.value}>
                           <div className="flex items-center justify-between w-full">
                             <span>{cp.label}</span>
-                            <Badge 
-                              variant="secondary" 
-                              className={`ml-2 ${
-                                cp.risk === 'High' ? 'text-destructive' : 
-                                cp.risk === 'Medium' ? 'text-warning' : 'text-success'
-                              }`}
-                            >
+                            <Badge variant="outline" className="ml-2">
                               {cp.risk}
                             </Badge>
                           </div>
@@ -183,13 +176,6 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                       ))}
                     </SelectContent>
                   </Select>
-                  {selectedCounterparty && (
-                    <div className="mt-2 p-3 bg-muted/30 rounded-lg">
-                      <p className="text-xs text-muted-foreground">
-                        Risk Level: <span className="font-medium">{selectedCounterparty.risk}</span>
-                      </p>
-                    </div>
-                  )}
                 </div>
 
                 <Button 
@@ -199,13 +185,13 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                 >
                   {isAnalyzing ? (
                     <>
-                      <Clock className="w-4 h-4 mr-2 animate-spin" />
-                      Analyzing Deal...
+                      <Zap className="w-4 h-4 mr-2 animate-pulse" />
+                      Analyzing...
                     </>
                   ) : (
                     <>
-                      Simulate Deal
-                      <ChevronRight className="w-4 h-4 ml-2" />
+                      <Target className="w-4 h-4 mr-2" />
+                      Analyze Deal
                     </>
                   )}
                 </Button>
@@ -213,101 +199,96 @@ This counter-proposal addresses the key risk factors identified in our analysis 
             </Card>
           </div>
 
-          {/* Agent Process & Output */}
+          {/* Analysis Results */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Agentic Process */}
+            {/* Real-time Analysis */}
             {isAnalyzing && (
-              <Card className="enterprise-card">
+              <Card className="enterprise-card animate-fade-in">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Lightbulb className="w-5 h-5" />
-                    Agentic Process (Live)
+                    <Zap className="w-5 h-5 animate-pulse" />
+                    AI Analysis in Progress
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Negotiation Analysis Progress</span>
-                      <span className="text-sm text-muted-foreground">{progress}%</span>
-                    </div>
-                    <Progress value={progress} className="h-2" />
+                    <Progress value={progress} className="h-3" />
                     <div className="grid gap-3">
-                      <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
                         <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                        <span className="text-sm">Parsing term sheet clauses using NLP and legal ontologies</span>
+                        <span className="text-sm">Parsing term sheet clauses and conditions</span>
                       </div>
-                      <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
                         <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                        <span className="text-sm">Analyzing {selectedCounterparty?.label} patterns from deal database</span>
+                        <span className="text-sm">Cross-referencing market benchmarks</span>
                       </div>
-                      <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3 p-3 bg-primary/5 rounded-lg">
                         <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                        <span className="text-sm">Running Monte Carlo simulations for deal outcomes</span>
+                        <span className="text-sm">Generating strategic recommendations</span>
                       </div>
-                    </div>
-                    
-                    {/* TEE Verification */}
-                    <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Shield className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-medium">Confidential Deal Analysis</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        Term sheet analysis runs in secure TEE environment to protect sensitive 
-                        financial information and negotiation strategies.
-                      </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
             )}
 
-            {/* Analysis Results */}
+            {/* Analysis Complete */}
             {isAnalyzed && (
               <>
-                {/* Risk Score */}
-                <Card className="enterprise-card">
+                {/* Risk Dashboard */}
+                <Card className="enterprise-card animate-fade-in">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Target className="w-5 h-5 text-warning" />
+                      <AlertTriangle className="w-5 h-5 text-warning" />
                       Deal Risk Assessment
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-3 gap-6 mb-6">
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-warning">72%</div>
-                        <div className="text-sm text-muted-foreground">Overall Risk</div>
+                        <div className="text-3xl font-bold text-warning mb-1">72%</div>
+                        <div className="text-sm text-muted-foreground">Risk Score</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-primary">8.5M</div>
+                        <div className="text-3xl font-bold text-primary mb-1">$8.5M</div>
                         <div className="text-sm text-muted-foreground">Valuation</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-success">85%</div>
-                        <div className="text-sm text-muted-foreground">Success Probability</div>
+                        <div className="text-3xl font-bold text-success mb-1">85%</div>
+                        <div className="text-sm text-muted-foreground">Success Rate</div>
                       </div>
                     </div>
                     
                     <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-destructive/10 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-4 h-4 text-destructive" />
-                          <span className="font-medium">High Risk: Anti-dilution provisions</span>
+                      <div className="flex items-center justify-between p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <AlertTriangle className="w-5 h-5 text-destructive" />
+                          <div>
+                            <div className="font-medium">Anti-dilution provisions</div>
+                            <div className="text-sm text-muted-foreground">Full-ratchet protection highly unfavorable</div>
+                          </div>
                         </div>
                         <Badge variant="destructive">Critical</Badge>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-warning/10 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-4 h-4 text-warning" />
-                          <span className="font-medium">Medium Risk: Board composition</span>
+                      
+                      <div className="flex items-center justify-between p-4 bg-warning/10 border border-warning/20 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <Clock className="w-5 h-5 text-warning" />
+                          <div>
+                            <div className="font-medium">Board composition</div>
+                            <div className="text-sm text-muted-foreground">Investor control concentration</div>
+                          </div>
                         </div>
                         <Badge className="bg-warning text-warning-foreground">Review</Badge>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-success" />
-                          <span className="font-medium">Low Risk: Liquidation preferences</span>
+                      
+                      <div className="flex items-center justify-between p-4 bg-success/10 border border-success/20 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <CheckCircle2 className="w-5 h-5 text-success" />
+                          <div>
+                            <div className="font-medium">Liquidation preferences</div>
+                            <div className="text-sm text-muted-foreground">Standard 1x non-participating</div>
+                          </div>
                         </div>
                         <Badge variant="secondary">Acceptable</Badge>
                       </div>
@@ -315,360 +296,331 @@ This counter-proposal addresses the key risk factors identified in our analysis 
                   </CardContent>
                 </Card>
 
-                {/* Clause Suggestions */}
-                <Card className="enterprise-card">
+                {/* Strategic Recommendations */}
+                <Card className="enterprise-card animate-fade-in">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <TrendingUp className="w-5 h-5 text-primary" />
-                      Strategic Recommendations
+                      AI Recommendations
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-medium">Negotiate Anti-Dilution Terms</h4>
+                      <div className="p-4 border border-destructive/20 rounded-lg bg-destructive/5">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h4 className="font-semibold">Renegotiate Anti-Dilution</h4>
+                            <p className="text-sm text-muted-foreground">Change from full-ratchet to weighted-average</p>
+                          </div>
                           <Badge variant="destructive">High Priority</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          Current full-ratchet anti-dilution is highly unfavorable. Suggest weighted-average or narrow-based protection.
+                        <p className="text-sm mb-3">
+                          Current full-ratchet terms could severely dilute founders in down rounds. 
+                          Market standard is narrow-based weighted average.
                         </p>
-                        <Button size="sm" variant="outline">Revise Clauses</Button>
+                        <Button size="sm" variant="outline">
+                          Generate Counter-Clause
+                        </Button>
                       </div>
 
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-medium">Board Seat Allocation</h4>
+                      <div className="p-4 border border-warning/20 rounded-lg bg-warning/5">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h4 className="font-semibold">Board Control Structure</h4>
+                            <p className="text-sm text-muted-foreground">Maintain founder control</p>
+                          </div>
                           <Badge className="bg-warning text-warning-foreground">Medium Priority</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          Maintain founder control with 2-1-1 structure (founders-investor-independent).
+                        <p className="text-sm mb-3">
+                          Propose 2-1-2 structure: 2 founders, 1 investor, 2 independent directors 
+                          to maintain strategic control.
                         </p>
-                        <Button size="sm" variant="outline">Revise Clauses</Button>
-                      </div>
-
-                      <div className="p-4 border rounded-lg">
-                        <div className="flex items-start justify-between mb-2">
-                          <h4 className="font-medium">Vesting Acceleration</h4>
-                          <Badge variant="secondary">Low Priority</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          Add single-trigger acceleration for 50% of unvested shares on involuntary termination.
-                        </p>
-                        <Button size="sm" variant="outline">Revise Clauses</Button>
+                        <Button size="sm" variant="outline">
+                          Generate Counter-Clause
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Negotiation Outcomes */}
-                <Card className="enterprise-card">
+                {/* Deal Outcomes */}
+                <Card className="enterprise-card animate-fade-in">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Users className="w-5 h-5" />
-                      Possible Deal Outcomes
+                      <Target className="w-5 h-5" />
+                      Negotiation Scenarios
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid gap-4">
-                      <div className="p-4 border rounded-lg">
+                      <div className="p-4 border border-success/20 rounded-lg bg-success/5">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-success">Best Case Scenario</h4>
-                          <span className="text-sm text-muted-foreground">40% probability</span>
+                          <h4 className="font-semibold text-success">Optimal Outcome</h4>
+                          <Badge variant="secondary">40% probability</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Negotiate down to weighted-average anti-dilution, maintain board control, 
-                          achieve 10M+ valuation with favorable terms.
+                          Achieve $10.5M valuation, weighted-average anti-dilution, 
+                          maintain board control, secure favorable liquidation terms.
                         </p>
                       </div>
 
-                      <div className="p-4 border rounded-lg">
+                      <div className="p-4 border border-warning/20 rounded-lg bg-warning/5">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-warning">Most Likely</h4>
-                          <span className="text-sm text-muted-foreground">45% probability</span>
+                          <h4 className="font-semibold text-warning">Likely Outcome</h4>
+                          <Badge variant="secondary">45% probability</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Compromise on anti-dilution (narrow-based weighted), share board control,
-                          close at 8.5M valuation with standard terms.
+                          $9M valuation, narrow-based weighted average, shared board control, 
+                          standard liquidation preferences with minor compromises.
                         </p>
                       </div>
 
-                      <div className="p-4 border rounded-lg">
+                      <div className="p-4 border border-destructive/20 rounded-lg bg-destructive/5">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-destructive">Worst Case</h4>
-                          <span className="text-sm text-muted-foreground">15% probability</span>
+                          <h4 className="font-semibold text-destructive">Worst Case</h4>
+                          <Badge variant="secondary">15% probability</Badge>
                         </div>
                         <p className="text-sm text-muted-foreground">
-                          Accept unfavorable anti-dilution, lose board control, 
-                          valuation drops to 6M with restrictive covenants.
+                          Accept current terms: $8.5M valuation, full-ratchet protection, 
+                          investor board control. Consider walking away.
                         </p>
                       </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Counter-Proposal Generation */}
+                <Card className="enterprise-card animate-fade-in">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Handshake className="w-5 h-5" />
+                      Counter-Proposal Tools
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <Button onClick={generateCounterProposal} className="h-auto p-4">
+                        <div className="text-left">
+                          <div className="font-semibold mb-1">Generate Counter-Proposal</div>
+                          <div className="text-sm opacity-80">AI-drafted term sheet revisions</div>
+                        </div>
+                        <ChevronRight className="w-5 h-5 ml-auto" />
+                      </Button>
+
+                      <Button 
+                        variant="outline" 
+                        className="h-auto p-4"
+                        onClick={() => setShowScheduleCallModal(true)}
+                      >
+                        <div className="text-left">
+                          <div className="font-semibold mb-1">Schedule Strategy Call</div>
+                          <div className="text-sm opacity-80">Expert legal consultation</div>
+                        </div>
+                        <Calendar className="w-5 h-5 ml-auto" />
+                      </Button>
+
+                      <Button 
+                        variant="outline" 
+                        className="h-auto p-4"
+                        onClick={() => setShowShareTeamModal(true)}
+                      >
+                        <div className="text-left">
+                          <div className="font-semibold mb-1">Share with Team</div>
+                          <div className="text-sm opacity-80">Collaborate on strategy</div>
+                        </div>
+                        <Share2 className="w-5 h-5 ml-auto" />
+                      </Button>
+
+                      <Button 
+                        variant="outline" 
+                        className="h-auto p-4"
+                        onClick={() => setShowExportAnalysisModal(true)}
+                      >
+                        <div className="text-left">
+                          <div className="font-semibold mb-1">Export Analysis</div>
+                          <div className="text-sm opacity-80">Download detailed report</div>
+                        </div>
+                        <Download className="w-5 h-5 ml-auto" />
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
               </>
             )}
 
-            {/* Quick Actions */}
-            <Card className="enterprise-card">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  <Button 
-                    variant="outline" 
-                    className="justify-start"
-                    onClick={generateCounterProposal}
-                    disabled={!isAnalyzed}
-                  >
-                    <Zap className="w-4 h-4 mr-2" />
-                    Generate Counter-Proposal
-                  </Button>
-                  <Button variant="outline" className="justify-start" onClick={() => setShowScheduleCallModal(true)}>
-                    <Target className="w-4 h-4 mr-2" />
-                    Schedule Strategy Call
-                  </Button>
-                  <Button variant="outline" className="justify-start" onClick={() => setShowShareTeamModal(true)}>
-                    <Users className="w-4 h-4 mr-2" />
-                    Share with Legal Team
-                  </Button>
-                  <Button variant="outline" className="justify-start" onClick={() => setShowExportAnalysisModal(true)}>
-                    <TrendingUp className="w-4 h-4 mr-2" />
-                    Export Analysis
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Empty State */}
+            {!isAnalyzing && !isAnalyzed && (
+              <Card className="enterprise-card">
+                <CardContent className="text-center py-12">
+                  <Handshake className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold mb-2">Ready to Analyze Your Deal</h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Upload your term sheet and select the investor type to get AI-powered 
+                    negotiation insights and counter-proposal recommendations.
+                  </p>
+                  <div className="flex justify-center gap-4">
+                    <Badge variant="outline">
+                      <Shield className="w-3 h-3 mr-1" />
+                      Confidential Analysis
+                    </Badge>
+                    <Badge variant="outline">
+                      <Zap className="w-3 h-3 mr-1" />
+                      Real-time Results
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
-      </div>
 
-      {/* Counter-Proposal Dialog */}
-      <Dialog open={showCounterProposal} onOpenChange={setShowCounterProposal}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Zap className="w-5 h-5 text-primary" />
-              Generated Counter-Proposal
-            </DialogTitle>
-            <DialogDescription>
-              AI-generated counter-proposal based on risk analysis and market standards
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4">
-            <div>
-              <Label>Counter-Proposal Document</Label>
+        {/* Counter-Proposal Modal */}
+        <Dialog open={showCounterProposal} onOpenChange={setShowCounterProposal}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <FileText className="w-5 h-5" />
+                AI-Generated Counter-Proposal
+              </DialogTitle>
+              <DialogDescription>
+                Review and customize this counter-proposal before sending to your investor
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
               <Textarea
                 value={counterProposalContent}
                 onChange={(e) => setCounterProposalContent(e.target.value)}
                 className="min-h-[400px] font-mono text-sm"
-                placeholder="Counter-proposal will be generated here..."
               />
+              <div className="flex gap-2">
+                <Button>
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy to Clipboard
+                </Button>
+                <Button variant="outline">
+                  <Download className="w-4 h-4 mr-2" />
+                  Export as PDF
+                </Button>
+                <Button variant="outline">
+                  <Mail className="w-4 h-4 mr-2" />
+                  Send via Email
+                </Button>
+              </div>
             </div>
-            
-            <div className="flex gap-3">
-              <Button 
-                onClick={() => navigator.clipboard.writeText(counterProposalContent)}
-                variant="outline"
-              >
-                <Copy className="w-4 h-4 mr-2" />
-                Copy to Clipboard
-              </Button>
-              <Button variant="outline">
-                <Download className="w-4 h-4 mr-2" />
-                Download PDF
-              </Button>
-              <Button variant="outline">
-                <Users className="w-4 h-4 mr-2" />
-                Share with Legal Team
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
 
-      {/* Schedule Strategy Call Modal */}
-      <Dialog open={showScheduleCallModal} onOpenChange={setShowScheduleCallModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-primary" />
-              Schedule Strategy Call
-            </DialogTitle>
-            <DialogDescription>
-              Book a consultation with our negotiation experts
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4">
-            <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
-              <h4 className="font-medium mb-2">Expert Consultation Available</h4>
-              <p className="text-sm text-muted-foreground">
-                Schedule a 60-minute strategy session with our senior legal advisors to review your negotiation approach and optimize deal terms.
-              </p>
-            </div>
-            
-            <div className="space-y-3">
-              <Button className="w-full justify-start">
-                <Video className="w-5 h-5 mr-3" />
-                Video Call (Zoom)
-              </Button>
-              
-              <Button className="w-full justify-start" variant="outline">
-                <Phone className="w-5 h-5 mr-3" />
-                Phone Call
-              </Button>
-              
-              <Button className="w-full justify-start" variant="outline">
-                <Users className="w-5 h-5 mr-3" />
-                In-Person Meeting
-              </Button>
-            </div>
-            
-            <div className="space-y-2">
-              <Label>Preferred Time Slots</Label>
-              <div className="grid grid-cols-2 gap-2">
-                <Button size="sm" variant="outline">Mon 10 AM</Button>
-                <Button size="sm" variant="outline">Tue 2 PM</Button>
-                <Button size="sm" variant="outline">Wed 11 AM</Button>
-                <Button size="sm" variant="outline">Thu 3 PM</Button>
+        {/* Schedule Call Modal */}
+        <Dialog open={showScheduleCallModal} onOpenChange={setShowScheduleCallModal}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Phone className="w-5 h-5" />
+                Schedule Strategy Consultation
+              </DialogTitle>
+              <DialogDescription>
+                Connect with a legal expert to review your negotiation strategy
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="grid gap-4">
+                <Button className="h-auto p-4 justify-start">
+                  <Video className="w-5 h-5 mr-3" />
+                  <div className="text-left">
+                    <div className="font-semibold">30-min Strategy Review</div>
+                    <div className="text-sm opacity-80">Discuss key negotiation points</div>
+                  </div>
+                  <span className="ml-auto">$300</span>
+                </Button>
+                <Button variant="outline" className="h-auto p-4 justify-start">
+                  <Phone className="w-5 h-5 mr-3" />
+                  <div className="text-left">
+                    <div className="font-semibold">60-min Deep Dive</div>
+                    <div className="text-sm opacity-80">Comprehensive term analysis</div>
+                  </div>
+                  <span className="ml-auto">$500</span>
+                </Button>
               </div>
             </div>
-            
-            <Button className="w-full">
-              <Calendar className="w-4 h-4 mr-2" />
-              Confirm Booking
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
 
-      {/* Share with Legal Team Modal */}
-      <Dialog open={showShareTeamModal} onOpenChange={setShowShareTeamModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Share2 className="w-5 h-5 text-primary" />
-              Share with Legal Team
-            </DialogTitle>
-            <DialogDescription>
-              Share negotiation analysis with your legal advisors
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-4">
-            <div>
-              <Label>Team Members</Label>
-              <div className="space-y-2 mt-2">
-                <label className="flex items-center space-x-2">
-                  <input type="checkbox" defaultChecked />
-                  <span className="text-sm">Sarah Chen - Senior Legal Counsel</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input type="checkbox" defaultChecked />
-                  <span className="text-sm">Marcus Rodriguez - Regulatory Expert</span>
-                </label>
-                <label className="flex items-center space-x-2">
-                  <input type="checkbox" />
-                  <span className="text-sm">Elena Kozlov - Contract Specialist</span>
-                </label>
-              </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="share-message">Message (Optional)</Label>
-              <Textarea 
-                id="share-message"
-                placeholder="Add context or specific questions for the team..."
-                className="mt-1"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <input type="checkbox" id="include-docs" defaultChecked />
-                <Label htmlFor="include-docs">Include original term sheet</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input type="checkbox" id="include-analysis" defaultChecked />
-                <Label htmlFor="include-analysis">Include risk analysis</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <input type="checkbox" id="include-recommendations" defaultChecked />
-                <Label htmlFor="include-recommendations">Include recommendations</Label>
-              </div>
-            </div>
-            
-            <Button className="w-full">
-              <Mail className="w-4 h-4 mr-2" />
-              Share Analysis
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Export Analysis Modal */}
-      <Dialog open={showExportAnalysisModal} onOpenChange={setShowExportAnalysisModal}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Download className="w-5 h-5 text-primary" />
-              Export Analysis
-            </DialogTitle>
-            <DialogDescription>
-              Download negotiation analysis in various formats
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-3">
-            <Button className="w-full justify-start" variant="outline">
-              <FileText className="w-5 h-5 mr-3" />
-              PDF Report
-            </Button>
-            
-            <Button className="w-full justify-start" variant="outline">
-              <FileText className="w-5 h-5 mr-3" />
-              Word Document
-            </Button>
-            
-            <Button className="w-full justify-start" variant="outline">
-              <Download className="w-5 h-5 mr-3" />
-              Excel Spreadsheet
-            </Button>
-            
-            <Button className="w-full justify-start" variant="outline">
-              <Copy className="w-5 h-5 mr-3" />
-              JSON Data Export
-            </Button>
-            
-            <div className="pt-4 border-t">
+        {/* Share with Team Modal */}
+        <Dialog open={showShareTeamModal} onOpenChange={setShowShareTeamModal}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                Share Analysis with Team
+              </DialogTitle>
+              <DialogDescription>
+                Invite stakeholders to review the negotiation analysis
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
               <div className="space-y-2">
-                <div className="text-sm font-medium">Export Options</div>
-                <div className="space-y-2">
-                  <label className="flex items-center space-x-2 text-sm">
-                    <input type="checkbox" defaultChecked />
-                    Include risk assessment
-                  </label>
-                  <label className="flex items-center space-x-2 text-sm">
-                    <input type="checkbox" defaultChecked />
-                    Include recommendations
-                  </label>
-                  <label className="flex items-center space-x-2 text-sm">
-                    <input type="checkbox" defaultChecked />
-                    Include deal scenarios
-                  </label>
-                  <label className="flex items-center space-x-2 text-sm">
-                    <input type="checkbox" />
-                    Include confidential notes
-                  </label>
-                </div>
+                <Label>Email addresses (comma-separated)</Label>
+                <Textarea 
+                  placeholder="founder@company.com, cto@company.com, advisor@fund.com"
+                  className="min-h-[100px]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Access level</Label>
+                <Select defaultValue="view">
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="view">View only</SelectItem>
+                    <SelectItem value="comment">Can comment</SelectItem>
+                    <SelectItem value="edit">Can edit</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button className="w-full">
+                <Share2 className="w-4 h-4 mr-2" />
+                Send Invites
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Export Analysis Modal */}
+        <Dialog open={showExportAnalysisModal} onOpenChange={setShowExportAnalysisModal}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Download className="w-5 h-5" />
+                Export Analysis Report
+              </DialogTitle>
+              <DialogDescription>
+                Download detailed negotiation analysis and recommendations
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="grid gap-3">
+                <Button variant="outline" className="justify-start">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Executive Summary (PDF)
+                </Button>
+                <Button variant="outline" className="justify-start">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Detailed Analysis (PDF)
+                </Button>
+                <Button variant="outline" className="justify-start">
+                  <FileText className="w-4 h-4 mr-2" />
+                  Counter-Proposal Draft (DOCX)
+                </Button>
+                <Button variant="outline" className="justify-start">
+                  <FileText className="w-4 h-4 mr-2" />
+                  All Materials (ZIP)
+                </Button>
               </div>
             </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 }
