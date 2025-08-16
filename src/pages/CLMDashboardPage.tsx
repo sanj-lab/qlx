@@ -444,17 +444,10 @@ NOW, THEREFORE, in consideration of the mutual covenants and agreements containe
                           />
                         ) : (
                           <div 
-                            className="bg-muted/30 p-6 rounded-lg h-96 overflow-y-auto font-mono text-sm leading-relaxed"
-                            dangerouslySetInnerHTML={{ 
-                              __html: getRedlinedContent(selectedDocument).replace(/\n/g, '<br />') 
-                            }}
-                            onClick={(e) => {
-                              const target = e.target as HTMLElement;
-                              if (target.tagName === 'SPAN' && target.className.includes('bg-red-100')) {
-                                handleRedlineClick(target.textContent || '');
-                              }
-                            }}
-                          />
+                            className="bg-muted/30 p-6 rounded-lg h-96 overflow-y-auto font-mono text-sm leading-relaxed whitespace-pre-wrap"
+                          >
+                            {getRedlinedContent(selectedDocument)}
+                          </div>
                         )}
                       </div>
                     ) : (
