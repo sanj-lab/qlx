@@ -56,10 +56,10 @@ const FounderDashboardPage = lazy(() => import("./pages/FounderDashboardPage"));
 const JurisdictionSelectorPage = lazy(() => import("./pages/JurisdictionSelectorPage"));
 const ComplianceChecklistPage = lazy(() => import("./pages/ComplianceChecklistPage"));
 const BusinessIdeaRiskPage = lazy(() => import("./pages/BusinessIdeaRiskPage"));
-const ContractRedliningPage = lazy(() => import("./pages/ContractRedliningPage"));
-const RedliningPage = lazy(() => import("./pages/RedliningPage"));
 const DocStudioPage = lazy(() => import("./pages/DocStudioPage"));
 const DocumentRiskPage = lazy(() => import("./pages/DocumentRiskPage"));
+const RedlineUploadPage = lazy(() => import("./pages/RedlineUploadPage"));
+const RedlineResultsPage = lazy(() => import("./pages/RedlineResultsPage"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -125,7 +125,8 @@ const App = () => (
                   <Route path="/launch-path" element={<LaunchPathPage />} />
                   <Route path="/launch-path/idea-fit" element={<IdeaFitPage />} />
                   <Route path="/launch-path/post-incorp" element={<PostIncorpPage />} />
-                  <Route path="/launch-path/redline" element={<RedliningPage />} />
+                  <Route path="/launch-path/redline" element={<RedlineUploadPage />} />
+                  <Route path="/launch-path/redline/results" element={<RedlineResultsPage />} />
                   <Route path="/launch-path/doc-studio" element={<DocStudioPage />} />
                   <Route path="/co-review" element={<CoReviewPage />} />
                 <Route path="/proofs" element={<ProofsPage />} />
