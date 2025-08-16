@@ -221,7 +221,18 @@ export function AppSidebar() {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path || location.pathname.startsWith(path + '/');
+    // Extract the pathname without query parameters for comparison
+    const currentPath = location.pathname;
+    const currentSearch = location.search;
+    const fullCurrentPath = currentPath + currentSearch;
+    
+    // If path has query parameters, match against full path including search
+    if (path.includes('?')) {
+      return fullCurrentPath === path;
+    }
+    
+    // For paths without query parameters, match against pathname only
+    return currentPath === path || currentPath.startsWith(path + '/');
   };
 
   const isSpaceActive = (space: NavigationItem) => {
