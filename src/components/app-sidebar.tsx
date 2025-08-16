@@ -221,14 +221,26 @@ export function AppSidebar() {
   };
 
   const isActive = (path: string) => {
-    // Extract the pathname without query parameters for comparison
     const currentPath = location.pathname;
     const currentSearch = location.search;
-    const fullCurrentPath = currentPath + currentSearch;
     
-    // If path has query parameters, match against full path including search
+    // If the path has query parameters, compare with current URL
     if (path.includes('?')) {
-      return fullCurrentPath === path;
+      const [targetPath, targetQuery] = path.split('?');
+      
+      // Check if pathname matches
+      if (currentPath !== targetPath) return false;
+      
+      // Parse query parameters
+      const targetParams = new URLSearchParams(targetQuery);
+      const currentParams = new URLSearchParams(currentSearch);
+      
+      // Check if all target parameters are present in current URL
+      for (const [key, value] of targetParams) {
+        if (currentParams.get(key) !== value) return false;
+      }
+      
+      return true;
     }
     
     // For paths without query parameters, match against pathname only
@@ -236,7 +248,13 @@ export function AppSidebar() {
   };
 
   const isSpaceActive = (space: NavigationItem) => {
+    // Check if current path starts with space path (for any co-review page)
+    if (location.pathname.startsWith(space.path)) return true;
+    
+    // Check if space path is active
     if (isActive(space.path)) return true;
+    
+    // Check if any sub-item is active
     return space.subItems?.some(item => isActive(item.path)) || false;
   };
 
