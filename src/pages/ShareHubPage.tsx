@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Share2, Link, Eye, Shield, Clock, Copy, ExternalLink, Mail, Calendar } from "lucide-react";
+import { VaultPicker } from "@/components/ui/vault-picker";
+import { ArrowLeft, Share2, Link, Eye, Shield, Clock, Copy, ExternalLink, Mail, Calendar, Search, Vault } from "lucide-react";
 import { toast } from "sonner";
 
 interface SharedBadge {
@@ -40,12 +41,13 @@ interface VerificationEvent {
 export default function ShareHubPage() {
   const navigate = useNavigate();
   const [selectedBadge, setSelectedBadge] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedVaultBadges, setSelectedVaultBadges] = useState<any[]>([]);
   const [shareSettings, setShareSettings] = useState({
     emailRestriction: false,
     allowedEmails: "",
     timeLimit: false,
-    expirationDays: "7",
-    watermark: true
+    expirationDays: "7"
   });
   const [sharedBadges, setSharedBadges] = useState<SharedBadge[]>([]);
   const [verificationEvents, setVerificationEvents] = useState<VerificationEvent[]>([]);
@@ -116,10 +118,17 @@ export default function ShareHubPage() {
   };
 
   const mockBadges = [
-    { id: 'badge-1', title: 'Business Risk Analysis - UAE', type: 'Self-Reviewed' },
-    { id: 'badge-2', title: 'Expert-Verified Company Badge', type: 'Expert-Reviewed' },
-    { id: 'badge-3', title: 'Document Risk Score - Contract', type: 'Self-Reviewed' }
+    { id: 'badge-1', title: 'Business Risk Analysis - UAE', type: 'Self-Reviewed', riskScore: 85, date: '2025-01-15' },
+    { id: 'badge-2', title: 'Expert-Verified Company Badge', type: 'Expert-Reviewed', riskScore: 92, date: '2025-01-12' },
+    { id: 'badge-3', title: 'Document Risk Score - Contract', type: 'Self-Reviewed', riskScore: 78, date: '2025-01-10' },
+    { id: 'badge-4', title: 'Token Classification Analysis', type: 'Expert-Reviewed', riskScore: 89, date: '2025-01-08' },
+    { id: 'badge-5', title: 'Compliance Audit - Singapore', type: 'Self-Reviewed', riskScore: 94, date: '2025-01-05' }
   ];
+
+  const filteredBadges = mockBadges.filter(badge => 
+    badge.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    badge.type.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleCreateShare = () => {
     if (!selectedBadge) {
@@ -161,12 +170,13 @@ export default function ShareHubPage() {
     
     // Reset form
     setSelectedBadge("");
+    setSearchTerm("");
+    setSelectedVaultBadges([]);
     setShareSettings({
       emailRestriction: false,
       allowedEmails: "",
       timeLimit: false,
-      expirationDays: "7",
-      watermark: true
+      expirationDays: "7"
     });
   };
 
@@ -231,16 +241,33 @@ export default function ShareHubPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                      {/* Search Bar */}
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                        <Input
+                          placeholder="Search badges..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+
+                      {/* Badge Selection */}
                       <Select value={selectedBadge} onValueChange={setSelectedBadge}>
                         <SelectTrigger>
                           <SelectValue placeholder="Choose a badge" />
                         </SelectTrigger>
                         <SelectContent>
-                          {mockBadges.map(badge => (
+                          {filteredBadges.map(badge => (
                             <SelectItem key={badge.id} value={badge.id}>
                               <div className="flex items-center justify-between w-full">
-                                <span>{badge.title}</span>
-                                <Badge variant="outline" className="ml-2">
+                                <div className="flex flex-col">
+                                  <span className="font-medium">{badge.title}</span>
+                                  <span className="text-xs text-muted-foreground">
+                                    Score: {badge.riskScore}% • {badge.date}
+                                  </span>
+                                </div>
+                                <Badge variant={badge.type === 'Expert-Reviewed' ? 'default' : 'secondary'} className="ml-2">
                                   {badge.type}
                                 </Badge>
                               </div>
@@ -248,6 +275,30 @@ export default function ShareHubPage() {
                           ))}
                         </SelectContent>
                       </Select>
+
+                      {/* Import from Vault Option */}
+                      <div className="pt-2">
+                        <VaultPicker
+                          trigger={
+                            <Button variant="outline" className="w-full">
+                              <Vault className="w-4 h-4 mr-2" />
+                              Import from Legal Vault
+                            </Button>
+                          }
+                          selected={selectedVaultBadges}
+                          onSelectionChange={setSelectedVaultBadges}
+                          maxSelection={1}
+                          title="Select Badge from Vault"
+                          description="Choose a previously generated badge from your legal vault"
+                        />
+                      </div>
+
+                      {selectedVaultBadges.length > 0 && (
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className="text-sm font-medium">Selected from Vault:</p>
+                          <p className="text-sm text-muted-foreground">{selectedVaultBadges[0].name}</p>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
 
@@ -317,16 +368,13 @@ export default function ShareHubPage() {
                         )}
                       </div>
 
-                      {/* Watermark */}
-                      <div className="flex items-center justify-between">
+                      {/* Watermark - Always Included */}
+                      <div className="flex items-center justify-between p-3 bg-primary/5 rounded-lg border">
                         <div>
-                          <p className="font-medium">Add Watermark</p>
-                          <p className="text-sm text-muted-foreground">Include Quentlex branding on shared badge</p>
+                          <p className="font-medium text-primary">Quentlex Watermark</p>
+                          <p className="text-sm text-muted-foreground">Always included for security and authenticity</p>
                         </div>
-                        <Switch 
-                          checked={shareSettings.watermark}
-                          onCheckedChange={(checked) => setShareSettings(prev => ({ ...prev, watermark: checked }))}
-                        />
+                        <Shield className="w-5 h-5 text-primary" />
                       </div>
                     </CardContent>
                   </Card>
@@ -334,7 +382,7 @@ export default function ShareHubPage() {
                   <Button 
                     onClick={handleCreateShare}
                     className="w-full h-12 text-base font-semibold"
-                    disabled={!selectedBadge}
+                    disabled={!selectedBadge && selectedVaultBadges.length === 0}
                   >
                     <Link className="w-5 h-5 mr-2" />
                     Create Share Link
