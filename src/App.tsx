@@ -45,9 +45,10 @@ const IdeaFitPage = lazy(() => import("./pages/IdeaFitPage"));
 const PostIncorpPage = lazy(() => import("./pages/PostIncorpPage"));
 const CoReviewPage = lazy(() => import("./pages/CoReviewPage"));
 const ProofsPage = lazy(() => import("./pages/ProofsPage"));
-const SelfSnapshotPage = lazy(() => import("./pages/SelfSnapshotPage"));
-const ExpertSnapshotPage = lazy(() => import("./pages/ExpertSnapshotPage"));
-const CompanyBadgePage = lazy(() => import("./pages/CompanyBadgePage"));
+const SelfBadgePage = lazy(() => import("./pages/SelfBadgePage"));
+const ExpertBadgePage = lazy(() => import("./pages/ExpertBadgePage"));
+const ShareHubPage = lazy(() => import("./pages/ShareHubPage"));
+const TimelineViewPage = lazy(() => import("./pages/TimelineViewPage"));
 const ProofSharePage = lazy(() => import("./pages/ProofSharePage"));
 const ProofTimelinePage = lazy(() => import("./pages/ProofTimelinePage"));
 const DealDeskPage = lazy(() => import("./pages/DealDeskPage"));
@@ -124,9 +125,10 @@ const App = () => (
                   <Route path="/launch-path" element={<LaunchPathPage />} />
                   <Route path="/co-review" element={<CoReviewPage />} />
                 <Route path="/proofs" element={<ProofsPage />} />
-                <Route path="/proofs/self-snapshot" element={<SelfSnapshotPage />} />
-                <Route path="/proofs/expert-snapshot" element={<ExpertSnapshotPage />} />
-                <Route path="/proofs/company-badge" element={<CompanyBadgePage />} />
+            <Route path="/proofs/self-badge" element={<SelfBadgePage />} />
+            <Route path="/proofs/expert-badge" element={<ExpertBadgePage />} />
+            <Route path="/proofs/share" element={<ShareHubPage />} />
+            <Route path="/proofs/timeline" element={<TimelineViewPage />} />
                 <Route path="/proofs/document-risk" element={<DocumentRiskPage />} />
                 <Route path="/proofs/share" element={<ProofSharePage />} />
                 <Route path="/proofs/timeline" element={<ProofTimelinePage />} />
