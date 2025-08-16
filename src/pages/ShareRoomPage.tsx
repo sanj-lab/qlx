@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { VaultPicker } from "@/components/ui/vault-picker";
+import { BadgePicker, BadgeData } from "@/components/ui/badge-picker";
+import { BadgeDocumentManager } from "@/components/ui/badge-document-manager";
 import { 
   Share2, 
   Copy, 
@@ -26,29 +29,38 @@ import {
   Settings,
   BarChart3,
   UserPlus,
-  Trash2
+  Trash2,
+  Award,
+  Plus,
+  Search
 } from "lucide-react";
 
 export default function ShareRoomPage() {
-  const [selectedBadge, setSelectedBadge] = useState("");
+  const [selectedBadges, setSelectedBadges] = useState<string[]>([]);
   const [selectedDocs, setSelectedDocs] = useState<string[]>([]);
   const [roomName, setRoomName] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
   const [passwordProtected, setPasswordProtected] = useState(true);
+  const [password, setPassword] = useState("");
   const [expiryEnabled, setExpiryEnabled] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
   const [showAnalyticsModal, setShowAnalyticsModal] = useState(false);
   const [showManageModal, setShowManageModal] = useState(false);
   const [showSendEmailModal, setShowSendEmailModal] = useState(false);
+  const [showBadgeDocManager, setShowBadgeDocManager] = useState(false);
+  const [managingBadgeId, setManagingBadgeId] = useState<string>("");
+  const [badgeDocuments, setBadgeDocuments] = useState<Record<string, string[]>>({});
 
-  const badges = [
+  const badges: BadgeData[] = [
     { 
       id: "badge-1", 
       name: "SAFT Compliance Badge", 
       type: "ZK-Verified", 
       score: "87%",
       jurisdiction: "UAE",
-      date: "2024-01-15"
+      date: "2024-01-15",
+      documentIds: ["doc-1", "doc-2"],
+      status: "active"
     },
     { 
       id: "badge-2", 
@@ -56,16 +68,50 @@ export default function ShareRoomPage() {
       type: "Redline Review", 
       score: "92%",
       jurisdiction: "EU",
-      date: "2024-01-10"
+      date: "2024-01-10",
+      documentIds: ["doc-3"],
+      status: "active"
+    },
+    { 
+      id: "badge-3", 
+      name: "Token Classification Report", 
+      type: "Expert Review", 
+      score: "95%",
+      jurisdiction: "Singapore",
+      date: "2024-01-08",
+      documentIds: ["doc-4"],
+      status: "active"
+    },
+    { 
+      id: "badge-4", 
+      name: "Privacy Policy Compliance", 
+      type: "Self-Reviewed", 
+      score: "78%",
+      jurisdiction: "UAE",
+      date: "2024-01-05",
+      documentIds: [],
+      status: "pending"
+    },
+    { 
+      id: "badge-5", 
+      name: "AML/KYC Procedures", 
+      type: "Expert Review", 
+      score: "89%",
+      jurisdiction: "UK",
+      date: "2023-12-20",
+      documentIds: ["doc-1"],
+      status: "expired"
     }
   ];
 
-  const documents = [
-    { id: "doc-1", name: "SAFT Agreement v2.1", type: "SAFT", size: "2.4 MB" },
-    { id: "doc-2", name: "Privacy Policy", type: "Policy", size: "1.2 MB" },
-    { id: "doc-3", name: "Whitepaper v3.0", type: "Whitepaper", size: "4.8 MB" },
-    { id: "doc-4", name: "Token Economics", type: "Analysis", size: "1.8 MB" }
-  ];
+  // Initialize badge documents mapping
+  useState(() => {
+    const initialMapping: Record<string, string[]> = {};
+    badges.forEach(badge => {
+      initialMapping[badge.id] = badge.documentIds;
+    });
+    setBadgeDocuments(initialMapping);
+  });
 
   const activeRooms = [
     {
@@ -90,19 +136,35 @@ export default function ShareRoomPage() {
     }
   ];
 
-  const handleDocToggle = (docId: string) => {
-    setSelectedDocs(prev => 
-      prev.includes(docId) 
-        ? prev.filter(id => id !== docId)
-        : [...prev, docId]
-    );
-  };
-
   const handleGenerateRoom = () => {
     setIsGenerated(true);
   };
 
-  const selectedBadgeData = badges.find(badge => badge.id === selectedBadge);
+  const handleSelectAllDocuments = (badgeId: string) => {
+    const badge = badges.find(b => b.id === badgeId);
+    if (badge) {
+      const badgeDocIds = badgeDocuments[badgeId] || [];
+      const newSelected = Array.from(new Set([...selectedDocs, ...badgeDocIds]));
+      setSelectedDocs(newSelected);
+    }
+  };
+
+  const handleManageBadgeDocuments = (badgeId: string) => {
+    setManagingBadgeId(badgeId);
+    setShowBadgeDocManager(true);
+  };
+
+  const handleBadgeDocumentsChange = (badgeId: string, documentIds: string[]) => {
+    setBadgeDocuments(prev => ({
+      ...prev,
+      [badgeId]: documentIds
+    }));
+  };
+
+  const selectedBadgesData = badges.filter(badge => selectedBadges.includes(badge.id));
+  const totalDocuments = selectedBadgesData.reduce((acc, badge) => 
+    acc + (badgeDocuments[badge.id] || []).length, 0
+  ) + selectedDocs.length;
 
   return (
     <div className="min-h-screen bg-background p-6">
@@ -143,55 +205,71 @@ export default function ShareRoomPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Select Compliance Badge</label>
-                  <Select value={selectedBadge} onValueChange={setSelectedBadge}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose badge" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {badges.map(badge => (
-                        <SelectItem key={badge.id} value={badge.id}>
-                          <div className="flex items-center justify-between w-full">
-                            <span>{badge.name}</span>
-                            <Badge variant="secondary" className="ml-2">{badge.score}</Badge>
+                  <label className="text-sm font-medium mb-2 block">Select Compliance Badges</label>
+                  <BadgePicker
+                    trigger={
+                      <Button variant="outline" className="w-full justify-start">
+                        <Award className="w-4 h-4 mr-2" />
+                        {selectedBadges.length === 0 ? "Choose badges..." : `${selectedBadges.length} badge${selectedBadges.length === 1 ? '' : 's'} selected`}
+                      </Button>
+                    }
+                    selected={selectedBadges}
+                    onSelectionChange={setSelectedBadges}
+                    badges={badges}
+                    onSelectAllDocuments={handleSelectAllDocuments}
+                  />
+                  
+                  {selectedBadgesData.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {selectedBadgesData.map(badge => (
+                        <div key={badge.id} className="p-3 bg-muted/30 rounded-lg">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-medium text-sm">{badge.name}</span>
+                            <div className="flex items-center gap-2">
+                              <Badge variant="secondary" className="text-xs">{badge.score}</Badge>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleManageBadgeDocuments(badge.id)}
+                                className="h-6 text-xs"
+                              >
+                                <Settings className="w-3 h-3 mr-1" />
+                                Manage Docs
+                              </Button>
+                            </div>
                           </div>
-                        </SelectItem>
+                          <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                            <span>Type: {badge.type}</span>
+                            <span>Jurisdiction: {badge.jurisdiction}</span>
+                            <span>Documents: {(badgeDocuments[badge.id] || []).length}</span>
+                            <span>Date: {badge.date}</span>
+                          </div>
+                        </div>
                       ))}
-                    </SelectContent>
-                  </Select>
-                  {selectedBadgeData && (
-                    <div className="mt-2 p-3 bg-muted/30 rounded-lg">
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>Type: {selectedBadgeData.type}</span>
-                        <span>Score: {selectedBadgeData.score}</span>
-                      </div>
-                      <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                        <span>Jurisdiction: {selectedBadgeData.jurisdiction}</span>
-                        <span>Date: {selectedBadgeData.date}</span>
-                      </div>
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Select Documents</label>
-                  <div className="space-y-2 max-h-32 overflow-y-auto">
-                    {documents.map(doc => (
-                      <div key={doc.id} className="flex items-center space-x-3">
-                        <input
-                          type="checkbox"
-                          id={doc.id}
-                          checked={selectedDocs.includes(doc.id)}
-                          onChange={() => handleDocToggle(doc.id)}
-                          className="rounded border-gray-300"
-                        />
-                        <label htmlFor={doc.id} className="flex-1 text-sm cursor-pointer">
-                          <span className="font-medium">{doc.name}</span>
-                          <span className="text-muted-foreground ml-2">({doc.size})</span>
-                        </label>
-                      </div>
-                    ))}
-                  </div>
+                  <label className="text-sm font-medium mb-2 block">Additional Documents</label>
+                  <VaultPicker
+                    trigger={
+                      <Button variant="outline" className="w-full justify-start">
+                        <FileText className="w-4 h-4 mr-2" />
+                        {selectedDocs.length === 0 ? "Select documents from vault..." : `${selectedDocs.length} document${selectedDocs.length === 1 ? '' : 's'} selected`}
+                      </Button>
+                    }
+                    selected={selectedDocs}
+                    onSelectionChange={setSelectedDocs}
+                    title="Select Additional Documents"
+                    description="Choose additional documents to include beyond badge-attached documents"
+                  />
+                  
+                  {totalDocuments > 0 && (
+                    <div className="mt-2 p-2 bg-muted/30 rounded text-xs text-muted-foreground">
+                      Total: {totalDocuments} documents will be included in the share room
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-4 pt-4 border-t">
@@ -204,6 +282,19 @@ export default function ShareRoomPage() {
                     </div>
                     <Switch checked={passwordProtected} onCheckedChange={setPasswordProtected} />
                   </div>
+
+                  {passwordProtected && (
+                    <div className="ml-6">
+                      <label className="text-sm font-medium mb-2 block">Room Password</label>
+                      <Input 
+                        type="password"
+                        placeholder="Enter secure password..."
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                    </div>
+                  )}
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -224,7 +315,7 @@ export default function ShareRoomPage() {
                 <Button 
                   className="w-full" 
                   onClick={handleGenerateRoom}
-                  disabled={!roomName || !selectedBadge || selectedDocs.length === 0}
+                  disabled={!roomName || selectedBadges.length === 0 || totalDocuments === 0 || (passwordProtected && !password)}
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   Generate Share Room
@@ -269,12 +360,12 @@ export default function ShareRoomPage() {
                       
                       <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                         <div>
-                          <span className="text-muted-foreground">Badge:</span>
-                          <p className="font-medium">{selectedBadgeData?.name}</p>
+                          <span className="text-muted-foreground">Badges:</span>
+                          <p className="font-medium">{selectedBadges.length} selected</p>
                         </div>
                         <div>
                           <span className="text-muted-foreground">Documents:</span>
-                          <p className="font-medium">{selectedDocs.length} files</p>
+                          <p className="font-medium">{totalDocuments} files</p>
                         </div>
                         <div>
                           <span className="text-muted-foreground">Access:</span>
@@ -285,6 +376,19 @@ export default function ShareRoomPage() {
                           <p className="font-medium">{expiryEnabled ? "30 days" : "Never"}</p>
                         </div>
                       </div>
+
+                      {selectedBadgesData.length > 0 && (
+                        <div className="mb-4">
+                          <span className="text-sm text-muted-foreground">Included Badges:</span>
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {selectedBadgesData.map(badge => (
+                              <Badge key={badge.id} variant="secondary" className="text-xs">
+                                {badge.name} ({badge.score})
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="p-4 bg-muted/30 rounded-lg">
@@ -674,6 +778,18 @@ export default function ShareRoomPage() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Badge Document Manager Modal */}
+      {managingBadgeId && (
+        <BadgeDocumentManager
+          isOpen={showBadgeDocManager}
+          onClose={() => setShowBadgeDocManager(false)}
+          badgeId={managingBadgeId}
+          badgeName={badges.find(b => b.id === managingBadgeId)?.name || ""}
+          initialDocumentIds={badgeDocuments[managingBadgeId] || []}
+          onDocumentsChange={handleBadgeDocumentsChange}
+        />
+      )}
     </div>
   );
 }
