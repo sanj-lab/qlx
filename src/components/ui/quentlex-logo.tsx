@@ -32,9 +32,8 @@ export function QuentlexLogo({ className, size = "md", showText = true }: Quentl
         )}>
           <span className="text-sm leading-none font-black">Q</span>
         </div>
-        <div className="flex flex-col">
+        <div>
           <span className="text-xl font-bold text-foreground tracking-tight">Quentlex</span>
-          <span className="text-xs text-muted-foreground font-medium tracking-wide">Legal Oracle</span>
         </div>
       </Link>
     );
