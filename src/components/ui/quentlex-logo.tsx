@@ -1,27 +1,24 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { cn } from "@/lib/utils";
 
 interface QuentlexLogoProps {
   className?: string;
-  showWordmark?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
-export function QuentlexLogo({ className = "", showWordmark = true }: QuentlexLogoProps) {
+export function QuentlexLogo({ className, size = "md" }: QuentlexLogoProps) {
+  const sizes = {
+    sm: "w-4 h-4",
+    md: "w-5 h-5", 
+    lg: "w-6 h-6"
+  };
+
   return (
-    <Link 
-      to="/" 
-      className={`flex items-center gap-2 group transition-all duration-200 hover:scale-[1.02] ${className}`}
-    >
-      <img 
-        src="/lovable-uploads/3b2c28bb-cdb5-4243-9c10-4535c65f4ce6.png" 
-        alt="Quentlex Logo" 
-        className="h-8 w-8 transition-all duration-200 group-hover:brightness-110"
-      />
-      {showWordmark && (
-        <span className="text-xl font-semibold text-quentlex-dark tracking-tight transition-colors duration-200 group-hover:text-quentlex-gold">
-          Quentlex
-        </span>
-      )}
-    </Link>
+    <div className={cn(
+      "relative inline-flex items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground font-bold",
+      sizes[size],
+      className
+    )}>
+      <span className="text-[0.6em] leading-none">Q</span>
+    </div>
   );
 }

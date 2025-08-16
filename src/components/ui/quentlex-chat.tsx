@@ -76,30 +76,82 @@ export function QuentlexChat({ className }: QuentlexChatProps) {
     setFiles([]);
     setIsLoading(true);
 
-    // Simulate AI response
+    // Simulate AI response with jurisdiction-specific intelligence
     setTimeout(() => {
       const responses = {
-        "licenses": "Based on your business model, you'll need a VARA Preliminary Approval in UAE. This typically takes 45-60 days and costs around $50,000. Would you like me to generate a compliance checklist?",
-        "compliance": "I've analyzed your current status. You're 68% compliant with 3 pending items. Your biggest gap is AML/KYC procedures. Shall I take you to your Command Center dashboard?",
-        "risk": "I can generate a comprehensive risk assessment. Do you want to start with idea-stage analysis or post-incorporation review?",
-        "jurisdiction": "For DeFi projects, Singapore offers faster regulatory clarity (75 days) compared to UK (120 days), but UK has stronger institutional credibility. Want to see a detailed comparison?",
-        "documents": "I can generate SAFTs, privacy policies, or token sale documents. Which jurisdiction and document type do you need?"
+        "licenses": "Based on your business model, you'll need a VARA Preliminary Approval in UAE. This typically takes 45-60 days and costs around $50,000. I've pre-loaded a compliance checklist into your Launch Path.",
+        "compliance": "I've analyzed your current status. You're 68% compliant with 3 pending items. Your biggest gap is AML/KYC procedures - I can route you directly to Command Center for immediate action.",
+        "risk": "I can generate a comprehensive risk assessment. For early-stage ventures, I recommend starting with our Idea Fit analysis, then proceeding to post-incorporation review once you've selected your jurisdiction.",
+        "jurisdiction": "For DeFi projects, Singapore offers faster regulatory clarity (75 days) vs UK (120 days), but UK provides stronger institutional credibility. Based on similar Web3 companies, I recommend Singapore for speed-to-market.",
+        "documents": "I can generate SAFTs, privacy policies, or token sale documents. For UAE entities, I recommend starting with our Document Studio pre-loaded with VARA-compliant templates.",
+        "uae": "UAE through VARA offers the clearest regulatory framework for Web3. Timeline: 45-60 days, Cost: ~$50K, Success rate: 87%. I can auto-populate your Launch Path with UAE-specific requirements.",
+        "singapore": "Singapore's VFA framework is ideal for trading protocols. Timeline: 75 days, lighter touch regulation. I can compare this directly with UAE if you'd like.",
+        "fundraising": "For fundraising preparation, I recommend: 1) Complete risk analysis in Launch Path, 2) Generate ZK compliance badges in Proofs, 3) Set up investor data rooms in Deal Desk.",
+        "proof": "ZK proofs let you share compliance status without exposing sensitive details. Perfect for investor calls. I can generate your first badge from existing analysis.",
+        "vault": "Your Legal Vault stores all compliance documents with AI indexing. I can help you organize everything for due diligence or regulatory review."
       };
 
+      const inputLower = input.toLowerCase();
       const responseKey = Object.keys(responses).find(key => 
-        input.toLowerCase().includes(key)
+        inputLower.includes(key)
       ) || "default";
+
+      let content = responses[responseKey];
+      let actions: any[] = [];
+
+      // Smart routing based on query intent
+      if (inputLower.includes("license") || inputLower.includes("uae") || inputLower.includes("vara")) {
+        content = responses["uae"];
+        actions = [
+          { type: "navigate", label: "UAE Launch Path", target: "/launch-path/jurisdiction?preset=uae", params: {} },
+          { type: "navigate", label: "Compare Jurisdictions", target: "/launch-path/idea-fit", params: {} }
+        ];
+      } else if (inputLower.includes("singapore") || inputLower.includes("jurisdiction")) {
+        content = responses["singapore"];
+        actions = [
+          { type: "navigate", label: "Jurisdiction Comparison", target: "/launch-path/idea-fit", params: {} },
+          { type: "navigate", label: "Singapore Path", target: "/launch-path/jurisdiction?preset=singapore", params: {} }
+        ];
+      } else if (inputLower.includes("compliance") || inputLower.includes("dashboard")) {
+        content = responses["compliance"];
+        actions = [
+          { type: "navigate", label: "Command Center", target: "/command-center/dashboard", params: {} },
+          { type: "navigate", label: "Risk Analysis", target: "/launch-path/post-incorp", params: {} }
+        ];
+      } else if (inputLower.includes("proof") || inputLower.includes("badge") || inputLower.includes("zk")) {
+        content = responses["proof"];
+        actions = [
+          { type: "navigate", label: "Generate Badge", target: "/proofs/self-badge", params: {} },
+          { type: "navigate", label: "View Proofs", target: "/proofs", params: {} }
+        ];
+      } else if (inputLower.includes("fundrais") || inputLower.includes("investor") || inputLower.includes("deal")) {
+        content = responses["fundraising"];
+        actions = [
+          { type: "navigate", label: "Deal Desk", target: "/deal-desk", params: {} },
+          { type: "navigate", label: "Generate Proofs", target: "/proofs/self-badge", params: {} }
+        ];
+      } else if (inputLower.includes("document") || inputLower.includes("contract")) {
+        content = responses["documents"];
+        actions = [
+          { type: "navigate", label: "Document Studio", target: "/launch-path/doc-studio", params: {} },
+          { type: "navigate", label: "Legal Vault", target: "/command-center/vault", params: {} }
+        ];
+      } else {
+        content = content || "I understand you're asking about compliance. Let me analyze your query and route you to the most relevant workflow. What specific jurisdiction or compliance area interests you?";
+        actions = [
+          { type: "navigate", label: "Start Journey", target: "/launch-path", params: {} },
+          { type: "navigate", label: "Command Center", target: "/command-center/dashboard", params: {} },
+          { type: "navigate", label: "Generate Proofs", target: "/proofs", params: {} }
+        ];
+      }
 
       const assistantMessage: ChatMessage = {
         id: Date.now().toString(),
         type: "assistant",
-        content: responses[responseKey] || "I understand you're asking about compliance matters. Let me help you navigate to the right section of the platform where we can address this properly.",
+        content,
         timestamp: new Date().toISOString(),
-        citations: files.length > 0 ? ["Analyzed uploaded documents"] : undefined,
-        actions: [
-          { type: "navigate", label: "Launch Path", target: "/launch-path", params: {} },
-          { type: "navigate", label: "Command Center", target: "/command-center/dashboard", params: {} }
-        ]
+        citations: files.length > 0 ? ["Cross-referenced with uploaded documents", "Quentlex Legal Database"] : ["Quentlex Legal Database", "Real-time Regulatory Updates"],
+        actions
       };
 
       setMessages(prev => [...prev, assistantMessage]);

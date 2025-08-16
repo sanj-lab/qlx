@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Shield } from "lucide-react";
+import { QuentlexLogo } from "@/components/ui/quentlex-logo";
 
 interface PilotBadgeProps {
   className?: string;
@@ -9,7 +9,7 @@ interface PilotBadgeProps {
 export function PilotBadge({ className, variant = "outline" }: PilotBadgeProps) {
   return (
     <Badge variant={variant} className={className}>
-      <Shield className="w-3 h-3 mr-1" />
+      <QuentlexLogo className="mr-1" />
       Simulated for pilot
     </Badge>
   );

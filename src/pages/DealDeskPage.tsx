@@ -151,7 +151,7 @@ export default function DealDeskPage() {
                         Upload term sheets for instant AI analysis. Get market benchmarks, red flag alerts, and counter-proposal suggestions.
                       </p>
                       <Button asChild className="w-full">
-                        <Link to="/negotiation-agent">
+                        <Link to="/deal-desk/negotiator">
                           Launch Negotiator
                           <ArrowRight className="w-4 h-4 ml-2"/>
                         </Link>
