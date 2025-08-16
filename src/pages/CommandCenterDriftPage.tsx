@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CommandCenterSubnav } from "@/components/ui/command-center-subnav";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   AlertTriangle, 
   TrendingDown, 
@@ -16,7 +17,10 @@ import {
   RefreshCw,
   ExternalLink,
   CheckCircle,
-  Clock
+  Clock,
+  Building2,
+  Shield,
+  Award
 } from "lucide-react";
 
 interface DriftItem {
@@ -30,6 +34,34 @@ interface DriftItem {
   recommendedActions: string[];
   jurisdiction: string;
   documentType: string;
+}
+
+interface BusinessDriftItem {
+  id: string;
+  complianceArea: string;
+  framework: string;
+  driftPercentage: number;
+  lastAssessment: string;
+  regulationUpdate: string;
+  status: 'critical' | 'warning' | 'ok';
+  affectedControls: string[];
+  recommendedActions: string[];
+  jurisdiction: string;
+  riskLevel: 'high' | 'medium' | 'low';
+}
+
+interface BadgeDriftItem {
+  id: string;
+  badgeName: string;
+  badgeType: 'self' | 'expert' | 'company';
+  driftPercentage: number;
+  lastVerification: string;
+  regulationUpdate: string;
+  status: 'critical' | 'warning' | 'ok';
+  affectedCriteria: string[];
+  recommendedActions: string[];
+  jurisdiction: string;
+  validityPeriod: string;
 }
 
 const mockDriftData: DriftItem[] = [
@@ -131,6 +163,171 @@ const mockDriftData: DriftItem[] = [
   }
 ];
 
+const mockBusinessDriftData: BusinessDriftItem[] = [
+  {
+    id: "business-1",
+    complianceArea: "Data Protection & Privacy",
+    framework: "GDPR Compliance Program",
+    driftPercentage: 78,
+    lastAssessment: "2024-01-15",
+    regulationUpdate: "GDPR Article 28 Updates",
+    status: "critical",
+    affectedControls: [
+      "Data Processing Agreements",
+      "Vendor Risk Assessments", 
+      "Cross-border Transfer Controls",
+      "Data Subject Rights Management"
+    ],
+    recommendedActions: [
+      "Update all DPA templates with new Article 28 requirements",
+      "Implement enhanced vendor due diligence",
+      "Review and update transfer impact assessments"
+    ],
+    jurisdiction: "EU",
+    riskLevel: "high"
+  },
+  {
+    id: "business-2",
+    complianceArea: "Financial Services",
+    framework: "UAE VARA Compliance",
+    driftPercentage: 92,
+    lastAssessment: "2023-12-20",
+    regulationUpdate: "VARA Rulebook v2.0",
+    status: "critical",
+    affectedControls: [
+      "AML/CTF Controls",
+      "Market Conduct Rules",
+      "Custody Requirements",
+      "Reporting Obligations"
+    ],
+    recommendedActions: [
+      "Implement new AML screening procedures",
+      "Update market conduct monitoring",
+      "Enhance custody control framework"
+    ],
+    jurisdiction: "UAE",
+    riskLevel: "high"
+  },
+  {
+    id: "business-3",
+    complianceArea: "Information Security",
+    framework: "ISO 27001 Controls",
+    driftPercentage: 34,
+    lastAssessment: "2024-02-05",
+    regulationUpdate: "ISO 27001:2022 Updates",
+    status: "warning",
+    affectedControls: [
+      "Access Control Management",
+      "Incident Response Procedures"
+    ],
+    recommendedActions: [
+      "Update access control policies",
+      "Enhance incident response workflows"
+    ],
+    jurisdiction: "Global",
+    riskLevel: "medium"
+  },
+  {
+    id: "business-4",
+    complianceArea: "Corporate Governance",
+    framework: "SOX Compliance",
+    driftPercentage: 12,
+    lastAssessment: "2024-02-12",
+    regulationUpdate: "Minor PCAOB updates",
+    status: "ok",
+    affectedControls: [
+      "Financial Reporting Controls"
+    ],
+    recommendedActions: [
+      "Review quarterly assessment procedures"
+    ],
+    jurisdiction: "US",
+    riskLevel: "low"
+  }
+];
+
+const mockBadgeDriftData: BadgeDriftItem[] = [
+  {
+    id: "badge-1",
+    badgeName: "EU MiCA Compliance Badge",
+    badgeType: "expert",
+    driftPercentage: 85,
+    lastVerification: "2024-01-08",
+    regulationUpdate: "MiCA Level 2 Measures",
+    status: "critical",
+    affectedCriteria: [
+      "Token Classification Standards",
+      "Market Making Requirements",
+      "Custody Service Provisions",
+      "Consumer Protection Measures"
+    ],
+    recommendedActions: [
+      "Re-verify token classification methodology",
+      "Update market making compliance framework",
+      "Enhance custody protection measures"
+    ],
+    jurisdiction: "EU",
+    validityPeriod: "12 months"
+  },
+  {
+    id: "badge-2",
+    badgeName: "UAE VARA Authorized Entity",
+    badgeType: "expert",
+    driftPercentage: 73,
+    lastVerification: "2023-12-28",
+    regulationUpdate: "VARA Technology Standards",
+    status: "critical",
+    affectedCriteria: [
+      "Technology Infrastructure Requirements",
+      "Operational Resilience Standards",
+      "Client Asset Protection"
+    ],
+    recommendedActions: [
+      "Upgrade technology infrastructure",
+      "Implement new resilience testing",
+      "Update client asset segregation"
+    ],
+    jurisdiction: "UAE",
+    validityPeriod: "24 months"
+  },
+  {
+    id: "badge-3",
+    badgeName: "Self-Certified KYC Badge",
+    badgeType: "self",
+    driftPercentage: 41,
+    lastVerification: "2024-01-20",
+    regulationUpdate: "Updated KYC Standards",
+    status: "warning",
+    affectedCriteria: [
+      "Identity Verification Procedures",
+      "Enhanced Due Diligence Triggers"
+    ],
+    recommendedActions: [
+      "Update ID verification methods",
+      "Review EDD trigger criteria"
+    ],
+    jurisdiction: "Global",
+    validityPeriod: "6 months"
+  },
+  {
+    id: "badge-4",
+    badgeName: "Company ESG Compliance",
+    badgeType: "company",
+    driftPercentage: 18,
+    lastVerification: "2024-02-15",
+    regulationUpdate: "Minor ESG reporting updates",
+    status: "ok",
+    affectedCriteria: [
+      "Environmental Reporting Standards"
+    ],
+    recommendedActions: [
+      "Review quarterly ESG metrics"
+    ],
+    jurisdiction: "EU",
+    validityPeriod: "12 months"
+  }
+];
+
 export default function CommandCenterDriftPage() {
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState<DriftItem | null>(null);
@@ -190,9 +387,16 @@ export default function CommandCenterDriftPage() {
     });
   };
 
-  const criticalItems = mockDriftData.filter(item => item.status === 'critical');
-  const warningItems = mockDriftData.filter(item => item.status === 'warning');
-  const okItems = mockDriftData.filter(item => item.status === 'ok');
+  // Combine all drift data for summary
+  const allDriftItems = [
+    ...mockDriftData,
+    ...mockBusinessDriftData, 
+    ...mockBadgeDriftData
+  ];
+  
+  const criticalItems = allDriftItems.filter(item => item.status === 'critical');
+  const warningItems = allDriftItems.filter(item => item.status === 'warning');
+  const okItems = allDriftItems.filter(item => item.status === 'ok');
 
   return (
     <div className="min-h-screen bg-background">
@@ -252,124 +456,372 @@ export default function CommandCenterDriftPage() {
           </Card>
         </div>
 
-        {/* Drift Table */}
-        <Card className="enterprise-card">
-          <CardHeader>
-            <CardTitle>Document Drift Analysis</CardTitle>
-            <CardDescription>
-              Regulatory compliance drift tracking across all jurisdictions
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {mockDriftData.map((item) => (
-                <div 
-                  key={item.id}
-                  className="border rounded-lg p-6 hover:bg-muted/50 transition-colors"
-                >
-                  <div className="grid lg:grid-cols-12 gap-4 items-start">
-                    {/* Document Info */}
-                    <div className="lg:col-span-4">
-                      <div className="flex items-start space-x-3">
-                        <FileText className="h-5 w-5 text-primary mt-0.5" />
-                        <div>
-                          <h4 className="font-medium">{item.documentName}</h4>
-                          <div className="flex items-center space-x-2 mt-1">
-                            {getJurisdictionBadge(item.jurisdiction)}
-                            <Badge variant="outline" className="text-xs">
-                              {item.documentType}
-                            </Badge>
+        {/* Drift Analysis Tabs */}
+        <Tabs defaultValue="documents" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="documents" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Document Drift
+            </TabsTrigger>
+            <TabsTrigger value="business" className="flex items-center gap-2">
+              <Building2 className="h-4 w-4" />
+              Business Legal Drift
+            </TabsTrigger>
+            <TabsTrigger value="badges" className="flex items-center gap-2">
+              <Award className="h-4 w-4" />
+              Badge Drift
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="documents">
+            <Card className="enterprise-card">
+              <CardHeader>
+                <CardTitle>Document Drift Analysis</CardTitle>
+                <CardDescription>
+                  Regulatory compliance drift tracking for legal documents
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {mockDriftData.map((item) => (
+                    <div 
+                      key={item.id}
+                      className="border rounded-lg p-6 hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="grid lg:grid-cols-12 gap-4 items-start">
+                        {/* Document Info */}
+                        <div className="lg:col-span-4">
+                          <div className="flex items-start space-x-3">
+                            <FileText className="h-5 w-5 text-primary mt-0.5" />
+                            <div>
+                              <h4 className="font-medium">{item.documentName}</h4>
+                              <div className="flex items-center space-x-2 mt-1">
+                                {getJurisdictionBadge(item.jurisdiction)}
+                                <Badge variant="outline" className="text-xs">
+                                  {item.documentType}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                Last reviewed: {new Date(item.lastReview).toLocaleDateString()}
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Last reviewed: {new Date(item.lastReview).toLocaleDateString()}
-                          </p>
+                        </div>
+
+                        {/* Drift Progress */}
+                        <div className="lg:col-span-3">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium">Drift Level</span>
+                              <span className={`text-sm font-bold ${getDriftColor(item.driftPercentage)}`}>
+                                {item.driftPercentage}%
+                              </span>
+                            </div>
+                            <Progress 
+                              value={item.driftPercentage} 
+                              className={`h-2 ${
+                                item.driftPercentage >= 60 ? '[&>div]:bg-destructive' :
+                                item.driftPercentage >= 30 ? '[&>div]:bg-warning' : '[&>div]:bg-success'
+                              }`}
+                            />
+                            <p className="text-xs text-muted-foreground">
+                              {item.regulationUpdate}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Status */}
+                        <div className="lg:col-span-2 flex justify-center">
+                          {getDriftBadge(item.status)}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="lg:col-span-3">
+                          <div className="flex flex-wrap gap-2">
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleViewChanges(item)}
+                            >
+                              <Eye className="w-3 h-3 mr-1" />
+                              View Changes
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleSendToRedline(item)}
+                            >
+                              <Edit3 className="w-3 h-3 mr-1" />
+                              Redline
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleUpdateViaDocStudio(item)}
+                            >
+                              <RefreshCw className="w-3 h-3 mr-1" />
+                              Update
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Drift Progress */}
-                    <div className="lg:col-span-3">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Drift Level</span>
-                          <span className={`text-sm font-bold ${getDriftColor(item.driftPercentage)}`}>
-                            {item.driftPercentage}%
-                          </span>
+                      {/* Affected Clauses Preview */}
+                      {item.status !== 'ok' && (
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="text-sm text-muted-foreground mb-2">
+                            Affected Clauses ({item.affectedClauses.length}):
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {item.affectedClauses.slice(0, 3).map((clause, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {clause}
+                              </Badge>
+                            ))}
+                            {item.affectedClauses.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{item.affectedClauses.length - 3} more
+                              </Badge>
+                            )}
+                          </div>
                         </div>
-                        <Progress 
-                          value={item.driftPercentage} 
-                          className={`h-2 ${
-                            item.driftPercentage >= 60 ? '[&>div]:bg-destructive' :
-                            item.driftPercentage >= 30 ? '[&>div]:bg-warning' : '[&>div]:bg-success'
-                          }`}
-                        />
-                        <p className="text-xs text-muted-foreground">
-                          {item.regulationUpdate}
-                        </p>
-                      </div>
+                      )}
                     </div>
-
-                    {/* Status */}
-                    <div className="lg:col-span-2 flex justify-center">
-                      {getDriftBadge(item.status)}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="lg:col-span-3">
-                      <div className="flex flex-wrap gap-2">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => handleViewChanges(item)}
-                        >
-                          <Eye className="w-3 h-3 mr-1" />
-                          View Changes
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => handleSendToRedline(item)}
-                        >
-                          <Edit3 className="w-3 h-3 mr-1" />
-                          Redline
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => handleUpdateViaDocStudio(item)}
-                        >
-                          <RefreshCw className="w-3 h-3 mr-1" />
-                          Update
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Affected Clauses Preview */}
-                  {item.status !== 'ok' && (
-                    <div className="mt-4 pt-4 border-t">
-                      <div className="text-sm text-muted-foreground mb-2">
-                        Affected Clauses ({item.affectedClauses.length}):
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {item.affectedClauses.slice(0, 3).map((clause, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {clause}
-                          </Badge>
-                        ))}
-                        {item.affectedClauses.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{item.affectedClauses.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  ))}
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="business">
+            <Card className="enterprise-card">
+              <CardHeader>
+                <CardTitle>Business Legal Drift Analysis</CardTitle>
+                <CardDescription>
+                  Enterprise compliance framework monitoring (Vanta-level)
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {mockBusinessDriftData.map((item) => (
+                    <div 
+                      key={item.id}
+                      className="border rounded-lg p-6 hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="grid lg:grid-cols-12 gap-4 items-start">
+                        {/* Business Area Info */}
+                        <div className="lg:col-span-4">
+                          <div className="flex items-start space-x-3">
+                            <Shield className="h-5 w-5 text-primary mt-0.5" />
+                            <div>
+                              <h4 className="font-medium">{item.complianceArea}</h4>
+                              <div className="flex items-center space-x-2 mt-1">
+                                {getJurisdictionBadge(item.jurisdiction)}
+                                <Badge variant="outline" className="text-xs">
+                                  {item.framework}
+                                </Badge>
+                                <Badge 
+                                  variant="outline" 
+                                  className={`text-xs ${
+                                    item.riskLevel === 'high' ? 'border-destructive text-destructive' :
+                                    item.riskLevel === 'medium' ? 'border-warning text-warning' :
+                                    'border-success text-success'
+                                  }`}
+                                >
+                                  {item.riskLevel} risk
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                Last assessed: {new Date(item.lastAssessment).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Drift Progress */}
+                        <div className="lg:col-span-3">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium">Drift Level</span>
+                              <span className={`text-sm font-bold ${getDriftColor(item.driftPercentage)}`}>
+                                {item.driftPercentage}%
+                              </span>
+                            </div>
+                            <Progress 
+                              value={item.driftPercentage} 
+                              className={`h-2 ${
+                                item.driftPercentage >= 60 ? '[&>div]:bg-destructive' :
+                                item.driftPercentage >= 30 ? '[&>div]:bg-warning' : '[&>div]:bg-success'
+                              }`}
+                            />
+                            <p className="text-xs text-muted-foreground">
+                              {item.regulationUpdate}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Status */}
+                        <div className="lg:col-span-2 flex justify-center">
+                          {getDriftBadge(item.status)}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="lg:col-span-3">
+                          <div className="flex flex-wrap gap-2">
+                            <Button variant="outline" size="sm">
+                              <Eye className="w-3 h-3 mr-1" />
+                              View Assessment
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              <RefreshCw className="w-3 h-3 mr-1" />
+                              Update Controls
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              <Shield className="w-3 h-3 mr-1" />
+                              Re-assess
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Affected Controls Preview */}
+                      {item.status !== 'ok' && (
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="text-sm text-muted-foreground mb-2">
+                            Affected Controls ({item.affectedControls.length}):
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {item.affectedControls.slice(0, 3).map((control, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {control}
+                              </Badge>
+                            ))}
+                            {item.affectedControls.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{item.affectedControls.length - 3} more
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="badges">
+            <Card className="enterprise-card">
+              <CardHeader>
+                <CardTitle>Badge Drift Analysis</CardTitle>
+                <CardDescription>
+                  Compliance badge validity and regulatory drift monitoring
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {mockBadgeDriftData.map((item) => (
+                    <div 
+                      key={item.id}
+                      className="border rounded-lg p-6 hover:bg-muted/50 transition-colors"
+                    >
+                      <div className="grid lg:grid-cols-12 gap-4 items-start">
+                        {/* Badge Info */}
+                        <div className="lg:col-span-4">
+                          <div className="flex items-start space-x-3">
+                            <Award className="h-5 w-5 text-primary mt-0.5" />
+                            <div>
+                              <h4 className="font-medium">{item.badgeName}</h4>
+                              <div className="flex items-center space-x-2 mt-1">
+                                {getJurisdictionBadge(item.jurisdiction)}
+                                <Badge variant="outline" className="text-xs">
+                                  {item.badgeType}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  Valid: {item.validityPeriod}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-muted-foreground mt-1">
+                                Last verified: {new Date(item.lastVerification).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Drift Progress */}
+                        <div className="lg:col-span-3">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium">Drift Level</span>
+                              <span className={`text-sm font-bold ${getDriftColor(item.driftPercentage)}`}>
+                                {item.driftPercentage}%
+                              </span>
+                            </div>
+                            <Progress 
+                              value={item.driftPercentage} 
+                              className={`h-2 ${
+                                item.driftPercentage >= 60 ? '[&>div]:bg-destructive' :
+                                item.driftPercentage >= 30 ? '[&>div]:bg-warning' : '[&>div]:bg-success'
+                              }`}
+                            />
+                            <p className="text-xs text-muted-foreground">
+                              {item.regulationUpdate}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Status */}
+                        <div className="lg:col-span-2 flex justify-center">
+                          {getDriftBadge(item.status)}
+                        </div>
+
+                        {/* Actions */}
+                        <div className="lg:col-span-3">
+                          <div className="flex flex-wrap gap-2">
+                            <Button variant="outline" size="sm">
+                              <Eye className="w-3 h-3 mr-1" />
+                              View Details
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              <RefreshCw className="w-3 h-3 mr-1" />
+                              Re-verify
+                            </Button>
+                            <Button variant="outline" size="sm">
+                              <Award className="w-3 h-3 mr-1" />
+                              Update Badge
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Affected Criteria Preview */}
+                      {item.status !== 'ok' && (
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="text-sm text-muted-foreground mb-2">
+                            Affected Criteria ({item.affectedCriteria.length}):
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {item.affectedCriteria.slice(0, 3).map((criteria, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {criteria}
+                              </Badge>
+                            ))}
+                            {item.affectedCriteria.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{item.affectedCriteria.length - 3} more
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* Diff Changes Modal */}
