@@ -92,7 +92,7 @@ const navigationSpaces: NavigationItem[] = [
       {
         id: "new-review",
         label: "New Review",
-        path: "/co-review?action=new",
+        path: "/co-review",
         icon: CheckCircle,
         description: "Start expert review process"
       },
