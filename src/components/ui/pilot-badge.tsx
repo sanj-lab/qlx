@@ -9,7 +9,7 @@ interface PilotBadgeProps {
 export function PilotBadge({ className, variant = "outline" }: PilotBadgeProps) {
   return (
     <Badge variant={variant} className={className}>
-      <QuentlexLogo className="mr-1" />
+      <QuentlexLogo size="sm" className="mr-1" />
       Simulated for pilot
     </Badge>
   );

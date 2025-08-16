@@ -2,6 +2,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { QuentlexLogo } from "@/components/ui/quentlex-logo";
 import { 
   Download, 
   Share2, 
@@ -75,7 +76,7 @@ export function SnapshotCard({
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Badge variant={snapshot.type === 'expert' ? 'default' : 'secondary'}>
-                <Shield className="w-3 h-3 mr-1" />
+                <QuentlexLogo size="sm" className="mr-1" />
                 {getTypeLabel(snapshot.type)}
               </Badge>
               {snapshot.isVerified && (
@@ -107,8 +108,8 @@ export function SnapshotCard({
           getBadgeDesign(snapshot.type)
         )}>
           <div className="space-y-2">
-            <div className="w-16 h-16 mx-auto bg-background rounded-full flex items-center justify-center border-2 border-border">
-              <Shield className="w-8 h-8 text-primary" />
+            <div className="w-16 h-16 mx-auto bg-background rounded-full flex items-center justify-center border-2 border-border p-2">
+              <QuentlexLogo size="lg" className="w-full h-full" />
             </div>
             <div className="text-sm font-medium">Badge ID: {snapshot.badgeId}</div>
             {snapshot.riskScore && (
