@@ -355,6 +355,34 @@ export default function CoReviewPage() {
 
   useEffect(() => {
     document.title = "Co-Review – Quentlex";
+    
+    // Handle URL parameters for navigation integration
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    const filter = urlParams.get('filter');
+    const view = urlParams.get('view');
+    
+    // Auto-open New Review dialog if action parameter is present
+    if (action === 'new-review') {
+      setShowNewReview(true);
+    }
+    
+    // Set filter if parameter is present
+    if (filter) {
+      setActiveFilter(filter);
+    }
+    
+    // Auto-switch to thread view if view parameter is present
+    if (view === 'thread') {
+      setCurrentView('thread');
+      // Auto-select first active review if filtering for active reviews
+      if (filter === 'active') {
+        const activeReviews = MOCK_REVIEWS.filter(r => r.status === 'in-review');
+        if (activeReviews.length > 0) {
+          setActiveReview(activeReviews[0].id);
+        }
+      }
+    }
   }, []);
 
   const getStatusColor = (status: Review['status']) => {

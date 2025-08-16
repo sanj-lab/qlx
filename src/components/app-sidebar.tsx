@@ -92,14 +92,14 @@ const navigationSpaces: NavigationItem[] = [
       {
         id: "new-review",
         label: "Start Expert Review",
-        path: "/co-review",
+        path: "/co-review?action=new-review",
         icon: CheckCircle,
         description: "Start expert review process"
       },
       {
         id: "active-reviews",
         label: "Active Reviews",
-        path: "/co-review?filter=active",
+        path: "/co-review?filter=active&view=thread",
         icon: Crown,
         description: "Monitor ongoing reviews"
       }
