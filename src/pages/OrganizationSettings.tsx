@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import { DataExportDisclaimer, APIDisclaimer } from "@/components/ui/legal-disclaimer";
 import { 
   Building, 
   Users, 
@@ -472,6 +473,11 @@ export default function OrganizationSettings() {
                   ))}
                 </div>
                 
+                {/* API Legal Disclaimer */}
+                <div className="mt-6">
+                  <APIDisclaimer />
+                </div>
+                
                 <div className="mt-8 space-y-4">
                   <h4 className="font-semibold flex items-center gap-2">
                     <Database className="w-4 h-4" />
@@ -482,6 +488,7 @@ export default function OrganizationSettings() {
                       <Download className="w-8 h-8 mx-auto mb-2 text-primary" />
                       <p className="font-medium">Export Data</p>
                       <p className="text-sm text-muted-foreground mb-2">Download all organization data</p>
+                      <DataExportDisclaimer className="mb-2 text-xs" />
                       <Button variant="outline" size="sm">Export</Button>
                     </div>
                     <div className="p-4 border rounded-lg text-center">

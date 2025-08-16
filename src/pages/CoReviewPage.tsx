@@ -20,6 +20,7 @@ import { ReviewStatusTracker } from "@/components/ui/review-status-tracker";
 import { SmartLawyerSelector } from "@/components/ui/smart-lawyer-selector";
 import { ReviewAnalytics } from "@/components/ui/review-analytics";
 import { PilotBadge } from "@/components/ui/pilot-badge";
+import { CoReviewDisclaimer } from "@/components/ui/legal-disclaimer";
 import { 
   Plus, 
   Filter, 
@@ -494,6 +495,7 @@ export default function CoReviewPage() {
             </div>
             <div className="flex items-center gap-3">
               <PilotBadge />
+              <CoReviewDisclaimer className="max-w-md" />
               
               {/* View Toggles */}
               <div className="flex rounded-lg border p-1">

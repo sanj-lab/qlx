@@ -10,6 +10,7 @@ import { VaultPicker } from "@/components/ui/vault-picker";
 import { ProofProgress } from "@/components/ui/proof-progress";
 import { SnapshotCard } from "@/components/ui/snapshot-card";
 import { DragDropZone } from "@/components/ui/drag-drop-zone";
+import { ProofGenerationDisclaimer } from "@/components/ui/legal-disclaimer";
 import { ArrowLeft, Zap, Upload, Building2, Lightbulb, FileText, Sparkles, MapPin, Shield } from "lucide-react";
 import { EnhancedProofSimulator } from "@/lib/enhanced-simulation";
 import { EnhancedZKSimulator } from "@/lib/enhanced-zk-simulation";
@@ -191,6 +192,11 @@ export default function SelfBadgePage() {
             Generate compliance badges from existing results or create new analysis. 
             Choose your input method and get a verifiable badge in minutes.
           </p>
+          
+          {/* Legal Disclaimer for ZK Proof Generation */}
+          <div className="mt-4">
+            <ProofGenerationDisclaimer isSimulation={true} />
+          </div>
         </div>
       </section>
 

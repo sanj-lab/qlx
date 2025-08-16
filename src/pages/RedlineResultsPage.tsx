@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
 import { PilotBadge } from "@/components/ui/pilot-badge";
 import { WorkflowActions } from "@/components/ui/workflow-actions";
+import { AnalysisResultsDisclaimer } from "@/components/ui/legal-disclaimer";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
@@ -322,6 +323,13 @@ NOW THEREFORE, in consideration of the mutual covenants contained herein, the pa
               </Button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Legal Disclaimer */}
+      <section className="py-4 px-6 bg-muted/20">
+        <div className="container mx-auto max-w-7xl">
+          <AnalysisResultsDisclaimer />
         </div>
       </section>
 
