@@ -26,7 +26,7 @@ interface RedlineAnalysisData {
   contextNotes: string;
 }
 
-export default function RedlineUploadPage() {
+function RedlineUploadPage() {
   const [selectedDocuments, setSelectedDocuments] = useState<Document[]>([]);
   const [jurisdiction, setJurisdiction] = useState<string>("");
   const [policySet, setPolicySet] = useState<string>("");
@@ -382,3 +382,5 @@ export default function RedlineUploadPage() {
     </main>
   );
 }
+
+export default RedlineUploadPage;

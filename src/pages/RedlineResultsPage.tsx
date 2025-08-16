@@ -57,7 +57,7 @@ interface RedlineResult {
   explainEntries: ExplainEntry[];
 }
 
-export default function RedlineResultsPage() {
+function RedlineResultsPage() {
   const [result, setResult] = useState<RedlineResult | null>(null);
   const [activeTab, setActiveTab] = useState("comparison");
   const [activeIssue, setActiveIssue] = useState<string | null>(null);
@@ -654,3 +654,5 @@ NOW THEREFORE, in consideration of the mutual covenants contained herein, the pa
     </main>
   );
 }
+
+export default RedlineResultsPage;
