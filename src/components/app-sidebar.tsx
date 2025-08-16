@@ -91,7 +91,7 @@ const navigationSpaces: NavigationItem[] = [
     subItems: [
       {
         id: "new-review",
-        label: "New Review",
+        label: "Start Expert Review",
         path: "/co-review",
         icon: CheckCircle,
         description: "Start expert review process"
