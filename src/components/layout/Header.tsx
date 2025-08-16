@@ -56,7 +56,7 @@ export function Header() {
           {/* Left side - Logo and Sidebar trigger */}
           <div className="flex items-center space-x-4">
             {hasSidebar && <SidebarTrigger className="h-8 w-8" />}
-            <QuentlexLogo />
+            <QuentlexLogo size="header" showText={true} />
           </div>
 
           {/* Navigation */}
@@ -214,7 +214,12 @@ export function Header() {
                 <User className="w-4 h-4 mr-2" />
                 Sign In
               </Button>
-            )}
+             )}
+            
+            {/* Quentlex Watermark */}
+            <div className="hidden lg:flex items-center text-xs text-muted-foreground/60">
+              <span className="font-medium">Powered by Quentlex</span>
+            </div>
           </div>
         </div>
       </header>
