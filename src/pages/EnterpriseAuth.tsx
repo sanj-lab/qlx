@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Shield, Wallet, Mail, Building2, Users, Lock } from 'lucide-react';
+import { QuentlexLogo } from '@/components/ui/quentlex-logo';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,9 +45,7 @@ export default function EnterpriseAuth() {
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center">
-            <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-              <Shield className="w-7 h-7 text-primary-foreground" />
-            </div>
+            <QuentlexLogo className="w-12 h-12" />
           </div>
           <div>
             <h1 className="text-3xl font-bold">Welcome to Quentlex</h1>
