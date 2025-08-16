@@ -124,6 +124,7 @@ const App = () => (
                   <Route path="/token-classification" element={<TokenClassificationPage />} />
                   <Route path="/launch-path" element={<LaunchPathPage />} />
                   <Route path="/launch-path/idea-fit" element={<IdeaFitPage />} />
+                  <Route path="/launch-path/idea-risk" element={<BusinessIdeaRiskPage />} />
                   <Route path="/launch-path/post-incorp" element={<PostIncorpPage />} />
                   <Route path="/launch-path/redline" element={<RedlineUploadPage />} />
                   <Route path="/launch-path/redline/results" element={<RedlineResultsPage />} />
