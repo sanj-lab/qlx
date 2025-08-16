@@ -16,6 +16,8 @@ import { ProgressStepper, type ProgressStep } from "@/components/ui/progress-ste
 import { ExplainPanel } from "@/components/ui/explain-panel";
 import { VaultPicker } from "@/components/ui/vault-picker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PilotBadge } from "@/components/ui/pilot-badge";
+import { WorkflowActions } from "@/components/ui/workflow-actions";
 import { 
   FileText, 
   Plus, 
@@ -347,10 +349,7 @@ export default function DocStudioPage() {
               <h1 className="text-3xl font-bold mb-2">Doc Studio</h1>
               <p className="text-muted-foreground">Generate any legal document. From SAFTs to policy packs.</p>
             </div>
-            <Badge variant="outline" className="text-xs">
-              <Shield className="w-3 h-3 mr-1" />
-              Simulated for pilot
-            </Badge>
+            <PilotBadge className="text-xs" />
           </div>
         </div>
       </section>
@@ -690,14 +689,23 @@ export default function DocStudioPage() {
           </div>
         </div>
 
-        {/* ExplainPanel */}
+        {/* ExplainPanel and Workflow Actions */}
         {(isGenerating || explainEntries.length > 0) && (
-          <div className="mt-6">
+          <div className="grid lg:grid-cols-[1fr_300px] gap-6 mt-6">
             <ExplainPanel
               title="Document Generation Process"
               entries={explainEntries}
               isActive={isGenerating}
             />
+            {isGenerated && (
+              <WorkflowActions 
+                showCoReview={true}
+                showSaveToVault={true}
+                onSaveToVault={() => {
+                  console.log('Saving generated documents to vault...');
+                }}
+              />
+            )}
           </div>
         )}
 

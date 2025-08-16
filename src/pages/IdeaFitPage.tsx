@@ -15,6 +15,9 @@ import { RiskDial } from "@/components/ui/risk-dial";
 import { DragDropZone } from "@/components/ui/drag-drop-zone";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { PilotBadge } from "@/components/ui/pilot-badge";
+import { WorkflowActions } from "@/components/ui/workflow-actions";
+import { useWorkflowState } from "@/hooks/use-workflow-state";
 import { 
   Lightbulb, Upload, Globe, TrendingUp, FileText, ArrowRight, 
   CheckCircle, AlertCircle, Info, Target, Building, Scale, 
@@ -73,25 +76,31 @@ interface AnalysisResults {
 }
 
 export default function IdeaFitPage() {
-  const [phase, setPhase] = useState<'input' | 'analysis' | 'results'>('input');
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [inputs, setInputs] = useState<IdeaInputs>({
-    whitepaper: null,
-    businessBrief: "",
-    activities: "",
-    tokenPurpose: "",
-    saleMethod: "",
-    targetGeos: "",
-    custodyModel: "",
-    teamLocation: "",
-    revenueModel: "",
-    riskTolerance: ""
+  const [workflowState, setWorkflowState] = useWorkflowState('idea-fit', {
+    phase: 'input' as 'input' | 'analysis' | 'results',
+    inputs: {
+      whitepaper: null,
+      businessBrief: "",
+      activities: "",
+      tokenPurpose: "",
+      saleMethod: "",
+      targetGeos: "",
+      custodyModel: "",
+      teamLocation: "",
+      revenueModel: "",
+      riskTolerance: ""
+    } as IdeaInputs,
+    selectedJurisdictions: ["uae", "uk", "eu"],
+    results: null as AnalysisResults | null
   });
-  const [selectedJurisdictions, setSelectedJurisdictions] = useState(["uae", "uk", "eu"]);
+
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [currentAnalysisStep, setCurrentAnalysisStep] = useState("");
-  const [results, setResults] = useState<AnalysisResults | null>(null);
   const [explainEntries, setExplainEntries] = useState<any[]>([]);
+
+  // Extract state for easier access
+  const { phase, inputs, selectedJurisdictions, results } = workflowState;
 
   useEffect(() => {
     document.title = "Idea-Stage Fit Analysis – Quentlex";
@@ -113,13 +122,16 @@ export default function IdeaFitPage() {
 
   const handleFileUpload = (files: File[]) => {
     if (files[0]) {
-      setInputs(prev => ({ ...prev, whitepaper: files[0] }));
+      setWorkflowState(prev => ({ 
+        ...prev, 
+        inputs: { ...prev.inputs, whitepaper: files[0] }
+      }));
     }
   };
 
   const handleAnalyze = async () => {
     setIsAnalyzing(true);
-    setPhase('analysis');
+    setWorkflowState(prev => ({ ...prev, phase: 'analysis' }));
     setExplainEntries([]);
     setAnalysisProgress(0);
 
@@ -209,9 +221,12 @@ export default function IdeaFitPage() {
         }
       };
 
-      setResults(mockResults);
+      setWorkflowState(prev => ({ 
+        ...prev, 
+        results: mockResults, 
+        phase: 'results' 
+      }));
       setAnalysisProgress(100);
-      setPhase('results');
 
       // Add final explanatory entries
       setExplainEntries(prev => [...prev,
@@ -233,11 +248,12 @@ export default function IdeaFitPage() {
   };
 
   const handleJurisdictionToggle = (jurisdictionId: string) => {
-    setSelectedJurisdictions(prev => 
-      prev.includes(jurisdictionId) 
-        ? prev.filter(id => id !== jurisdictionId)
-        : [...prev, jurisdictionId]
-    );
+    setWorkflowState(prev => ({
+      ...prev,
+      selectedJurisdictions: prev.selectedJurisdictions.includes(jurisdictionId) 
+        ? prev.selectedJurisdictions.filter(id => id !== jurisdictionId)
+        : [...prev.selectedJurisdictions, jurisdictionId]
+    }));
   };
 
   const canStartAnalysis = () => {
@@ -260,9 +276,12 @@ export default function IdeaFitPage() {
         {/* Hero Section */}
         <section className="py-12 px-6 border-b hero-gradient">
           <div className="container mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <Lightbulb className="w-4 h-4" />
-              Idea-Stage Analysis
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                <Lightbulb className="w-4 h-4" />
+                Idea-Stage Analysis
+              </div>
+              <PilotBadge />
             </div>
             <h1 className="text-4xl font-bold mb-4">Where should your idea live?</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -309,7 +328,10 @@ export default function IdeaFitPage() {
                       id="businessBrief"
                       placeholder="Describe your business model, target market, and key value proposition..."
                       value={inputs.businessBrief}
-                      onChange={(e) => setInputs(prev => ({ ...prev, businessBrief: e.target.value }))}
+                      onChange={(e) => setWorkflowState(prev => ({ 
+                        ...prev, 
+                        inputs: { ...prev.inputs, businessBrief: e.target.value }
+                      }))}
                       className="mt-2 min-h-24"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
@@ -330,7 +352,10 @@ export default function IdeaFitPage() {
                 <CardContent className="grid md:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="activities">Primary Activities</Label>
-                    <Select value={inputs.activities} onValueChange={(value) => setInputs(prev => ({ ...prev, activities: value }))}>
+                    <Select value={inputs.activities} onValueChange={(value) => setWorkflowState(prev => ({ 
+                      ...prev, 
+                      inputs: { ...prev.inputs, activities: value }
+                    }))}>
                       <SelectTrigger className="mt-2">
                         <SelectValue placeholder="Select primary activities" />
                       </SelectTrigger>
@@ -347,7 +372,10 @@ export default function IdeaFitPage() {
 
                   <div>
                     <Label htmlFor="tokenPurpose">Token Purpose</Label>
-                    <Select value={inputs.tokenPurpose} onValueChange={(value) => setInputs(prev => ({ ...prev, tokenPurpose: value }))}>
+                    <Select value={inputs.tokenPurpose} onValueChange={(value) => setWorkflowState(prev => ({ 
+                      ...prev, 
+                      inputs: { ...prev.inputs, tokenPurpose: value }
+                    }))}>
                       <SelectTrigger className="mt-2">
                         <SelectValue placeholder="Primary token function" />
                       </SelectTrigger>
@@ -363,7 +391,10 @@ export default function IdeaFitPage() {
 
                   <div>
                     <Label htmlFor="saleMethod">Token Distribution</Label>
-                    <Select value={inputs.saleMethod} onValueChange={(value) => setInputs(prev => ({ ...prev, saleMethod: value }))}>
+                    <Select value={inputs.saleMethod} onValueChange={(value) => setWorkflowState(prev => ({ 
+                      ...prev, 
+                      inputs: { ...prev.inputs, saleMethod: value }
+                    }))}>
                       <SelectTrigger className="mt-2">
                         <SelectValue placeholder="Distribution method" />
                       </SelectTrigger>
@@ -379,7 +410,10 @@ export default function IdeaFitPage() {
 
                   <div>
                     <Label htmlFor="custodyModel">Custody Model</Label>
-                    <Select value={inputs.custodyModel} onValueChange={(value) => setInputs(prev => ({ ...prev, custodyModel: value }))}>
+                    <Select value={inputs.custodyModel} onValueChange={(value) => setWorkflowState(prev => ({ 
+                      ...prev, 
+                      inputs: { ...prev.inputs, custodyModel: value }
+                    }))}>
                       <SelectTrigger className="mt-2">
                         <SelectValue placeholder="How tokens are held" />
                       </SelectTrigger>
@@ -409,7 +443,10 @@ export default function IdeaFitPage() {
                       id="targetGeos"
                       placeholder="e.g., Global, US/EU, MENA"
                       value={inputs.targetGeos}
-                      onChange={(e) => setInputs(prev => ({ ...prev, targetGeos: e.target.value }))}
+                      onChange={(e) => setWorkflowState(prev => ({ 
+                        ...prev, 
+                        inputs: { ...prev.inputs, targetGeos: e.target.value }
+                      }))}
                       className="mt-2"
                     />
                   </div>
@@ -420,14 +457,20 @@ export default function IdeaFitPage() {
                       id="teamLocation"
                       placeholder="Primary team locations"
                       value={inputs.teamLocation}
-                      onChange={(e) => setInputs(prev => ({ ...prev, teamLocation: e.target.value }))}
+                      onChange={(e) => setWorkflowState(prev => ({ 
+                        ...prev, 
+                        inputs: { ...prev.inputs, teamLocation: e.target.value }
+                      }))}
                       className="mt-2"
                     />
                   </div>
 
                   <div>
                     <Label htmlFor="revenueModel">Revenue Model</Label>
-                    <Select value={inputs.revenueModel} onValueChange={(value) => setInputs(prev => ({ ...prev, revenueModel: value }))}>
+                    <Select value={inputs.revenueModel} onValueChange={(value) => setWorkflowState(prev => ({ 
+                      ...prev, 
+                      inputs: { ...prev.inputs, revenueModel: value }
+                    }))}>
                       <SelectTrigger className="mt-2">
                         <SelectValue placeholder="How you generate revenue" />
                       </SelectTrigger>
@@ -443,7 +486,10 @@ export default function IdeaFitPage() {
 
                   <div>
                     <Label htmlFor="riskTolerance">Risk Tolerance</Label>
-                    <Select value={inputs.riskTolerance} onValueChange={(value) => setInputs(prev => ({ ...prev, riskTolerance: value }))}>
+                    <Select value={inputs.riskTolerance} onValueChange={(value) => setWorkflowState(prev => ({ 
+                      ...prev, 
+                      inputs: { ...prev.inputs, riskTolerance: value }
+                    }))}>
                       <SelectTrigger className="mt-2">
                         <SelectValue placeholder="Regulatory risk appetite" />
                       </SelectTrigger>
@@ -671,7 +717,7 @@ export default function IdeaFitPage() {
               Here's your comprehensive jurisdiction and business structure analysis
             </p>
             <div className="flex gap-3 mt-4">
-              <Button variant="outline" onClick={() => setPhase('input')}>
+              <Button variant="outline" onClick={() => setWorkflowState(prev => ({ ...prev, phase: 'input' }))}>
                 <ArrowRight className="w-4 h-4 mr-2 rotate-180" />
                 Refine Inputs
               </Button>
@@ -1004,12 +1050,24 @@ export default function IdeaFitPage() {
             </TabsContent>
           </Tabs>
 
-          {/* Explainable AI Sidebar */}
-          <div className="mt-8">
-            <ExplainPanel 
-              title="Analysis Methodology"
-              entries={explainEntries}
-              className="enterprise-card"
+          <div className="grid lg:grid-cols-[1fr_300px] gap-8 mt-8">
+            {/* Explainable AI Section */}
+            <div>
+              <ExplainPanel 
+                title="Analysis Methodology"
+                entries={explainEntries}
+                className="enterprise-card"
+              />
+            </div>
+
+            {/* Next Steps */}
+            <WorkflowActions 
+              showCoReview={true}
+              showSaveToVault={true}
+              onSaveToVault={() => {
+                // TODO: Implement save to vault
+                console.log('Saving analysis to vault...');
+              }}
             />
           </div>
         </div>

@@ -15,6 +15,8 @@ import { ProgressStepper, type ProgressStep } from "@/components/ui/progress-ste
 import { ExplainPanel } from "@/components/ui/explain-panel";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { PilotBadge } from "@/components/ui/pilot-badge";
+import { WorkflowActions } from "@/components/ui/workflow-actions";
 import { 
   FileText, 
   AlertTriangle, 
@@ -322,10 +324,7 @@ NOW THEREFORE, in consideration of the mutual covenants contained herein, the pa
               <h1 className="text-3xl font-bold mb-2">Review & Redline</h1>
               <p className="text-muted-foreground">AI + Legal precision, side-by-side</p>
             </div>
-            <Badge variant="outline" className="text-xs">
-              <Shield className="w-3 h-3 mr-1" />
-              Simulated for pilot
-            </Badge>
+            <PilotBadge className="text-xs" />
           </div>
         </div>
       </section>

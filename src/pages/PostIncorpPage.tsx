@@ -15,6 +15,9 @@ import { DragDropZone } from "@/components/ui/drag-drop-zone";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
+import { PilotBadge } from "@/components/ui/pilot-badge";
+import { WorkflowActions } from "@/components/ui/workflow-actions";
+import { useWorkflowState } from "@/hooks/use-workflow-state";
 import { 
   Building, Upload, Target, TrendingUp, FileText, ArrowRight, 
   CheckCircle, AlertCircle, Info, Shield, Award, Globe,
@@ -292,9 +295,12 @@ export default function PostIncorpPage() {
         {/* Hero Section */}
         <section className="py-12 px-6 border-b hero-gradient">
           <div className="container mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              <Building className="w-4 h-4" />
-              Post-Incorporation Analysis
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                <Building className="w-4 h-4" />
+                Post-Incorporation Analysis
+              </div>
+              <PilotBadge />
             </div>
             <h1 className="text-4xl font-bold mb-4">Measure your compliance health</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -925,22 +931,23 @@ export default function PostIncorpPage() {
 
                   <Separator className="my-8" />
 
-                  <div className="flex flex-wrap gap-3">
-                    <Button>
-                      <Award className="w-4 h-4 mr-2" />
-                      Generate ZK Snapshot
-                    </Button>
-                    <Button variant="outline">
-                      <Share className="w-4 h-4 mr-2" />
-                      Share with Investors
-                    </Button>
+                  <WorkflowActions 
+                    showCoReview={true}
+                    showZKBadge={results?.isSnapshotEligible}
+                    showSaveToVault={true}
+                    onSaveToVault={() => {
+                      console.log('Saving risk analysis to vault...');
+                    }}
+                  />
+
+                  <div className="flex flex-wrap gap-3 mt-6">
                     <Button variant="outline">
                       <Download className="w-4 h-4 mr-2" />
                       Export Risk Report
                     </Button>
                     <Button variant="outline">
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Schedule Legal Review
+                      <Share className="w-4 h-4 mr-2" />
+                      Share with Investors
                     </Button>
                   </div>
                 </CardContent>
