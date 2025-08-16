@@ -12,6 +12,7 @@ import { SnapshotCard } from "@/components/ui/snapshot-card";
 import { DragDropZone } from "@/components/ui/drag-drop-zone";
 import { ArrowLeft, Zap, Upload, Building2, Lightbulb, FileText, Sparkles, MapPin, Shield } from "lucide-react";
 import { EnhancedProofSimulator } from "@/lib/enhanced-simulation";
+import { EnhancedZKSimulator } from "@/lib/enhanced-zk-simulation";
 import type { SnapshotInput, ProofSnapshot } from "@/lib/enhanced-simulation";
 import { ProgressStep } from "@/components/ui/progress-stepper";
 import { ExplainEntry } from "@/components/ui/explain-panel";
