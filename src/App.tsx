@@ -123,6 +123,10 @@ const App = () => (
                   <Route path="/filing-calendar" element={<FilingCalendarPage />} />
                   <Route path="/token-classification" element={<TokenClassificationPage />} />
                   <Route path="/launch-path" element={<LaunchPathPage />} />
+                  <Route path="/launch-path/idea-fit" element={<IdeaFitPage />} />
+                  <Route path="/launch-path/post-incorp" element={<PostIncorpPage />} />
+                  <Route path="/launch-path/redline" element={<RedliningPage />} />
+                  <Route path="/launch-path/doc-studio" element={<DocStudioPage />} />
                   <Route path="/co-review" element={<CoReviewPage />} />
                 <Route path="/proofs" element={<ProofsPage />} />
             <Route path="/proofs/self-badge" element={<SelfBadgePage />} />
