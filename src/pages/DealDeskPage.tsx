@@ -131,40 +131,25 @@ export default function DealDeskPage() {
             </TabsList>
 
             <TabsContent value="tools" className="space-y-6">
-              <div className="grid lg:grid-cols-2 gap-6">
+              <div className="grid lg:grid-cols-3 gap-6">
                 {/* AI Negotiator */}
                 <Card className="enterprise-card">
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                          <Handshake className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <CardTitle className="text-lg">AI Negotiator</CardTitle>
-                          <p className="text-sm text-muted-foreground">Smart term sheet analysis & editing</p>
-                        </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <Handshake className="w-5 h-5 text-primary" />
                       </div>
-                      <Badge variant="secondary">
-                        <Zap className="w-3 h-3 mr-1" />
-                        AI-Powered
-                      </Badge>
+                      <div>
+                        <CardTitle className="text-lg">AI Negotiator</CardTitle>
+                        <p className="text-sm text-muted-foreground">Term sheet analysis & counter-proposals</p>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <p className="text-sm">
-                          Upload term sheets for instant analysis. Get AI-powered recommendations on valuation, 
-                          dilution, liquidation preferences, and board composition.
-                        </p>
-                        <ul className="text-xs text-muted-foreground space-y-1">
-                          <li>• Market comparisons & benchmarking</li>
-                          <li>• Red flag identification</li>
-                          <li>• Counter-proposal generation</li>
-                          <li>• Legal compliance check</li>
-                        </ul>
-                      </div>
+                      <p className="text-sm">
+                        Upload term sheets for instant AI analysis. Get market benchmarks, red flag alerts, and counter-proposal suggestions.
+                      </p>
                       <Button asChild className="w-full">
                         <Link to="/negotiation-agent">
                           Launch Negotiator
@@ -178,36 +163,21 @@ export default function DealDeskPage() {
                 {/* Investor Data Rooms */}
                 <Card className="enterprise-card">
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
-                          <FolderOpen className="w-5 h-5 text-success" />
-                        </div>
-                        <div>
-                          <CardTitle className="text-lg">Investor Data Rooms</CardTitle>
-                          <p className="text-sm text-muted-foreground">Secure, organized due diligence</p>
-                        </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                        <FolderOpen className="w-5 h-5 text-success" />
                       </div>
-                      <Badge variant="outline">
-                        <Shield className="w-3 h-3 mr-1" />
-                        Secure
-                      </Badge>
+                      <div>
+                        <CardTitle className="text-lg">Data Rooms</CardTitle>
+                        <p className="text-sm text-muted-foreground">Secure investor due diligence</p>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <p className="text-sm">
-                          Create structured data rooms with compliance badges. Control access, track document 
-                          views, and provide verifiable compliance snapshots.
-                        </p>
-                        <ul className="text-xs text-muted-foreground space-y-1">
-                          <li>• Badge-verified documents</li>
-                          <li>• Granular access controls</li>
-                          <li>• Download & view tracking</li>
-                          <li>• Time-limited access links</li>
-                        </ul>
-                      </div>
+                      <p className="text-sm">
+                        Create secure data rooms with access controls and view tracking for seamless investor due diligence.
+                      </p>
                       <Button asChild variant="outline" className="w-full">
                         <Link to="/share-room">
                           Create Data Room
@@ -218,82 +188,24 @@ export default function DealDeskPage() {
                   </CardContent>
                 </Card>
 
-                {/* Compliance Verification */}
+                {/* Legal Co-Review */}
                 <Card className="enterprise-card">
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-warning/10 rounded-lg flex items-center justify-center">
-                          <CheckCircle className="w-5 h-5 text-warning" />
-                        </div>
-                        <div>
-                          <CardTitle className="text-lg">Compliance Verification</CardTitle>
-                          <p className="text-sm text-muted-foreground">ZK-verified company readiness</p>
-                        </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-destructive/10 rounded-lg flex items-center justify-center">
+                        <FileText className="w-5 h-5 text-destructive" />
                       </div>
-                      <Badge variant="secondary">
-                        <Globe className="w-3 h-3 mr-1" />
-                        Multi-Jurisdiction
-                      </Badge>
+                      <div>
+                        <CardTitle className="text-lg">Legal Co-Review</CardTitle>
+                        <p className="text-sm text-muted-foreground">Expert legal collaboration</p>
+                      </div>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <p className="text-sm">
-                          Generate investor-ready compliance snapshots with zero-knowledge verification. 
-                          Prove readiness without exposing sensitive details.
-                        </p>
-                        <ul className="text-xs text-muted-foreground space-y-1">
-                          <li>• Zero-knowledge proof generation</li>
-                          <li>• Multi-jurisdiction compliance</li>
-                          <li>• Investor-ready badges</li>
-                          <li>• Real-time verification links</li>
-                        </ul>
-                      </div>
-                      <Button asChild variant="outline" className="w-full">
-                        <Link to="/proofs">
-                          Generate Proof
-                          <ArrowRight className="w-4 h-4 ml-2"/>
-                        </Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Legal Collaboration */}
-                <Card className="enterprise-card">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-destructive/10 rounded-lg flex items-center justify-center">
-                          <FileText className="w-5 h-5 text-destructive" />
-                        </div>
-                        <div>
-                          <CardTitle className="text-lg">Legal Co-Review</CardTitle>
-                          <p className="text-sm text-muted-foreground">Expert legal collaboration</p>
-                        </div>
-                      </div>
-                      <Badge variant="outline">
-                        <Users className="w-3 h-3 mr-1" />
-                        Collaborative
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <p className="text-sm">
-                          Connect with legal experts for term sheet review, contract negotiation, 
-                          and regulatory guidance throughout your fundraising process.
-                        </p>
-                        <ul className="text-xs text-muted-foreground space-y-1">
-                          <li>• Expert lawyer matching</li>
-                          <li>• Real-time document collaboration</li>
-                          <li>• Review thread management</li>
-                          <li>• Cost tracking & budgeting</li>
-                        </ul>
-                      </div>
+                      <p className="text-sm">
+                        Connect with expert lawyers for real-time term sheet review and contract negotiation guidance.
+                      </p>
                       <Button asChild variant="outline" className="w-full">
                         <Link to="/co-review">
                           Start Legal Review
